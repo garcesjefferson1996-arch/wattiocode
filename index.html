@@ -1,0 +1,1371 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>wattio — Diseño digital a medida</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#f4f3ef;
+    --bg-soft:#ecebe5;
+    --ink:#0d0d0d;
+    --ink-2:#3a3a36;
+    --muted:#8a8a85;
+    --line:#d8d6cd;
+    --accent:#FFD60A;
+    --accent-ink:#0d0d0d;
+    --card:#ffffff;
+    --shadow: 0 30px 80px -30px rgba(0,0,0,.18);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'DM Sans', system-ui, sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+
+  .wrap{max-width:1360px;margin:0 auto;padding:0 56px}
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:sticky; top:0; z-index:40;
+    background:rgba(244,243,239,.85);
+    backdrop-filter:saturate(140%) blur(12px);
+    border-bottom:1px solid transparent;
+    transition:border-color .2s ease;
+  }
+  .nav.scrolled{border-bottom-color:var(--line)}
+  .nav-inner{
+    display:flex;align-items:center;justify-content:space-between;
+    height:84px;
+  }
+  .logo{
+    display:inline-block;
+    line-height:0;
+  }
+  .logo img{height:34px;width:auto;display:block}
+  .nav .logo img{height:34px}
+  .foot-brand .logo img{height:38px;filter:invert(1) brightness(1.1)}
+  .nav-links{display:flex;gap:40px;align-items:center;font-size:15px;color:var(--ink-2)}
+  .nav-links a{position:relative;transition:color .15s}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-links a.active{color:var(--ink);font-weight:500}
+  .nav-cta{
+    display:inline-flex;align-items:center;gap:10px;
+    background:var(--ink);color:#fff;
+    padding:12px 20px;border-radius:999px;
+    font-size:14px;font-weight:500;
+    transition:transform .15s ease, background .15s ease;
+  }
+  .nav-cta:hover{background:#222;transform:translateY(-1px)}
+  .nav-cta .dot{width:7px;height:7px;background:#3CDB7F;border-radius:50%;box-shadow:0 0 0 4px rgba(60,219,127,.18)}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:calc(100vh - 84px);
+    padding:40px 0 80px;
+    display:grid;
+    grid-template-columns: 1.05fr 1fr;
+    align-items:center;
+    gap:40px;
+  }
+  .hero-side{
+    position:absolute; left:56px; top:50%; transform:translateY(-50%);
+    display:flex;flex-direction:column;gap:14px;
+    z-index:2;
+  }
+  .hero-side .bar{width:36px;height:2px;background:var(--ink)}
+  .hero-side .bar:nth-child(2){width:22px}
+  .hero-side .bar:nth-child(3){width:12px;opacity:.5}
+  .hero-side .bar:nth-child(4){width:6px;opacity:.3}
+
+  .hero-text{padding-left:80px; position:relative; z-index:2;}
+  .hero-kicker{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:28px;
+    display:inline-flex;align-items:center;gap:10px;
+  }
+  .hero-kicker .pulse{
+    width:6px;height:6px;border-radius:50%;background:var(--accent);
+    box-shadow:0 0 0 4px rgba(255,214,10,.25);
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse{
+    0%,100%{box-shadow:0 0 0 4px rgba(255,214,10,.25)}
+    50%{box-shadow:0 0 0 8px rgba(255,214,10,.05)}
+  }
+
+  .hero h1{
+    font-family:'Space Grotesk';
+    font-weight:700;
+    font-size: clamp(72px, 9.2vw, 148px);
+    line-height:.92;
+    letter-spacing:-.045em;
+    margin:0 0 18px;
+    color:var(--ink);
+  }
+  .hero h1 .underline{
+    position:relative;display:inline-block;
+  }
+  .hero h1 .underline::after{
+    content:"";position:absolute;left:0;right:0;bottom:.08em;height:.08em;
+    background:var(--accent);
+    z-index:-1;
+  }
+  .hero-sub{
+    font-family:'Space Grotesk';
+    font-weight:400;
+    font-size:22px;letter-spacing:.42em;text-transform:uppercase;
+    color:var(--ink-2);
+    margin:0 0 36px;
+  }
+  .hero-lead{
+    font-size:18px;color:var(--ink-2);
+    max-width:480px;line-height:1.6;
+    margin:0 0 40px;
+  }
+
+  /* Hero visual: stack of tilted phones */
+  .hero-visual{
+    position:relative; height:660px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .phone{
+    position:absolute;
+    width:280px;height:580px;
+    background:#0d0d0d;
+    border-radius:42px;
+    padding:12px;
+    box-shadow: 0 40px 80px -20px rgba(0,0,0,.35), 0 10px 24px -10px rgba(0,0,0,.25);
+  }
+  .phone::before{
+    content:"";position:absolute;top:18px;left:50%;transform:translateX(-50%);
+    width:90px;height:24px;background:#0d0d0d;border-radius:14px;z-index:3;
+  }
+  .phone-screen{
+    width:100%;height:100%;border-radius:32px;
+    overflow:hidden;position:relative;
+    background:#fff;
+  }
+  /* Phone 1 — Wedding Invitation */
+  .ph-wed{ transform:translate(-160px, -10px) rotate(-9deg); z-index:2;}
+  .ph-wed .phone-screen{
+    background:linear-gradient(180deg,#f1ebe1 0%, #e8dfd0 50%, #d8c9b3 100%);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    color:#3a2a1a;
+    font-family:'Space Grotesk';
+    text-align:center;padding:30px 24px;
+  }
+  .ph-wed .label{font-family:'JetBrains Mono';font-size:9px;letter-spacing:.32em;text-transform:uppercase;color:#8a6f4e;margin-bottom:18px}
+  .ph-wed .names{font-family:Georgia, serif;font-style:italic;font-size:34px;line-height:1.05;letter-spacing:-.01em;font-weight:400;color:#2a1d0e;margin-bottom:6px}
+  .ph-wed .amp{font-family:Georgia,serif;font-style:italic;color:#a07a4e;font-size:28px;display:block;margin:8px 0}
+  .ph-wed .date{font-family:'JetBrains Mono';font-size:10px;letter-spacing:.24em;color:#5b4429;margin-top:18px}
+  .ph-wed .divider{width:38px;height:1px;background:#a07a4e;margin:14px auto}
+  .ph-wed .footer-mini{position:absolute;bottom:24px;left:0;right:0;text-align:center;font-family:'JetBrains Mono';font-size:8px;letter-spacing:.3em;color:#8a6f4e}
+
+  /* Phone 2 — Restaurant Menu */
+  .ph-menu{ transform:translate(60px, 30px) rotate(6deg); z-index:3;}
+  .ph-menu .phone-screen{
+    background:#111;color:#f4f3ef;
+    padding:54px 22px 24px;
+    font-family:'DM Sans';
+  }
+  .ph-menu .brand{font-family:'Space Grotesk';font-weight:700;font-size:20px;letter-spacing:-.02em;margin-bottom:2px}
+  .ph-menu .tagline{font-family:'JetBrains Mono';font-size:8px;letter-spacing:.28em;color:#888;text-transform:uppercase;margin-bottom:22px}
+  .ph-menu .cat{font-family:'Space Grotesk';font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin:14px 0 10px;font-weight:500}
+  .ph-menu .dish{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px dashed #2a2a26;font-size:11px}
+  .ph-menu .dish .name{color:#f4f3ef;font-weight:500}
+  .ph-menu .dish .desc{color:#7a7a75;font-size:9px;margin-top:2px}
+  .ph-menu .dish .price{color:var(--accent);font-family:'JetBrains Mono';font-size:10px;white-space:nowrap}
+
+  /* Phone 3 — Portfolio */
+  .ph-cv{ transform:translate(220px, -40px) rotate(11deg); z-index:1;}
+  .ph-cv .phone-screen{
+    background:#f4f3ef;color:#0d0d0d;
+    padding:50px 22px 22px;
+    font-family:'DM Sans';
+  }
+  .ph-cv .avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#FFD60A,#ff9d0a);margin-bottom:12px}
+  .ph-cv .nm{font-family:'Space Grotesk';font-weight:700;font-size:18px;letter-spacing:-.02em;margin-bottom:1px}
+  .ph-cv .rl{font-family:'JetBrains Mono';font-size:8px;letter-spacing:.24em;text-transform:uppercase;color:#8a8a85;margin-bottom:18px}
+  .ph-cv .sec{font-family:'Space Grotesk';font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#8a8a85;font-weight:500;margin:14px 0 8px}
+  .ph-cv .work{padding:8px 0;border-top:1px solid #d8d6cd;font-size:11px}
+  .ph-cv .work .role{font-weight:600}
+  .ph-cv .work .co{color:#8a8a85;font-size:9px;display:flex;justify-content:space-between;margin-top:2px}
+  .ph-cv .chip{display:inline-block;background:#0d0d0d;color:#fff;font-size:8px;padding:3px 7px;border-radius:99px;margin:0 4px 4px 0;letter-spacing:.04em}
+
+  /* Hero footer row */
+  .hero-bottom{
+    position:absolute; left:56px; right:56px; bottom:30px;
+    display:flex;align-items:center;justify-content:space-between;
+    z-index:5;
+  }
+  .watch{display:flex;align-items:center;gap:18px;font-family:'Space Grotesk';font-weight:600;font-size:16px}
+  .watch .play{
+    width:54px;height:54px;border-radius:50%;
+    background:var(--accent);color:var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 10px 30px -8px rgba(255,214,10,.5);
+    transition:transform .2s;
+  }
+  .watch:hover .play{transform:scale(1.08)}
+  .watch .play svg{width:18px;height:18px;margin-left:3px}
+  .watch .meta{display:flex;flex-direction:column;line-height:1.1}
+  .watch .meta small{font-family:'JetBrains Mono';font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);font-weight:400}
+
+  .hero-tag{
+    font-size:13px;color:var(--muted);max-width:340px;
+    font-style:italic;line-height:1.5;
+  }
+  .socials{display:flex;gap:18px;color:var(--ink-2);font-size:14px}
+  .socials a{transition:color .15s, transform .15s}
+  .socials a:hover{color:var(--accent-ink)}
+  .socials svg{width:16px;height:16px}
+
+  /* ---------- SECTION BASE ---------- */
+  section.block{padding:140px 0;position:relative}
+  .section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;margin-bottom:80px}
+  .section-head .left{max-width:680px}
+  .eyebrow{
+    font-family:'JetBrains Mono';font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);
+    display:inline-flex;align-items:center;gap:10px;margin-bottom:24px;
+  }
+  .eyebrow::before{content:"";width:24px;height:1px;background:var(--ink)}
+  h2.title{
+    font-family:'Space Grotesk';font-weight:700;
+    font-size: clamp(40px, 5.4vw, 76px);
+    line-height:1; letter-spacing:-.035em;
+    margin:0;
+  }
+  .section-head .right{
+    max-width:380px;
+    font-size:16px;color:var(--ink-2);
+    padding-bottom:6px;
+  }
+
+  /* ---------- SERVICES ---------- */
+  .services{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+  }
+  .svc{
+    position:relative;
+    background:var(--card);
+    border-radius:24px;
+    padding:36px 32px 32px;
+    min-height:440px;
+    display:flex;flex-direction:column;
+    border:1px solid var(--line);
+    transition:transform .25s ease, box-shadow .25s ease;
+    overflow:hidden;
+  }
+  .svc:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+  .svc-num{
+    font-family:'JetBrains Mono';font-size:12px;letter-spacing:.24em;color:var(--muted);
+    margin-bottom:auto;
+  }
+  .svc-icon{
+    width:64px;height:64px;border-radius:18px;
+    background:var(--bg);border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    margin:20px 0 28px;
+  }
+  .svc h3{
+    font-family:'Space Grotesk';font-weight:700;
+    font-size:32px;letter-spacing:-.02em;line-height:1;
+    margin:0 0 14px;
+  }
+  .svc p{font-size:15px;color:var(--ink-2);margin:0 0 24px;line-height:1.55}
+  .svc-foot{
+    display:flex;align-items:center;justify-content:space-between;
+    padding-top:22px;border-top:1px solid var(--line);
+    margin-top:auto;
+  }
+  .svc-from{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+  .svc-from strong{display:block;font-family:'Space Grotesk';font-weight:700;color:var(--ink);font-size:24px;letter-spacing:-.01em;margin-top:4px}
+  .svc-arrow{
+    width:42px;height:42px;border-radius:50%;
+    background:var(--ink);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    transition:background .15s, transform .15s;
+  }
+  .svc:hover .svc-arrow{background:var(--accent);color:var(--ink);transform:rotate(-45deg)}
+  .svc-arrow svg{width:16px;height:16px}
+
+  /* Accent on second card */
+  .svc.featured{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .svc.featured .svc-num{color:#8a8a85}
+  .svc.featured .svc-icon{background:#1a1a1a;border-color:#2a2a26}
+  .svc.featured p{color:#a8a8a3}
+  .svc.featured .svc-foot{border-top-color:#2a2a26}
+  .svc.featured .svc-from strong{color:#fff}
+  .svc.featured .svc-arrow{background:var(--accent);color:var(--ink)}
+
+  /* ---------- PRICING ---------- */
+  .pricing-section{background:var(--bg-soft);padding:140px 0}
+  .pricing-block{margin-bottom:80px}
+  .pricing-block:last-child{margin-bottom:0}
+  .pricing-head{
+    display:flex;align-items:baseline;gap:24px;
+    padding-bottom:24px;margin-bottom:36px;
+    border-bottom:1px solid var(--line);
+  }
+  .pricing-head .num{
+    font-family:'JetBrains Mono';font-size:14px;letter-spacing:.22em;color:var(--muted);
+  }
+  .pricing-head h3{
+    font-family:'Space Grotesk';font-weight:700;
+    font-size:44px;letter-spacing:-.025em;line-height:1;margin:0;flex:1;
+  }
+  .pricing-head .sub{font-size:15px;color:var(--ink-2);max-width:380px;text-align:right}
+
+  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .tier{
+    background:var(--card);
+    border-radius:22px;
+    padding:32px 30px;
+    border:1px solid var(--line);
+    display:flex;flex-direction:column;
+    position:relative;
+    transition:transform .2s ease, box-shadow .25s ease;
+  }
+  .tier:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+  .tier.elite{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .tier.elite ul li{color:#c8c8c3}
+  .tier.elite ul li svg{color:var(--accent)}
+  .tier.elite .tier-head{border-bottom-color:#2a2a26}
+  .tier.elite .delivery{color:#a8a8a3}
+  .tier.elite .price-amt{color:var(--accent)}
+
+  .tier-head{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:18px;border-bottom:1px solid var(--line);margin-bottom:20px;gap:10px}
+  .tier-name{font-family:'Space Grotesk';font-weight:700;font-size:24px;letter-spacing:-.02em}
+  .tier-badge{
+    font-family:'JetBrains Mono';font-size:10px;letter-spacing:.18em;
+    background:var(--accent);color:var(--ink);
+    padding:5px 9px;border-radius:99px;text-transform:uppercase;font-weight:500;
+    align-self:flex-start;
+  }
+  .price-amt{font-family:'Space Grotesk';font-weight:700;font-size:54px;letter-spacing:-.04em;line-height:1;margin:0 0 4px}
+  .price-amt .cur{font-size:24px;vertical-align:top;margin-right:2px;color:var(--muted);font-weight:500}
+  .tier.elite .price-amt .cur{color:#8a8a85}
+  .delivery{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:24px}
+  .tier ul{list-style:none;padding:0;margin:0 0 28px;display:flex;flex-direction:column;gap:12px}
+  .tier ul li{display:flex;gap:10px;font-size:14.5px;color:var(--ink-2);line-height:1.45}
+  .tier ul li svg{flex:0 0 16px;width:16px;height:16px;margin-top:3px;color:var(--ink)}
+  .tier-cta{
+    margin-top:auto;
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    background:transparent;color:inherit;
+    border:1px solid currentColor;
+    padding:14px 18px;border-radius:99px;
+    font-size:14px;font-weight:500;font-family:'DM Sans';
+    transition:background .15s, color .15s;
+    cursor:pointer;
+  }
+  .tier:not(.elite) .tier-cta:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .tier.elite .tier-cta{border-color:var(--accent);color:var(--accent)}
+  .tier.elite .tier-cta:hover{background:var(--accent);color:var(--ink)}
+
+  /* ---------- WHY WATTIO ---------- */
+  .why{padding:140px 0}
+  .why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:60px}
+  .why-card{
+    border-top:1px solid var(--ink);
+    padding-top:24px;
+  }
+  .why-card .n{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.22em;color:var(--muted)}
+  .why-card h4{font-family:'Space Grotesk';font-weight:600;font-size:22px;letter-spacing:-.015em;margin:48px 0 12px;line-height:1.15}
+  .why-card p{font-size:15px;color:var(--ink-2);margin:0;line-height:1.55}
+
+  /* ---------- PROCESS / STRIP ---------- */
+  .strip{
+    background:var(--ink);color:#fff;
+    overflow:hidden;
+    padding:32px 0;
+    border-top:1px solid #2a2a26;
+    border-bottom:1px solid #2a2a26;
+  }
+  .marquee{display:flex;gap:80px;white-space:nowrap;animation:scroll 38s linear infinite;align-items:center}
+  .marquee span{font-family:'Space Grotesk';font-weight:600;font-size:42px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:80px}
+  .marquee .dot{width:10px;height:10px;background:var(--accent);border-radius:50%}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* ---------- CTA ---------- */
+  .cta{padding:160px 0;text-align:center;position:relative}
+  .cta .eyebrow{justify-content:center}
+  .cta h2{
+    font-family:'Space Grotesk';font-weight:700;
+    font-size:clamp(56px, 8vw, 120px);
+    line-height:.95;letter-spacing:-.04em;
+    margin:0 auto 36px;max-width:1100px;
+  }
+  .cta h2 em{font-style:normal;position:relative;display:inline-block}
+  .cta h2 em::after{content:"";position:absolute;left:-2%;right:-2%;bottom:.08em;height:.18em;background:var(--accent);z-index:-1}
+  .cta p{font-size:18px;color:var(--ink-2);max-width:520px;margin:0 auto 48px}
+  .cta-btn{
+    display:inline-flex;align-items:center;gap:14px;
+    background:var(--ink);color:#fff;
+    padding:22px 32px;border-radius:99px;
+    font-size:17px;font-weight:500;font-family:'DM Sans';
+    transition:transform .2s, background .2s;
+  }
+  .cta-btn:hover{transform:translateY(-2px);background:#222}
+  .cta-btn svg{width:22px;height:22px}
+  .cta-meta{margin-top:24px;font-family:'JetBrains Mono';font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background:var(--ink);color:#a8a8a3;
+    padding:80px 0 40px;
+  }
+  .foot-top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding-bottom:60px;border-bottom:1px solid #2a2a26}
+  .foot-brand .logo{display:inline-block}
+  .foot-brand .logo img{filter:invert(1)}
+  .foot-brand p{font-size:14px;color:#8a8a85;max-width:300px;margin-top:18px}
+  .foot-col h5{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#fff;font-weight:500;margin:0 0 22px}
+  .foot-col ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px;font-size:14px}
+  .foot-col a:hover{color:#fff}
+  .foot-bot{
+    display:flex;justify-content:space-between;align-items:center;
+    padding-top:32px;font-size:13px;color:#666;
+    font-family:'JetBrains Mono';letter-spacing:.1em;
+  }
+
+  /* ---------- ANIMATIONS ---------- */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  .reveal.delay-1{transition-delay:.08s}
+  .reveal.delay-2{transition-delay:.16s}
+  .reveal.delay-3{transition-delay:.24s}
+  .reveal.delay-4{transition-delay:.32s}
+
+  /* Hero text entrance */
+  .hero-text > *{opacity:0;transform:translateY(20px);animation:rise .9s cubic-bezier(.2,.7,.2,1) forwards}
+  .hero-text > *:nth-child(1){animation-delay:.05s}
+  .hero-text > *:nth-child(2){animation-delay:.18s}
+  .hero-text > *:nth-child(3){animation-delay:.32s}
+  .hero-text > *:nth-child(4){animation-delay:.46s}
+  @keyframes rise{to{opacity:1;transform:none}}
+
+  /* Phones float */
+  .phone{animation:float 7s ease-in-out infinite}
+  .ph-wed{animation-delay:-.5s}
+  .ph-menu{animation-delay:-2.5s;animation-duration:8s}
+  .ph-cv{animation-delay:-4s;animation-duration:9s}
+  @keyframes float{
+    0%,100%{translate:0 0}
+    50%{translate:0 -14px}
+  }
+  .phone{transition:transform .4s ease}
+  .hero-visual:hover .ph-wed{transform:translate(-180px,-10px) rotate(-9deg)}
+  .hero-visual:hover .ph-cv{transform:translate(240px,-40px) rotate(11deg)}
+
+  /* underline grow on load */
+  .hero h1 .underline::after{transform-origin:left;animation:grow 1s .8s cubic-bezier(.2,.7,.2,1) forwards;transform:scaleX(0)}
+  @keyframes grow{to{transform:scaleX(1)}}
+
+  /* Gallery */
+  .gallery{display:grid;grid-template-columns:repeat(12,1fr);gap:22px}
+  .work{
+    position:relative;border-radius:22px;overflow:hidden;
+    background:#ecebe5;
+    aspect-ratio:3/4;
+    transition:transform .4s cubic-bezier(.2,.7,.2,1), box-shadow .4s ease;
+  }
+  .work:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+  .work img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+  .work:hover img{transform:scale(1.04)}
+  .work::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg, transparent 50%, rgba(0,0,0,.65));
+    opacity:.85;transition:opacity .3s;
+  }
+  .work-meta{
+    position:absolute;left:24px;right:24px;bottom:22px;z-index:2;color:#fff;
+    display:flex;justify-content:space-between;align-items:flex-end;gap:12px;
+  }
+  .work-meta .t{font-family:'Space Grotesk';font-weight:600;font-size:20px;letter-spacing:-.01em;line-height:1.15}
+  .work-meta .t small{display:block;font-family:'JetBrains Mono';font-size:10px;letter-spacing:.22em;color:rgba(255,255,255,.7);font-weight:400;margin-top:6px;text-transform:uppercase}
+  .work-meta .arrow{
+    width:36px;height:36px;border-radius:50%;background:#fff;color:#0d0d0d;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    transition:background .15s, transform .2s;
+  }
+  .work:hover .work-meta .arrow{background:var(--accent);transform:rotate(-45deg)}
+  .work-meta .arrow svg{width:14px;height:14px}
+
+  /* spans */
+  .work.lg{grid-column:span 5}
+  .work.md{grid-column:span 4}
+  .work.sm{grid-column:span 3}
+
+  .work.placeholder{
+    background:
+      repeating-linear-gradient(135deg, #ecebe5 0 14px, #e2e0d8 14px 28px);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .work.placeholder::after{display:none}
+  .work.placeholder .ph-label{
+    font-family:'JetBrains Mono';font-size:11px;letter-spacing:.22em;
+    text-transform:uppercase;color:#8a8a85;text-align:center;padding:0 20px;
+  }
+
+  /* Phone wedding now uses image */
+  .ph-wed-img .phone-screen{padding:0}
+  .ph-wed-img .phone-screen img{width:100%;height:100%;object-fit:cover;display:block}
+
+  /* ---------- WEB PROJECTS (Sitios hechos por wattio) ---------- */
+  .site-buttons{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .site-btn{
+    display:flex;align-items:center;justify-content:space-between;gap:24px;
+    padding:24px 28px;
+    background:#FFD60A;
+    border:1px solid #0d0d0d;
+    border-radius:18px;
+    transition:transform .25s cubic-bezier(.2,.7,.2,1), border-color .2s, box-shadow .25s;
+    text-align:left;
+  }
+  .site-btn:hover{
+    transform:translateY(-3px);
+    border-color:var(--ink);
+    box-shadow:0 18px 40px -20px rgba(0,0,0,.18);
+  }
+  .site-btn-left{flex:1;min-width:0}
+  .site-btn-live{
+    display:inline-flex;align-items:center;gap:6px;
+    font-family:'JetBrains Mono';font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+    color:#1d8a4d;background:rgba(60,219,127,.12);padding:4px 10px;border-radius:99px;
+    margin-bottom:12px;
+  }
+  .site-btn-live .pulse{width:6px;height:6px;background:#3CDB7F;border-radius:50%;box-shadow:0 0 0 3px rgba(60,219,127,.25);animation:pulse 2s infinite}
+  .site-btn-name{
+    font-family:'Space Grotesk';font-weight:700;font-size:22px;letter-spacing:-.02em;
+    color:var(--ink);margin-bottom:6px;line-height:1.15;
+  }
+  .site-btn-desc{font-size:13px;color:var(--ink-2);line-height:1.5;max-width:380px}
+  .site-btn-right{
+    display:flex;flex-direction:column;align-items:flex-end;gap:14px;
+    flex-shrink:0;
+  }
+  .site-btn-url{
+    font-family:'JetBrains Mono';font-size:11px;letter-spacing:.06em;color:var(--muted);
+    padding:4px 10px;background:var(--bg-soft);border-radius:99px;
+  }
+  .site-btn-arrow{
+    width:44px;height:44px;border-radius:50%;
+    background:var(--ink);color:#cfcf06;
+    display:flex;align-items:center;justify-content:center;
+    transition:background .15s, transform .2s;
+  }
+  .site-btn:hover .site-btn-arrow{background:var(--accent);color:var(--ink);transform:rotate(-45deg)}
+  .site-btn-arrow svg{width:16px;height:16px}
+
+  /* Sub-section divider */
+  .sub-eyebrow{
+    display:flex;align-items:center;gap:14px;
+    font-family:'JetBrains Mono';font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);
+    margin:80px 0 36px;
+  }
+  .sub-eyebrow::before{content:"";flex:0 0 24px;height:1px;background:var(--ink)}
+  .sub-eyebrow::after{content:"";flex:1;height:1px;background:var(--line)}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 1200px){
+    .wrap{padding:0 40px}
+    .hero h1{font-size:clamp(64px, 8vw, 120px)}
+  }
+
+  @media (max-width: 1024px){
+    .wrap{padding:0 32px}
+    .nav-inner{height:72px}
+    .nav-links{display:none}
+    .nav-cta{padding:10px 16px;font-size:13px}
+
+    .hero{grid-template-columns:1fr;min-height:auto;padding:32px 0 100px;gap:0}
+    .hero-side{display:none}
+    .hero-text{padding-left:0}
+    .hero-visual{height:480px;margin-top:32px}
+    .phone{width:220px;height:460px;border-radius:34px;padding:10px}
+    .phone-screen{border-radius:26px}
+    .ph-wed{transform:translate(-110px,-10px) rotate(-9deg)}
+    .ph-menu{transform:translate(40px,30px) rotate(6deg)}
+    .ph-cv{transform:translate(170px,-30px) rotate(11deg)}
+    .hero-visual:hover .ph-wed{transform:translate(-130px,-10px) rotate(-9deg)}
+    .hero-visual:hover .ph-cv{transform:translate(190px,-30px) rotate(11deg)}
+    .hero-bottom{position:static;left:auto;right:auto;bottom:auto;margin-top:50px;padding:0;flex-wrap:wrap;gap:28px}
+
+    section.block{padding:100px 0}
+    .pricing-section{padding:100px 0}
+    .why{padding:100px 0}
+    .cta{padding:120px 0}
+
+    .section-head{flex-direction:column;align-items:flex-start;gap:24px;margin-bottom:56px}
+    .section-head .right{max-width:560px}
+
+    .services{grid-template-columns:1fr 1fr;gap:20px}
+    .svc{min-height:380px}
+
+    .gallery{grid-template-columns:repeat(6,1fr)}
+    .work.lg{grid-column:span 4}
+    .work.md{grid-column:span 2;aspect-ratio:3/4}
+    .work.sm{grid-column:span 6;aspect-ratio:3/1}
+    .work.sm.placeholder .ph-label br{display:inline}
+
+    .web-works{grid-template-columns:1fr;gap:24px}
+    .site-buttons{grid-template-columns:1fr;gap:14px}
+    .site-btn{padding:22px 24px;gap:18px}
+    .site-btn-name{font-size:20px}
+
+    .pricing-head{flex-direction:column;align-items:flex-start;gap:10px}
+    .pricing-head .sub{text-align:left}
+    .tiers{grid-template-columns:1fr 1fr;gap:16px}
+    .tier.elite{grid-column:span 2}
+
+    .why-grid{grid-template-columns:1fr 1fr;gap:32px}
+
+    .foot-top{grid-template-columns:1fr 1fr;gap:40px}
+
+    .marquee span{font-size:32px;gap:60px}
+    .marquee{gap:60px}
+  }
+
+  @media (max-width: 720px){
+    body{font-size:15px}
+    .wrap{padding:0 22px}
+    .nav-inner{height:64px}
+    .logo img{height:28px}
+    .nav-cta{padding:9px 14px;font-size:12px;gap:8px}
+    .nav-cta .dot{width:6px;height:6px}
+
+    /* Hero */
+    .hero{padding:24px 0 80px}
+    .hero-kicker{font-size:10px;margin-bottom:18px}
+    .hero h1{font-size:56px;line-height:.95}
+    .hero-sub{font-size:14px;letter-spacing:.32em;margin-bottom:24px}
+    .hero-lead{font-size:16px;margin-bottom:32px}
+
+    /* Reduce to 2 phones, smaller */
+    .hero-visual{height:380px;margin-top:24px}
+    .phone{width:180px;height:380px;border-radius:28px;padding:8px}
+    .phone-screen{border-radius:22px}
+    .phone::before{width:64px;height:18px;top:14px}
+    .ph-wed{transform:translate(-70px,-10px) rotate(-9deg)}
+    .ph-menu{transform:translate(60px,30px) rotate(6deg)}
+    .ph-cv{display:none} /* drop third phone on small */
+    .hero-visual:hover .ph-wed{transform:translate(-80px,-10px) rotate(-9deg)}
+
+    .hero-bottom{margin-top:36px;gap:22px;flex-direction:column;align-items:flex-start}
+    .hero-tag{order:3;font-size:13px}
+    .socials{order:2}
+    .watch{order:1}
+    .watch .play{width:46px;height:46px}
+    .watch .meta{font-size:14px}
+
+    /* Section heads */
+    section.block{padding:72px 0}
+    .pricing-section{padding:72px 0}
+    .why{padding:72px 0}
+    .cta{padding:90px 0}
+    .section-head{margin-bottom:40px;gap:18px}
+    h2.title{font-size:40px}
+    .eyebrow{font-size:10px;margin-bottom:18px}
+
+    /* Services */
+    .services{grid-template-columns:1fr}
+    .svc{min-height:0;padding:28px 24px 26px}
+    .svc h3{font-size:26px}
+    .svc-icon{width:54px;height:54px;border-radius:14px;margin:14px 0 22px}
+    .svc-from strong{font-size:20px}
+
+    /* Gallery */
+    .gallery{grid-template-columns:1fr;gap:16px}
+    .work.lg,.work.md,.work.sm{grid-column:span 1}
+    .work.lg,.work.md{aspect-ratio:3/4}
+    .work.sm{aspect-ratio:5/3}
+    .work-meta{left:18px;right:18px;bottom:16px}
+    .work-meta .t{font-size:17px}
+    .sub-eyebrow{margin:50px 0 24px;font-size:10px}
+
+    /* Site cards */
+    .site-btn{padding:20px;flex-direction:column;align-items:flex-start;gap:18px}
+    .site-btn-right{flex-direction:row;align-items:center;width:100%;justify-content:space-between;gap:12px}
+    .site-btn-name{font-size:19px}
+    .site-btn-desc{font-size:13px}
+
+    /* Pricing */
+    .pricing-block{margin-bottom:56px}
+    .pricing-head{padding-bottom:18px;margin-bottom:24px}
+    .pricing-head h3{font-size:30px}
+    .pricing-head .num{font-size:12px}
+    .tiers{grid-template-columns:1fr;gap:14px}
+    .tier.elite{grid-column:span 1}
+    .tier{padding:26px 24px}
+    .price-amt{font-size:44px}
+    .tier ul li{font-size:14px}
+
+    /* Why */
+    .why-grid{grid-template-columns:1fr;gap:28px;margin-top:40px}
+    .why-card h4{font-size:20px;margin:32px 0 10px}
+    .why-card p{font-size:14px}
+
+    /* Marquee */
+    .marquee span{font-size:22px;gap:36px}
+    .marquee{gap:36px}
+    .strip{padding:22px 0}
+
+    /* CTA */
+    .cta h2{font-size:44px;line-height:1}
+    .cta p{font-size:15px;margin-bottom:32px}
+    .cta-btn{padding:18px 26px;font-size:15px;gap:10px}
+    .cta-btn svg{width:18px;height:18px}
+    .cta-meta{font-size:10px;letter-spacing:.16em}
+
+    /* Footer */
+    footer{padding:60px 0 30px}
+    .foot-top{grid-template-columns:1fr;gap:32px;padding-bottom:40px}
+    .foot-col h5{margin-bottom:14px}
+    .foot-col ul{gap:8px}
+    .foot-bot{flex-direction:column;gap:10px;text-align:center;font-size:11px;letter-spacing:.08em}
+  }
+
+  @media (max-width: 380px){
+    .hero h1{font-size:48px}
+    h2.title{font-size:34px}
+    .cta h2{font-size:36px}
+    .phone{width:160px;height:340px}
+    .ph-wed{transform:translate(-60px,-10px) rotate(-9deg)}
+    .ph-menu{transform:translate(50px,30px) rotate(6deg)}
+  }
+
+  /* Touch devices: tone down hover effects */
+  @media (hover:none){
+    .hero-visual:hover .ph-wed,
+    .hero-visual:hover .ph-cv{transform:initial}
+    .ph-wed{transform:translate(-160px,-10px) rotate(-9deg)}
+    .ph-cv{transform:translate(220px,-40px) rotate(11deg)}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="#" class="logo" aria-label="wattio"><img src="assets/wattio-logo.png" alt="wattio" /></a>
+    <nav class="nav-links" aria-label="Principal">
+      <a href="#servicios" class="active">Servicios</a>
+      <a href="#trabajos">Trabajos</a>
+      <a href="#precios">Precios</a>
+      <a href="#proceso">Proceso</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <a class="nav-cta" href="https://wa.me/593993340103" target="_blank" rel="noopener">
+      <span class="dot"></span> Cotizar por WhatsApp
+    </a>
+  </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<main class="wrap">
+  <section class="hero">
+    <!-- side bars decoration (like reference) -->
+    <div class="hero-side" aria-hidden="true">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
+
+    <div class="hero-text">
+      <div class="hero-kicker"><span class="pulse"></span> Ecuador · Código a medida</div>
+      <h1>Diseño<br/><span class="underline">digital</span><br/>a medida.</h1>
+      <p class="hero-sub">sin plantillas · sin mensualidades</p>
+      <p class="hero-lead">
+        Cada proyecto es una página web hecha desde cero, con tu identidad, y entregada como un <strong>link único</strong> que compartes por WhatsApp. Pago único, tuyo para siempre.
+      </p>
+    </div>
+
+    <div class="hero-visual" aria-hidden="true">
+      <!-- Phone 1: Wedding invitation (real image) -->
+      <div class="phone ph-wed ph-wed-img">
+        <div class="phone-screen">
+          <img src="trabajos/invitacion-boda.jpg" alt="Invitación de boda" />
+        </div>
+      </div>
+
+      <!-- Phone 2: Restaurant menu -->
+      <div class="phone ph-menu">
+        <div class="phone-screen">
+          <div class="brand">Café Mariposa</div>
+          <div class="tagline">menú digital</div>
+
+          <div class="cat">Desayunos</div>
+          <div class="dish">
+            <div>
+              <div class="name">Bolón mixto</div>
+              <div class="desc">verde, queso, chicharrón</div>
+            </div>
+            <div class="price">$4.50</div>
+          </div>
+          <div class="dish">
+            <div>
+              <div class="name">Huevos Benedict</div>
+              <div class="desc">muffin, jamón, holandesa</div>
+            </div>
+            <div class="price">$6.90</div>
+          </div>
+
+          <div class="cat">Café</div>
+          <div class="dish">
+            <div>
+              <div class="name">Latte de horchata</div>
+              <div class="desc">especialidad de la casa</div>
+            </div>
+            <div class="price">$3.20</div>
+          </div>
+          <div class="dish">
+            <div>
+              <div class="name">Cold Brew 24h</div>
+            </div>
+            <div class="price">$3.50</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phone 3: CV / Portfolio -->
+      <div class="phone ph-cv">
+        <div class="phone-screen">
+          <div class="avatar"></div>
+          <div class="nm">Daniela Pérez</div>
+          <div class="rl">UX Designer · Quito</div>
+
+          <div class="sec">Stack</div>
+          <div>
+            <span class="chip">Figma</span>
+            <span class="chip">Webflow</span>
+            <span class="chip">UI/UX</span>
+            <span class="chip">Notion</span>
+          </div>
+
+          <div class="sec">Experiencia</div>
+          <div class="work">
+            <div class="role">Product Designer</div>
+            <div class="co"><span>Kushki</span><span>2023 — hoy</span></div>
+          </div>
+          <div class="work">
+            <div class="role">UX Designer</div>
+            <div class="co"><span>Banco Pichincha</span><span>2021 — 23</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- bottom row (Watch · tagline · socials) -->
+    <div class="hero-bottom">
+      <a class="watch" href="#proceso">
+        <span class="play" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 3l16 9-16 9V3z"/></svg>
+        </span>
+        <span class="meta">
+          Ver proceso
+          <small>2 MIN · CÓMO TRABAJAMOS</small>
+        </span>
+      </a>
+
+      <p class="hero-tag">Tres tipos de páginas web, hechas a la medida en Ecuador y entregadas como un link listo para compartir.</p>
+
+      <div class="socials" aria-label="Redes sociales">
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+        <a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 3v10.5a3.5 3.5 0 11-3.5-3.5h.5V7.5h-.5A6 6 0 1016.5 13.5V8.4a7 7 0 003.5 1V7a4.5 4.5 0 01-3-1.4A4.5 4.5 0 0114.5 3z"/></svg></a>
+        <a href="https://wa.me/593993340103" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 .395C7.156.395 0 7.55 0 16.394c0 2.806.728 5.554 2.115 7.97L.06 31.605l7.418-1.947A15.94 15.94 0 0 0 16 32c8.844 0 16-7.156 16-16S24.844.395 16 .395zm0 29.265a13.27 13.27 0 0 1-6.764-1.847l-.484-.288-4.402 1.156 1.175-4.293-.314-.495a13.218 13.218 0 0 1-2.052-7.099C3.158 8.952 8.92 3.19 16 3.19s12.842 5.762 12.842 12.842S23.08 29.66 16 29.66zm7.45-9.617c-.408-.204-2.418-1.193-2.794-1.33-.376-.137-.65-.204-.923.205-.273.408-1.06 1.33-1.3 1.604-.24.273-.479.307-.887.103-.408-.204-1.722-.635-3.28-2.024-1.214-1.082-2.033-2.42-2.272-2.828-.24-.408-.026-.628.179-.832.184-.183.408-.479.612-.718.204-.24.273-.408.41-.682.137-.273.068-.512-.034-.717-.103-.205-.923-2.224-1.265-3.046-.333-.798-.671-.69-.923-.703-.24-.012-.512-.014-.785-.014a1.51 1.51 0 0 0-1.094.512c-.376.41-1.436 1.4-1.436 3.42 0 2.019 1.47 3.97 1.674 4.243.205.273 2.89 4.413 7 6.187.978.422 1.741.674 2.337.862.982.312 1.875.268 2.581.163.787-.118 2.418-.989 2.76-1.943.34-.954.34-1.772.238-1.943-.103-.17-.376-.273-.785-.477z"/></svg></a>
+        <a href="#" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ===================== SERVICES ===================== -->
+<section class="block" id="servicios">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="left">
+        <div class="eyebrow">01 — Servicios</div>
+        <h2 class="title">Tres formatos.<br/>Un solo link.</h2>
+      </div>
+      <div class="right">
+        Cada servicio se entrega como una página web hecha a medida, con tu identidad y disponible 24/7 en un link único — sin apps, sin mensualidades.
+      </div>
+    </div>
+
+    <div class="services">
+      <!-- Service 1: Invitaciones -->
+      <article class="svc">
+        <div class="svc-num">/ 01</div>
+        <div class="svc-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7l8 6 8-6"/><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 5l9 7 9-7"/></svg>
+        </div>
+        <h3>Invitaciones<br/>digitales</h3>
+        <p>Bodas, XV años, cumpleaños, bautizos. Cada invitación es una página web con animaciones, música, RSVP y mapa — todo en un link que compartes por WhatsApp.</p>
+        <div class="svc-foot">
+          <div class="svc-from">Desde<strong>$65 USD</strong></div>
+          <a class="svc-arrow" href="#inv-pricing" aria-label="Ver precios de invitaciones">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- Service 2: Menús QR (featured) -->
+      <article class="svc featured">
+        <div class="svc-num">/ 02</div>
+        <div class="svc-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFD60A" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3M20 14v3M14 17v4M17 21h4M20 18v3"/></svg>
+        </div>
+        <h3>Menús digitales<br/>con QR</h3>
+        <p>Un código QR que abre tu carta en el celular del cliente. Sin apps, sin mensualidades — pago único y el menú es de tu negocio para siempre.</p>
+        <div class="svc-foot">
+          <div class="svc-from">Desde<strong>$40 USD</strong></div>
+          <a class="svc-arrow" href="#menu-pricing" aria-label="Ver precios de menús">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- Service 3: CV / Portafolios -->
+      <article class="svc">
+        <div class="svc-num">/ 03</div>
+        <div class="svc-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+        </div>
+        <h3>CV &amp; portafolios<br/>web</h3>
+        <p>Una página personal con link único. Más poderosa que un PDF, más memorable que LinkedIn. Para profesionales, freelancers y creativos.</p>
+        <div class="svc-foot">
+          <div class="svc-from">Desde<strong>$90 USD</strong></div>
+          <a class="svc-arrow" href="#cv-pricing" aria-label="Ver precios de CV">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TRABAJOS / GALLERY ===================== -->
+<section class="block" id="trabajos" style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="left">
+        <div class="eyebrow">02 — Trabajos</div>
+        <h2 class="title">Algunas piezas<br/>recientes.</h2>
+      </div>
+      <div class="right">Una muestra del trabajo real — invitaciones digitales y sitios web completos en producción. Cada proyecto se diseña y codifica desde cero según el cliente.</div>
+    </div>
+
+    <div class="gallery">
+      <a class="work lg reveal" href="#">
+        <img src="trabajos/invitacion-boda.jpg" alt="Invitación digital de boda" loading="lazy" />
+        <div class="work-meta">
+          <div class="t">Lucía &amp; Juan<small>Boda · Élite</small></div>
+          <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
+        </div>
+      </a>
+
+      <a class="work md reveal delay-1" href="#">
+        <img src="trabajos/menu-qr.jpg" alt="Menú digital con código QR" loading="lazy" />
+        <div class="work-meta">
+          <div class="t">Menú QR<small>Restaurante · Premium</small></div>
+          <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
+        </div>
+      </a>
+
+      <a class="work md reveal delay-2" href="#">
+        <img src="trabajos/invitacion-cumple.jpg" alt="Invitación de cumpleaños" loading="lazy" />
+        <div class="work-meta">
+          <div class="t">Thomas · 1 año<small>Cumple · Premium</small></div>
+          <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Sub-section: Sitios web (link buttons) -->
+    <div class="sub-eyebrow">Sitios web en vivo</div>
+
+    <div class="site-buttons">
+      <a class="site-btn reveal" href="https://roboworks.site/" target="_blank" rel="noopener">
+        <div class="site-btn-left">
+          <span class="site-btn-live"><span class="pulse"></span> En vivo</span>
+          <div class="site-btn-name">RoboWorks Ambato</div>
+          <div class="site-btn-desc">Landing completa de centro de robótica educativa · 6 programas · plataforma de estudiantes</div>
+        </div>
+        <div class="site-btn-right">
+          <span class="site-btn-url">roboworks.site</span>
+          <span class="site-btn-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>
+          </span>
+        </div>
+      </a>
+
+      <a class="site-btn reveal delay-1" href="https://www.roboxperience.site/" target="_blank" rel="noopener">
+        <div class="site-btn-left">
+          <span class="site-btn-live"><span class="pulse"></span> En vivo</span>
+          <div class="site-btn-name">RoboXperience 2026</div>
+          <div class="site-btn-desc">Torneo colegial de robótica · inscripciones · 4 categorías · U.E. San Pío X</div>
+        </div>
+        <div class="site-btn-right">
+          <span class="site-btn-url">roboxperience.site</span>
+          <span class="site-btn-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>
+          </span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PRICING ===================== -->
+<section class="pricing-section" id="precios">
+  <div class="wrap">
+
+    <div class="section-head">
+      <div class="left">
+        <div class="eyebrow">03 — Precios</div>
+        <h2 class="title">Pago único.<br/>Tres niveles.</h2>
+      </div>
+      <div class="right">Sin mensualidades ocultas. Sin renovaciones forzadas. Eliges el nivel que se ajusta a lo que necesitas, una sola vez.</div>
+    </div>
+
+    <!-- Invitaciones -->
+    <div class="pricing-block" id="inv-pricing">
+      <div class="pricing-head">
+        <span class="num">01</span>
+        <h3>Invitaciones digitales</h3>
+        <p class="sub">Bodas · XV años · Cumpleaños · Bautizos</p>
+      </div>
+      <div class="tiers">
+
+        <div class="tier">
+          <div class="tier-head">
+            <div class="tier-name">Clásica</div>
+          </div>
+          <div class="price-amt"><span class="cur">$</span>65</div>
+          <div class="delivery">Entrega 48 horas</div>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Diseño 100% personalizado</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Animaciones suaves</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Música de fondo</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Link único para WhatsApp</li>
+          </ul>
+          <a class="tier-cta" href="https://wa.me/593993340103">Pedir Clásica →</a>
+        </div>
+
+        <div class="tier">
+          <div class="tier-head">
+            <div class="tier-name">Premium</div>
+            <span class="tier-badge">Más pedida</span>
+          </div>
+          <div class="price-amt"><span class="cur">$</span>95</div>
+          <div class="delivery">Entrega 3 – 4 días</div>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Todo lo de Clásica</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Cuenta regresiva al evento</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>RSVP · confirmación de asistencia</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Mapa de ubicación interactivo</li>
+          </ul>
+          <a class="tier-cta" href="https://wa.me/593993340103">Pedir Premium →</a>
+        </div>
+
+        <div class="tier elite">
+          <div class="tier-head">
+            <div class="tier-name">Élite</div>
+            <span class="tier-badge">Top</span>
+          </div>
+          <div class="price-amt"><span class="cur">$</span>140</div>
+          <div class="delivery">Entrega 5 – 7 días</div>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Todo lo de Premium</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Video de fondo HD</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Galería de fotos + íconos animados</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Itinerario + mesa de regalos</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Revisiones ilimitadas</li>
+          </ul>
+          <a class="tier-cta" href="https://wa.me/593993340103">Pedir Élite →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Menús QR -->
+    <div class="pricing-block" id="menu-pricing">
+      <div class="pricing-head">
+        <span class="num">02</span>
+        <h3>Menús digitales QR</h3>
+        <p class="sub">Restaurantes · Cafeterías · Food trucks</p>
+      </div>
+      <div class="tiers">
+
+        <div class="tier">
+          <div class="tier-head">
+            <div class="tier-name">Carta</div>
+          </div>
+          <div class="price-amt"><span class="cur">$</span>40</div>
+          <div class="delivery">Entrega 48 horas</div>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Hasta 3 categorías</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Fotos de cada plato</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Precios actualizados</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>QR listo para imprimir</li>
+          </ul>
+          <a class="tier-cta" href="https://wa.me/593993340103">Pedir Carta →</a>
+        </div>
+
+        <div class="tier">
+          <div class="tier-head">
+            <div class="tier-name">Restaurante</div>
+            <span class="tier-badge">Más pedida</span>
+          </div>
+          <div class="price-amt"><span class="cur">$</span>65</div>
+          <div class="delivery">Entrega 3 días</div>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Categorías ilimitadas</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Diseño con identidad de tu marca</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>1 actualización gratis</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>QR + soporte por WhatsApp</li>
+          </ul>
+          <a class="tier-cta" href="https://wa.me/593993340103">Pedir Restaurante →</a>
+        </div>
+
+        <div class="tier elite">
+          <div class="tier-head">
+            <div class="tier-name">Premium</div>
+            <span class="tier-badge">Top</span>
+          </div>
+          <div class="price-amt"><span class="cur">$</span>90</div>
+          <div class="delivery">Entrega 4 – 5 días</div>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Todo lo de Restaurante</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Animaciones de entrada</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Sección de promociones + horarios</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Botón directo a WhatsApp</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>3 actualizaciones · 3 meses</li>
+          </ul>
+          <a class="tier-cta" href="https://wa.me/593993340103">Pedir Premium →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CV / Portafolios -->
+    <div class="pricing-block" id="cv-pricing">
+      <div class="pricing-head">
+        <span class="num">03</span>
+        <h3>CV &amp; portafolios web</h3>
+        <p class="sub">Profesionales · Freelancers · Creativos</p>
+      </div>
+      <div class="tiers">
+
+        <div class="tier">
+          <div class="tier-head">
+            <div class="tier-name">CV Digital</div>
+          </div>
+          <div class="price-amt"><span class="cur">$</span>90</div>
+          <div class="delivery">Entrega 3 días</div>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Diseño elegante y minimal</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Habilidades + experiencia</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Sección de contacto</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Link único compartible</li>
+          </ul>
+          <a class="tier-cta" href="https://wa.me/593993340103">Pedir CV →</a>
+        </div>
+
+        <div class="tier">
+          <div class="tier-head">
+            <div class="tier-name">Portafolio</div>
+            <span class="tier-badge">Más pedida</span>
+          </div>
+          <div class="price-amt"><span class="cur">$</span>150</div>
+          <div class="delivery">Entrega 5 días</div>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Todo lo del CV Digital</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Galería de proyectos</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Animaciones y micro-interacciones</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Formulario de contacto</li>
+          </ul>
+          <a class="tier-cta" href="https://wa.me/593993340103">Pedir Portafolio →</a>
+        </div>
+
+        <div class="tier elite">
+          <div class="tier-head">
+            <div class="tier-name">Personal Brand</div>
+            <span class="tier-badge">Top</span>
+          </div>
+          <div class="price-amt"><span class="cur">$</span>220</div>
+          <div class="delivery">Entrega 7 – 10 días</div>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Todo lo del Portafolio</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Dominio <strong>.com</strong> incluido</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Blog integrado</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Sección de testimonios + SEO básico</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 12 10 17 19 7"/></svg>Soporte 1 mes</li>
+          </ul>
+          <a class="tier-cta" href="https://wa.me/593993340103">Pedir Personal Brand →</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===================== WHY ===================== -->
+<section class="why" id="proceso">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="left">
+        <div class="eyebrow">04 — Por qué wattio</div>
+        <h2 class="title">A medida.<br/>De verdad.</h2>
+      </div>
+      <div class="right">No usamos plantillas. No te cobramos cada mes. Es código propio, escrito a mano, que se vuelve tuyo el día de la entrega.</div>
+    </div>
+
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="n">/ 01</div>
+        <h4>Sin plantillas.<br/>Diseño desde cero.</h4>
+        <p>Cada página se diseña y codifica para ti, con tu paleta, tipografía y personalidad — no es un template editado.</p>
+      </div>
+      <div class="why-card">
+        <div class="n">/ 02</div>
+        <h4>Pago único.<br/>Sin mensualidades.</h4>
+        <p>Pagas una sola vez. Olvídate de plataformas que cobran cada mes — el código y el link son tuyos para siempre.</p>
+      </div>
+      <div class="why-card">
+        <div class="n">/ 03</div>
+        <h4>Un link.<br/>Listo para WhatsApp.</h4>
+        <p>Recibes una URL única, optimizada para móvil, que compartes a tus invitados o clientes en segundos.</p>
+      </div>
+      <div class="why-card">
+        <div class="n">/ 04</div>
+        <h4>Hecho en Ecuador.<br/>Entrega rápida.</h4>
+        <p>Coordinación en tu mismo huso horario, en español, por WhatsApp. Tiempos de entrega entre 2 y 10 días.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Marquee strip -->
+<div class="strip" aria-hidden="true">
+  <div class="marquee">
+    <span>Invitaciones digitales<span class="dot"></span></span>
+    <span>Menús QR<span class="dot"></span></span>
+    <span>CV web<span class="dot"></span></span>
+    <span>Portafolios<span class="dot"></span></span>
+    <span>Personal Brand<span class="dot"></span></span>
+    <span>Sin mensualidades<span class="dot"></span></span>
+    <span>Invitaciones digitales<span class="dot"></span></span>
+    <span>Menús QR<span class="dot"></span></span>
+    <span>CV web<span class="dot"></span></span>
+    <span>Portafolios<span class="dot"></span></span>
+    <span>Personal Brand<span class="dot"></span></span>
+    <span>Sin mensualidades<span class="dot"></span></span>
+  </div>
+</div>
+
+<!-- ===================== CTA ===================== -->
+<section class="cta" id="contacto">
+  <div class="wrap">
+    <div class="eyebrow">05 — Empecemos</div>
+    <h2>¿Tienes una idea?<br/>La convertimos en un <em>link</em>.</h2>
+    <p>Escríbenos por WhatsApp. Te respondemos el mismo día con una propuesta clara: precio, tiempo y lo que entregamos.</p>
+    <a class="cta-btn" href="https://wa.me/593993340103" target="_blank" rel="noopener">
+      <svg viewBox="0 0 32 32" fill="#25D366" aria-hidden="true"><path d="M16 .395C7.156.395 0 7.55 0 16.394c0 2.806.728 5.554 2.115 7.97L.06 31.605l7.418-1.947A15.94 15.94 0 0 0 16 32c8.844 0 16-7.156 16-16S24.844.395 16 .395zm0 29.265a13.27 13.27 0 0 1-6.764-1.847l-.484-.288-4.402 1.156 1.175-4.293-.314-.495a13.218 13.218 0 0 1-2.052-7.099C3.158 8.952 8.92 3.19 16 3.19s12.842 5.762 12.842 12.842S23.08 29.66 16 29.66zm7.45-9.617c-.408-.204-2.418-1.193-2.794-1.33-.376-.137-.65-.204-.923.205-.273.408-1.06 1.33-1.3 1.604-.24.273-.479.307-.887.103-.408-.204-1.722-.635-3.28-2.024-1.214-1.082-2.033-2.42-2.272-2.828-.24-.408-.026-.628.179-.832.184-.183.408-.479.612-.718.204-.24.273-.408.41-.682.137-.273.068-.512-.034-.717-.103-.205-.923-2.224-1.265-3.046-.333-.798-.671-.69-.923-.703-.24-.012-.512-.014-.785-.014a1.51 1.51 0 0 0-1.094.512c-.376.41-1.436 1.4-1.436 3.42 0 2.019 1.47 3.97 1.674 4.243.205.273 2.89 4.413 7 6.187.978.422 1.741.674 2.337.862.982.312 1.875.268 2.581.163.787-.118 2.418-.989 2.76-1.943.34-.954.34-1.772.238-1.943-.103-.17-.376-.273-.785-.477z"/></svg>
+      Hablar por WhatsApp
+    </a>
+    <div class="cta-meta">RESPUESTA EN MENOS DE 24 H · QUITO, ECUADOR</div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="#" class="logo" aria-label="wattio"><img src="assets/wattio-logo.png" alt="wattio" /></a>
+        <p>Diseño digital a medida, hecho desde Ecuador. Sin plantillas, sin mensualidades, un solo link.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Servicios</h5>
+        <ul>
+          <li><a href="#inv-pricing">Invitaciones digitales</a></li>
+          <li><a href="#menu-pricing">Menús QR</a></li>
+          <li><a href="#cv-pricing">CV &amp; portafolios</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Wattio</h5>
+        <ul>
+          <li><a href="#proceso">Proceso</a></li>
+          <li><a href="#precios">Precios</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Contacto</h5>
+        <ul>
+          <li><a href="https://wa.me/593993340103">WhatsApp · +593 99 334 0103</a></li>
+          <li><a href="mailto:hola@wattio.ec">hola@wattio.ec</a></li>
+          <li><a href="#">@wattio.ec</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <div>© 2026 WATTIO · QUITO, EC</div>
+      <div>HECHO CON CÓDIGO, NO CON PLANTILLAS</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav border on scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 8);
+  });
+
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  },{threshold:.12, rootMargin:'0px 0px -8% 0px'});
+  // mark common items as reveal targets too
+  document.querySelectorAll('.section-head, .svc, .tier, .why-card, .work, .pricing-head, .cta h2, .cta p, .cta-btn').forEach(el=>{
+    el.classList.add('reveal');
+    io.observe(el);
+  });
+
+  // Smooth active link based on section in view
+  const links = document.querySelectorAll('.nav-links a');
+  const ids = ['servicios','trabajos','precios','proceso','contacto'];
+  const sections = ids.map(id => document.getElementById(id));
+  function updateActive(){
+    const y = window.scrollY + 140;
+    let activeIdx = 0;
+    sections.forEach((s,i)=>{ if(s && s.offsetTop <= y) activeIdx = i; });
+    links.forEach((l,i)=> l.classList.toggle('active', i===activeIdx));
+  }
+  window.addEventListener('scroll', updateActive);
+  updateActive();
+</script>
+</body>
+</html>
