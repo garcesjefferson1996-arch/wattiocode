@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+<title>Emilio & Luisa · Nuestra Boda · 2026</title>
+
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- GSAP para animaciones -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<!-- Font Awesome 6 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        background: linear-gradient(135deg, #fef9f0 0%, #fdf3e6 100%);
+        font-family: 'Montserrat', sans-serif;
+        overflow-x: hidden;
+    }
+    
+    .font-serif {
+        font-family: 'Cormorant Garamond', serif;
+    }
+    
+    /* Partículas flotantes */
+    .floating-particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 10;
+        overflow: hidden;
+    }
+    
+    .particle {
+        position: absolute;
+        font-size: 20px;
+        animation: floatParticle linear forwards;
+        opacity: 0;
+    }
+    
+    @keyframes floatParticle {
+        0% {
+            transform: translateY(-10vh) rotate(0deg);
+            opacity: 0;
+        }
+        10% { opacity: 0.6; }
+        90% { opacity: 0.6; }
+        100% {
+            transform: translateY(110vh) rotate(360deg);
+            opacity: 0;
+        }
+    }
+    
+    /* Tarjetas elegantes */
+    .elegant-card {
+        background: rgba(255, 252, 245, 0.95);
+        backdrop-filter: blur(8px);
+        border-radius: 32px;
+        box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.1);
+        transition: all 0.4s ease;
+        border: 1px solid rgba(212, 175, 122, 0.3);
+    }
+    
+    .elegant-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.15);
+        border-color: rgba(212, 175, 122, 0.6);
+    }
+    
+    /* Botones dorados */
+    .btn-gold {
+        background: linear-gradient(135deg, #d4af7a, #c49a6c);
+        color: #2a241d;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(196, 154, 108, 0.3);
+        cursor: pointer;
+    }
+    
+    .btn-gold:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(196, 154, 108, 0.4);
+        background: linear-gradient(135deg, #dec08a, #d4a76a);
+    }
+    
+    /* Divisor elegante */
+    .divider-elegant {
+        width: 80px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #d4af7a, #c49a6c, #d4af7a, transparent);
+        margin: 1.5rem auto;
+    }
+    
+    /* Contador */
+    .countdown-box {
+        background: rgba(255, 250, 240, 0.95);
+        backdrop-filter: blur(8px);
+        border-radius: 20px;
+        padding: 1rem;
+        min-width: 85px;
+        text-align: center;
+        border: 1px solid rgba(212, 175, 122, 0.4);
+    }
+    
+    .countdown-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        font-family: 'Cormorant Garamond', serif;
+        color: #c49a6c;
+        line-height: 1;
+    }
+    
+    @media (max-width: 640px) {
+        .countdown-number { font-size: 1.8rem; }
+        .countdown-box { min-width: 70px; padding: 0.7rem; }
+    }
+    
+    /* Timeline */
+    .timeline-item {
+        position: relative;
+        padding-left: 2rem;
+    }
+    
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0.5rem;
+        width: 12px;
+        height: 12px;
+        background: #d4af7a;
+        border-radius: 50%;
+        box-shadow: 0 0 0 3px rgba(212, 175, 122, 0.2);
+    }
+    
+    .timeline-item::after {
+        content: '';
+        position: absolute;
+        left: 5px;
+        top: 1.2rem;
+        bottom: -1rem;
+        width: 2px;
+        background: linear-gradient(to bottom, #d4af7a, #f0e6d2);
+    }
+    
+    .timeline-item:last-child::after {
+        display: none;
+    }
+    
+    /* Galería mejorada */
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .gallery-item {
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        aspect-ratio: 1;
+    }
+    
+    .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    
+    .gallery-item:hover img {
+        transform: scale(1.08);
+    }
+    
+    .gallery-item::after {
+        content: '🔍';
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+        background: rgba(0,0,0,0.7);
+        color: white;
+        padding: 8px 12px;
+        border-radius: 50%;
+        font-size: 16px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+    }
+    
+    .gallery-item:hover::after {
+        opacity: 1;
+    }
+    
+    /* Lightbox mejorado */
+    .lightbox {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.96);
+        z-index: 2000;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+    
+    .lightbox.active {
+        display: flex;
+    }
+    
+    .lightbox img {
+        max-width: 90%;
+        max-height: 90%;
+        border-radius: 20px;
+        box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        animation: zoomIn 0.3s ease;
+    }
+    
+    @keyframes zoomIn {
+        from {
+            transform: scale(0.9);
+            opacity: 0;
+        }
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+    
+    .lightbox-close {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        font-size: 40px;
+        color: white;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+    
+    .lightbox-close:hover {
+        transform: scale(1.1);
+    }
+    
+    /* Formularios */
+    input, select, textarea {
+        background: #fffdf9;
+        border: 1.5px solid #efdfbc;
+        border-radius: 16px;
+        padding: 0.9rem 1.2rem;
+        transition: all 0.2s;
+        width: 100%;
+        font-family: 'Montserrat', sans-serif;
+    }
+    
+    input:focus, select:focus, textarea:focus {
+        border-color: #c49a6c;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(196, 154, 108, 0.1);
+    }
+    
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #f5ede1; }
+    ::-webkit-scrollbar-thumb { background: #c49a6c; border-radius: 20px; }
+    
+    /* Animaciones */
+    .fade-up {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s ease;
+    }
+    
+    .fade-up.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    /* Botón música */
+    .music-float {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 60px;
+        height: 60px;
+        background: rgba(255, 250, 240, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 100;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        transition: all 0.3s ease;
+        border: 1px solid rgba(212, 175, 122, 0.5);
+    }
+    
+    .music-float:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 25px rgba(0,0,0,0.2);
+    }
+    
+    .music-float.pulsing {
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(212, 175, 122, 0.7); }
+        70% { box-shadow: 0 0 0 15px rgba(212, 175, 122, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(212, 175, 122, 0); }
+    }
+</style>
+</head>
+<body>
+
+<!-- Partículas flotantes -->
+<div class="floating-particles" id="particles"></div>
+
+<!-- Botón música -->
+<div class="music-float pulsing" id="musicBtn">
+    <i class="fas fa-music text-2xl" style="color: #c49a6c;"></i>
+</div>
+
+<audio id="bgMusic" loop preload="auto">
+    <source src="musica/cancion.mp3" type="audio/mpeg">
+</audio>
+
+<!-- SPLASH -->
+<div id="splash" class="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-[#2a241d] to-[#1a1612] transition-all duration-1000">
+    <div class="text-center px-6">
+        <i class="fas fa-heart text-6xl text-[#d4af7a] mb-6 animate-pulse"></i>
+        <h1 class="font-serif text-7xl md:text-8xl text-[#f5e6d3] mb-4">Emilio<br><span class="text-4xl">&</span><br>Luisa</h1>
+        <div class="divider-elegant mx-auto my-6"></div>
+        <p class="text-[#d4af7a] text-xl italic mb-8">"Dos almas, un mismo destino"</p>
+        <button id="openInvitation" class="btn-gold px-10 py-4 rounded-full text-lg font-semibold shadow-xl hover:scale-105 transition-transform">
+            <i class="fas fa-envelope-open-text mr-2"></i> Abrir invitación
+        </button>
+    </div>
+</div>
+
+<!-- CONTENIDO PRINCIPAL -->
+<main id="mainContent" class="opacity-0 invisible transition-all duration-1000">
+
+    <!-- HERO -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0">
+            <img src="imagenes/portada.jpg" class="w-full h-full object-cover brightness-90" alt="Portada" onerror="this.src='https://images.pexels.com/photos/2253870/pexels-photo-2253870.jpeg?auto=compress&cs=tinysrgb&w=1600'">
+            <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/40"></div>
+        </div>
+        <div class="relative z-10 text-center px-6 max-w-4xl">
+            <p class="text-amber-100 text-lg italic mb-4 reveal">Con la bendición de Dios y de nuestros padres</p>
+            <h1 class="font-serif text-7xl md:text-8xl text-white mb-4 reveal">Emilio <span class="text-5xl">&amp;</span> Luisa</h1>
+            <p class="text-amber-100 text-xl mb-6 reveal">Nos Casamos</p>
+            <p class="text-white text-2xl font-serif mb-12 reveal">05 · Diciembre · 2026</p>
+            
+            <div class="flex flex-wrap justify-center gap-4 mb-12" id="countdown">
+                <div class="countdown-box reveal"><span id="days" class="countdown-number block">00</span><span class="text-xs uppercase tracking-wide text-stone-600">Días</span></div>
+                <div class="countdown-box reveal"><span id="hours" class="countdown-number block">00</span><span class="text-xs uppercase tracking-wide text-stone-600">Horas</span></div>
+                <div class="countdown-box reveal"><span id="minutes" class="countdown-number block">00</span><span class="text-xs uppercase tracking-wide text-stone-600">Min</span></div>
+                <div class="countdown-box reveal"><span id="seconds" class="countdown-number block">00</span><span class="text-xs uppercase tracking-wide text-stone-600">Seg</span></div>
+            </div>
+            
+            <div class="animate-bounce">
+                <i class="fas fa-chevron-down text-white text-2xl"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRESENTACIÓN -->
+    <section class="py-20 px-6 max-w-3xl mx-auto text-center">
+        <div class="elegant-card p-10 reveal">
+            <div class="divider-elegant"></div>
+            <p class="text-stone-700 text-lg leading-relaxed mb-6">
+                Tenemos el honor de invitarte a nuestro enlace matrimonial, con la bendición de Dios y acompañados de nuestras familias. Será un día para celebrar el amor, la fe y el comienzo de nuestra vida juntos.
+            </p>
+            <div class="divider-elegant"></div>
+            <div class="grid md:grid-cols-2 gap-6 mt-6">
+                <div>
+                    <h3 class="font-serif text-2xl text-[#c49a6c] mb-2">Padres del novio</h3>
+                    <p class="text-stone-600">Carlos Restrepo<br>Mercedes Mejía</p>
+                </div>
+                <div>
+                    <h3 class="font-serif text-2xl text-[#c49a6c] mb-2">Padres de la novia</h3>
+                    <p class="text-stone-600">Andrés Vargas<br>Pilar Ardila</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALERÍA DE FOTOS (COMPLETA) -->
+    <section class="py-20 px-6 max-w-7xl mx-auto">
+        <h2 class="font-serif text-5xl text-center text-stone-800 mb-4 reveal">Nuestra Galería</h2>
+        <div class="divider-elegant mx-auto mb-12"></div>
+        
+        <div class="gallery-grid" id="gallery">
+            <!-- Fotos de muestra (reemplazar con tus imágenes) -->
+            <div class="gallery-item reveal">
+                <img src="imagenes/foto1.jpg" alt="Momento especial 1" onerror="this.src='https://images.pexels.com/photos/1024993/pexels-photo-1024993.jpeg?auto=compress&cs=tinysrgb&w=800'">
+            </div>
+            <div class="gallery-item reveal">
+                <img src="imagenes/foto2.jpg" alt="Momento especial 2" onerror="this.src='https://images.pexels.com/photos/2253870/pexels-photo-2253870.jpeg?auto=compress&cs=tinysrgb&w=800'">
+            </div>
+            <div class="gallery-item reveal">
+                <img src="imagenes/foto3.jpg" alt="Momento especial 3" onerror="this.src='https://images.pexels.com/photos/3670027/pexels-photo-3670027.jpeg?auto=compress&cs=tinysrgb&w=800'">
+            </div>
+            <div class="gallery-item reveal">
+                <img src="imagenes/foto4.jpg" alt="Momento especial 4" onerror="this.src='https://images.pexels.com/photos/3171810/pexels-photo-3171810.jpeg?auto=compress&cs=tinysrgb&w=800'">
+            </div>
+            <div class="gallery-item reveal">
+                <img src="imagenes/foto5.jpg" alt="Momento especial 5" onerror="this.src='https://images.pexels.com/photos/2162141/pexels-photo-2162141.jpeg?auto=compress&cs=tinysrgb&w=800'">
+            </div>
+            <div class="gallery-item reveal">
+                <img src="imagenes/foto6.jpg" alt="Momento especial 6" onerror="this.src='https://images.pexels.com/photos/1587013/pexels-photo-1587013.jpeg?auto=compress&cs=tinysrgb&w=800'">
+            </div>
+        </div>
+    </section>
+
+    <!-- NUESTRA HISTORIA -->
+    <section class="py-20 px-6 max-w-4xl mx-auto">
+        <h2 class="font-serif text-5xl text-center text-stone-800 mb-4 reveal">Nuestra Historia</h2>
+        <div class="divider-elegant mx-auto mb-12"></div>
+        
+        <div class="space-y-8">
+            <div class="timeline-item reveal">
+                <div class="text-[#c49a6c] font-semibold mb-1">Marzo 2019</div>
+                <h3 class="font-serif text-2xl text-stone-800 mb-2">Cómo nos conocimos</h3>
+                <p class="text-stone-600">Fue en la feria del pueblo, entre acordeones y luces cálidas. Una mirada bastó para que el resto del mundo dejara de existir.</p>
+            </div>
+            <div class="timeline-item reveal">
+                <div class="text-[#c49a6c] font-semibold mb-1">Mayo 2019</div>
+                <h3 class="font-serif text-2xl text-stone-800 mb-2">Nuestra primera cita</h3>
+                <p class="text-stone-600">Un café que se volvió tarde, risas que se volvieron horas. Esa noche supimos que esto apenas comenzaba.</p>
+            </div>
+            <div class="timeline-item reveal">
+                <div class="text-[#c49a6c] font-semibold mb-1">Febrero 2026</div>
+                <h3 class="font-serif text-2xl text-stone-800 mb-2">La propuesta</h3>
+                <p class="text-stone-600">Al atardecer, frente al campo dorado, una rodilla en tierra y una pregunta. Ella dijo «sí» antes de que él terminara.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENSAJE ESPIRITUAL -->
+    <section class="relative py-28 px-6 my-12 overflow-hidden">
+        <div class="absolute inset-0">
+            <img src="imagenes/iglesia.jpg" class="w-full h-full object-cover brightness-50" alt="Iglesia" onerror="this.style.display='none'">
+            <div class="absolute inset-0 bg-gradient-to-b from-black/60 to-black/60"></div>
+        </div>
+        <div class="relative z-10 text-center max-w-2xl mx-auto reveal">
+            <i class="fas fa-cross text-6xl text-[#d4af7a] mb-6"></i>
+            <p class="font-serif text-4xl text-white italic mb-4">«Lo que Dios ha unido, que no lo separe el hombre.»</p>
+            <p class="text-amber-200 text-xl">Mateo 19:6</p>
+        </div>
+    </section>
+
+    <!-- ITINERARIO -->
+    <section class="py-20 px-6 max-w-3xl mx-auto">
+        <h2 class="font-serif text-5xl text-center text-stone-800 mb-4 reveal">Itinerario</h2>
+        <div class="divider-elegant mx-auto mb-12"></div>
+        
+        <div class="space-y-6">
+            <div class="flex items-center justify-between p-4 elegant-card reveal">
+                <div class="text-center">
+                    <span class="font-serif text-3xl text-[#c49a6c]">1:00 PM</span>
+                    <p class="text-stone-700 font-semibold mt-1">Ceremonia Religiosa</p>
+                </div>
+                <i class="fas fa-church text-3xl text-[#d4af7a]"></i>
+            </div>
+            <div class="flex items-center justify-between p-4 elegant-card reveal">
+                <div class="text-center">
+                    <span class="font-serif text-3xl text-[#c49a6c]">3:00 PM</span>
+                    <p class="text-stone-700 font-semibold mt-1">Recepción · Cóctel</p>
+                </div>
+                <i class="fas fa-champagne-glasses text-3xl text-[#d4af7a]"></i>
+            </div>
+            <div class="flex items-center justify-between p-4 elegant-card reveal">
+                <div class="text-center">
+                    <span class="font-serif text-3xl text-[#c49a6c]">6:00 PM</span>
+                    <p class="text-stone-700 font-semibold mt-1">Cena & Brindis</p>
+                </div>
+                <i class="fas fa-utensils text-3xl text-[#d4af7a]"></i>
+            </div>
+            <div class="flex items-center justify-between p-4 elegant-card reveal">
+                <div class="text-center">
+                    <span class="font-serif text-3xl text-[#c49a6c]">8:00 PM</span>
+                    <p class="text-stone-700 font-semibold mt-1">Primer Baile & Fiesta</p>
+                </div>
+                <i class="fas fa-music text-3xl text-[#d4af7a]"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- UBICACIONES -->
+    <section class="py-20 px-6 max-w-5xl mx-auto">
+        <h2 class="font-serif text-5xl text-center text-stone-800 mb-4 reveal">Ubicaciones</h2>
+        <div class="divider-elegant mx-auto mb-12"></div>
+        
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="elegant-card p-6 text-center reveal">
+                <i class="fas fa-church text-4xl text-[#d4af7a] mb-4"></i>
+                <h3 class="font-serif text-3xl text-stone-800 mb-2">Ceremonia</h3>
+                <p class="text-stone-600 mb-3">Parroquia Nuestra Señora del Rosario</p>
+                <p class="text-[#c49a6c] font-semibold mb-4">Villa de Leyva, Boyacá · 1:00 PM</p>
+                <button onclick="window.open('https://www.google.com/maps/search/Parroquia+Villa+de+Leyva','_blank')" class="btn-gold px-6 py-2 rounded-full text-sm">
+                    <i class="fas fa-map-marker-alt mr-2"></i> Cómo llegar
+                </button>
+            </div>
+            <div class="elegant-card p-6 text-center reveal">
+                <i class="fas fa-glass-cheers text-4xl text-[#d4af7a] mb-4"></i>
+                <h3 class="font-serif text-3xl text-stone-800 mb-2">Recepción</h3>
+                <p class="text-stone-600 mb-3">Hacienda El Roble</p>
+                <p class="text-[#c49a6c] font-semibold mb-4">Km 4 vía Santa Sofía · 3:00 PM</p>
+                <button onclick="window.open('https://www.google.com/maps/search/Hacienda+El+Roble+Villa+de+Leyva','_blank')" class="btn-gold px-6 py-2 rounded-full text-sm">
+                    <i class="fas fa-map-marker-alt mr-2"></i> Cómo llegar
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CÓDIGO DE VESTIMENTA -->
+    <section class="py-20 px-6 max-w-3xl mx-auto">
+        <div class="elegant-card p-10 text-center reveal">
+            <i class="fas fa-tshirt text-4xl text-[#d4af7a] mb-4"></i>
+            <h2 class="font-serif text-4xl text-stone-800 mb-3">Código de Vestimenta</h2>
+            <p class="text-stone-600 mb-6">Formal campestre · vístete elegante y cómodo para celebrar al aire libre.</p>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <i class="fas fa-male text-2xl text-[#c49a6c] mb-2 block"></i>
+                    <h4 class="font-semibold text-stone-800">Caballeros</h4>
+                    <p class="text-stone-600 text-sm">Traje formal · lino o tonos tierra</p>
+                </div>
+                <div>
+                    <i class="fas fa-female text-2xl text-[#c49a6c] mb-2 block"></i>
+                    <h4 class="font-semibold text-stone-800">Damas</h4>
+                    <p class="text-stone-600 text-sm">Vestido largo · elegante</p>
+                </div>
+            </div>
+            <div class="mt-6 pt-6 border-t border-amber-200">
+                <p class="text-stone-500 text-sm">✨ Evitar blanco y marfil - reservados para la novia ✨</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- RSVP -->
+    <section class="py-20 px-6 max-w-2xl mx-auto" id="rsvp">
+        <div class="elegant-card p-10 reveal">
+            <h2 class="font-serif text-5xl text-center text-stone-800 mb-4">Confirma tu Asistencia</h2>
+            <div class="divider-elegant mx-auto mb-8"></div>
+            <p class="text-center text-stone-600 mb-8">Tu compañía es nuestro mejor regalo. Confirma antes del 1 de noviembre.</p>
+            
+            <form id="rsvpForm" class="space-y-5">
+                <input type="text" id="guestName" placeholder="Nombre completo" required>
+                <select id="guestCount" required>
+                    <option value="1">1 persona</option>
+                    <option value="2">2 personas</option>
+                    <option value="3">3 personas</option>
+                    <option value="4">4 personas</option>
+                    <option value="5">5+ personas</option>
+                </select>
+                <div class="flex gap-4">
+                    <label class="flex items-center gap-2"><input type="radio" name="attending" value="si" checked> <span>Sí, asistiré</span></label>
+                    <label class="flex items-center gap-2"><input type="radio" name="attending" value="no"> <span>No podré asistir</span></label>
+                </div>
+                <textarea id="guestMessage" rows="3" placeholder="Déjanos un mensaje de amor..."></textarea>
+                <button type="submit" class="btn-gold w-full py-4 rounded-full text-lg font-semibold">
+                    <i class="fab fa-whatsapp mr-2"></i> Confirmar por WhatsApp
+                </button>
+            </form>
+            <div id="rsvpSuccess" class="hidden mt-6 p-4 bg-green-50 text-green-800 rounded-2xl text-center">
+                ✨ ¡Gracias por confirmar! Serás parte de nuestro día especial. ✨
+            </div>
+        </div>
+    </section>
+
+    <!-- MENSAJES PARA LOS NOVIOS -->
+    <section class="py-20 px-6 max-w-3xl mx-auto">
+        <h2 class="font-serif text-5xl text-center text-stone-800 mb-4 reveal">💌 Mensajes para los Novios</h2>
+        <div class="divider-elegant mx-auto mb-12"></div>
+        
+        <form id="messageForm" class="mb-12 reveal">
+            <div class="grid md:grid-cols-2 gap-4 mb-4">
+                <input type="text" id="senderName" placeholder="Tu nombre" required>
+            </div>
+            <textarea id="senderMessage" rows="4" placeholder="Un deseo, un consejo, una bendición..." required class="mb-4"></textarea>
+            <button type="submit" class="btn-gold px-8 py-3 rounded-full"><i class="fas fa-paper-plane mr-2"></i> Enviar mensaje</button>
+        </form>
+        
+        <div id="messagesList" class="space-y-4">
+            <div class="p-6 elegant-card">
+                <p class="text-stone-600 italic mb-2">«Que su amor crezca como el campo en primavera. Los queremos.»</p>
+                <p class="text-[#c49a6c] text-sm">— Tía Beatriz</p>
+            </div>
+            <div class="p-6 elegant-card">
+                <p class="text-stone-600 italic mb-2">«Brindo por mil aventuras juntos. ¡Felicidades!»</p>
+                <p class="text-[#c49a6c] text-sm">— Andrés & Sofía</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRIVIA -->
+    <section class="py-20 px-6 max-w-2xl mx-auto">
+        <div class="elegant-card p-10 reveal">
+            <h2 class="font-serif text-4xl text-center text-stone-800 mb-4">💕 ¿Cuánto sabes de nosotros?</h2>
+            <div class="divider-elegant mx-auto mb-8"></div>
+            
+            <div id="trivia">
+                <p class="font-semibold text-stone-800 mb-4" id="triviaQuestion">¿Dónde nos conocimos?</p>
+                <div class="space-y-3 mb-6" id="triviaOptions">
+                    <button class="trivia-btn w-full text-left p-3 rounded-xl border-2 border-amber-200 hover:border-[#c49a6c] transition-colors" data-correct="false">En la universidad</button>
+                    <button class="trivia-btn w-full text-left p-3 rounded-xl border-2 border-amber-200 hover:border-[#c49a6c] transition-colors" data-correct="true">En una feria del pueblo</button>
+                    <button class="trivia-btn w-full text-left p-3 rounded-xl border-2 border-amber-200 hover:border-[#c49a6c] transition-colors" data-correct="false">En un concierto</button>
+                </div>
+                <div id="triviaResult" class="text-center text-[#c49a6c] font-serif italic"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-16 px-6 text-center bg-gradient-to-r from-stone-900 to-stone-800 text-white">
+        <p class="font-serif text-3xl mb-4">Emilio <span class="text-[#d4af7a]">&amp;</span> Luisa</p>
+        <div class="divider-elegant mx-auto"></div>
+        <p class="text-stone-300 mt-6">05 · Diciembre · 2026 · Villa de Leyva</p>
+        <p class="text-stone-400 text-sm mt-4">Con amor, para toda la vida ❤</p>
+    </footer>
+
+</main>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+    <span class="lightbox-close">&times;</span>
+    <img id="lightboxImg" src="" alt="Imagen ampliada">
+</div>
+
+<script>
+    // PARTÍCULAS FLOTANTES
+    const particlesDiv = document.getElementById('particles');
+    const symbols = ['❤', '🌸', '✨', '🌹', '💕', '⭐', '🕊️'];
+    
+    function createParticle() {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.fontSize = (Math.random() * 20 + 12) + 'px';
+        particle.style.animationDuration = (Math.random() * 6 + 5) + 's';
+        particle.style.animationDelay = Math.random() * 5 + 's';
+        particlesDiv.appendChild(particle);
+        setTimeout(() => particle.remove(), 10000);
+    }
+    
+    setInterval(createParticle, 300);
+    
+    // CONTADOR
+    function updateCountdown() {
+        const target = new Date("December 5, 2026 13:00:00").getTime();
+        const now = new Date().getTime();
+        const diff = target - now;
+        
+        if(diff > 0) {
+            document.getElementById('days').innerText = Math.floor(diff / 86400000);
+            document.getElementById('hours').innerText = Math.floor((diff % 86400000) / 3600000).toString().padStart(2,'0');
+            document.getElementById('minutes').innerText = Math.floor((diff % 3600000) / 60000).toString().padStart(2,'0');
+            document.getElementById('seconds').innerText = Math.floor((diff % 60000) / 1000).toString().padStart(2,'0');
+        }
+    }
+    
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+    
+    // MÚSICA - CORREGIDA
+    const audio = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicBtn');
+    let isPlaying = false;
+    let musicIcon = musicBtn.querySelector('i');
+    let musicStarted = false;
+    
+    function playMusic() {
+        audio.play().then(() => {
+            isPlaying = true;
+            musicIcon.className = 'fas fa-pause text-2xl';
+            musicBtn.classList.remove('pulsing');
+            console.log('Música reproduciéndose');
+        }).catch(error => {
+            console.log('Error al reproducir música:', error);
+            // Intento alternativo
+            audio.volume = 0.5;
+            audio.play().catch(e => console.log('Necesita interacción del usuario'));
+        });
+    }
+    
+    musicBtn.addEventListener('click', () => {
+        if(isPlaying) {
+            audio.pause();
+            musicIcon.className = 'fas fa-music text-2xl';
+            isPlaying = false;
+        } else {
+            playMusic();
+        }
+    });
+    
+    // SPLASH Y TRANSICIÓN
+    const splash = document.getElementById('splash');
+    const mainContent = document.getElementById('mainContent');
+    const openBtn = document.getElementById('openInvitation');
+    
+    openBtn.addEventListener('click', () => {
+        splash.style.opacity = '0';
+        splash.style.visibility = 'hidden';
+        mainContent.classList.remove('opacity-0', 'invisible');
+        mainContent.style.opacity = '1';
+        mainContent.style.visibility = 'visible';
+        
+        // Iniciar música después de la interacción del usuario
+        setTimeout(() => {
+            playMusic();
+        }, 500);
+        
+        // Animación de entrada
+        gsap.fromTo(mainContent, 
+            { opacity: 0, y: 30 }, 
+            { opacity: 1, y: 0, duration: 1, ease: "power3.out" }
+        );
+    });
+    
+    // REVEAL AL SCROLL
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    reveals.forEach(el => {
+        el.classList.add('fade-up');
+        observer.observe(el);
+    });
+    
+    // GALERÍA Y LIGHTBOX
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxClose = document.querySelector('.lightbox-close');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    
+    galleryItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const img = item.querySelector('img');
+            lightboxImg.src = img.src;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+    
+    function closeLightbox() {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => {
+        if(e.target === lightbox) closeLightbox();
+    });
+    
+    // ESC para cerrar lightbox
+    document.addEventListener('keydown', (e) => {
+        if(e.key === 'Escape' && lightbox.classList.contains('active')) {
+            closeLightbox();
+        }
+    });
+    
+    // RSVP
+    const rsvpForm = document.getElementById('rsvpForm');
+    const rsvpSuccess = document.getElementById('rsvpSuccess');
+    
+    rsvpForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('guestName').value;
+        const attending = document.querySelector('input[name="attending"]:checked').value;
+        const count = document.getElementById('guestCount').value;
+        const message = document.getElementById('guestMessage').value;
+        
+        let whatsappMsg = `Hola, soy ${name}. `;
+        if(attending === 'si') {
+            whatsappMsg += `Confirmo mi asistencia a la boda. Acompañado de ${count} persona(s). `;
+        } else {
+            whatsappMsg += `Lamentablemente no podré asistir a la boda. `;
+        }
+        if(message) whatsappMsg += `Mensaje: ${message}`;
+        
+        // Número de WhatsApp (reemplazar con el número real)
+        window.open(`https://wa.me/573123456789?text=${encodeURIComponent(whatsappMsg)}`, '_blank');
+        
+        rsvpSuccess.classList.remove('hidden');
+        rsvpForm.reset();
+        setTimeout(() => rsvpSuccess.classList.add('hidden'), 5000);
+    });
+    
+    // MENSAJES
+    const messageForm = document.getElementById('messageForm');
+    const messagesList = document.getElementById('messagesList');
+    let messages = JSON.parse(localStorage.getItem('wedding_messages_emilio')) || [];
+    
+    function displayMessages() {
+        if(messages.length === 0) return;
+        messagesList.innerHTML = messages.slice(-5).reverse().map(msg => `
+            <div class="p-6 elegant-card">
+                <p class="text-stone-600 italic mb-2">«${escapeHtml(msg.message)}»</p>
+                <p class="text-[#c49a6c] text-sm">— ${escapeHtml(msg.name)}</p>
+            </div>
+        `).join('');
+    }
+    
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if(m === '&') return '&amp;';
+            if(m === '<') return '&lt;';
+            if(m === '>') return '&gt;';
+            return m;
+        }).substring(0, 500);
+    }
+    
+    messageForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('senderName').value.trim();
+        const message = document.getElementById('senderMessage').value.trim();
+        
+        if(!name || !message) {
+            alert('Por favor completa todos los campos');
+            return;
+        }
+        
+        messages.push({ name, message, date: new Date().toISOString() });
+        // Limitar a 50 mensajes
+        if(messages.length > 50) messages = messages.slice(-50);
+        localStorage.setItem('wedding_messages_emilio', JSON.stringify(messages));
+        displayMessages();
+        messageForm.reset();
+        alert('✨ ¡Mensaje enviado con amor! ✨');
+    });
+    
+    displayMessages();
+    
+    // TRIVIA
+    const triviaBtns = document.querySelectorAll('.trivia-btn');
+    const triviaResult = document.getElementById('triviaResult');
+    let currentQuestion = 0;
+    const questions = [
+        {
+            text: "¿Dónde nos conocimos?",
+            options: ["En la universidad", "En una feria del pueblo", "En un concierto"],
+            correct: 1
+        },
+        {
+            text: "¿Cuál fue nuestra primera cita?",
+            options: ["Un café", "Una cena", "Un paseo por el parque"],
+            correct: 0
+        },
+        {
+            text: "¿Dónde fue la propuesta de matrimonio?",
+            options: ["En un restaurante", "En la playa", "Al atardecer en el campo"],
+            correct: 2
+        }
+    ];
+    
+    function loadQuestion(index) {
+        if(index >= questions.length) {
+            triviaResult.innerHTML = '🎉 ¡Eres un experto en nuestra historia! 🎉';
+            return;
+        }
+        const q = questions[index];
+        document.getElementById('triviaQuestion').innerText = q.text;
+        const optsDiv = document.getElementById('triviaOptions');
+        optsDiv.innerHTML = q.options.map((opt, i) => `
+            <button class="trivia-btn w-full text-left p-3 rounded-xl border-2 border-amber-200 hover:border-[#c49a6c] transition-colors" data-correct="${i === q.correct}">
+                ${opt}
+            </button>
+        `).join('');
+        
+        // Re-asignar eventos
+        document.querySelectorAll('#triviaOptions .trivia-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const isCorrect = btn.dataset.correct === 'true';
+                if(isCorrect) {
+                    triviaResult.innerHTML = '🌟 ¡Correcto! 🌟';
+                    triviaResult.style.color = '#4a7c59';
+                    currentQuestion++;
+                    setTimeout(() => {
+                        triviaResult.innerHTML = '';
+                        loadQuestion(currentQuestion);
+                    }, 1500);
+                } else {
+                    triviaResult.innerHTML = '💕 ¡Intenta de nuevo! 💕';
+                    triviaResult.style.color = '#c49a6c';
+                    setTimeout(() => triviaResult.innerHTML = '', 2000);
+                }
+            });
+        });
+    }
+    
+    loadQuestion(0);
+    
+    // GSAP ANIMACIONES
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.utils.toArray('.elegant-card').forEach(card => {
+        gsap.fromTo(card, 
+            { opacity: 0, y: 40 },
+            { opacity: 1, y: 0, duration: 0.8, scrollTrigger: { trigger: card, start: "top 85%" } }
+        );
+    });
+    
+    // Precarga de imágenes
+    console.log('Invitación lista - Música y galería funcionando correctamente');
+</script>
+</body>
+</html>
