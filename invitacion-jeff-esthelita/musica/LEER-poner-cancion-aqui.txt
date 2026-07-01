@@ -1,0 +1,7 @@
+Coloca aquí su canción especial con el nombre EXACTO:
+
+   cancion.mp3
+
+(es decir: musica/cancion.mp3)
+
+Si quieres otro nombre, edita la línea <source src="musica/cancion.mp3"> en index.html.

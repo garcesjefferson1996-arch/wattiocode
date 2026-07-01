@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+<title>Nebula Coffee Lab · Menú Digital Premium</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  /* ========== RESET & VARIABLES ========== */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --negro: #0A0A0A;
+    --negro-suave: #111111;
+    --blanco: #FFFFFF;
+    --gris-sutil: #F5F5F5;
+    --dorado: #D4AF37;
+    --dorado-soft: rgba(212, 175, 55, 0.15);
+    --dorado-glow: rgba(212, 175, 55, 0.3);
+    --serif: 'Cormorant Garamond', serif;
+    --sans: 'Inter', sans-serif;
+    --transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+  }
+
+  body {
+    background-color: var(--negro);
+    font-family: var(--sans);
+    color: var(--blanco);
+    overflow-x: hidden;
+  }
+
+  /* Contenedor principal estilo app nativa */
+  .app-container {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: var(--negro);
+    position: relative;
+    min-height: 100vh;
+    box-shadow: 0 0 40px rgba(0,0,0,0.6);
+  }
+
+  /* ========== EFECTOS AMBIENTALES ========== */
+  .ambient {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    background: radial-gradient(circle at 20% 30%, rgba(212,175,55,0.03) 0%, transparent 70%);
+  }
+
+  /* ========== BOTÓN MÚSICA (opcional premium) ========== */
+  .music-btn {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(212,175,55,0.4);
+    color: var(--dorado);
+    cursor: pointer;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+  .music-btn:hover {
+    transform: scale(1.05);
+    border-color: var(--dorado);
+  }
+  .music-btn svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* ========== HEADER / HERO PREMIUM ========== */
+  .hero {
+    position: relative;
+    width: 100%;
+    height: 420px;
+    overflow: hidden;
+    border-radius: 0 0 36px 36px;
+  }
+  .hero__bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .hero__bg .photo {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center 30%;
+    transform: scale(1);
+    transition: transform 0.2s ease-out;
+  }
+  .hero__veil {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(10,10,10,0.85) 90%);
+  }
+  .hero__inner {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 30px 24px 40px;
+  }
+  .hero__badge {
+    display: inline-block;
+    background: rgba(212,175,55,0.2);
+    backdrop-filter: blur(8px);
+    padding: 6px 16px;
+    border-radius: 40px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    color: var(--dorado);
+    width: fit-content;
+    margin-bottom: 12px;
+    border: 0.5px solid rgba(212,175,55,0.3);
+  }
+  .hero h1 {
+    font-size: 2.6rem;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    font-family: var(--serif);
+    margin-bottom: 8px;
+  }
+  .hero__desc {
+    font-size: 0.9rem;
+    color: #DDD;
+    font-weight: 400;
+    opacity: 0.9;
+  }
+
+  /* Scroll hint elegante */
+  .scroll-hint {
+    position: absolute;
+    bottom: 16px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    z-index: 3;
+  }
+  .chev {
+    width: 20px;
+    height: 20px;
+    animation: bounce 1.5s infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); opacity: 0.6; }
+    50% { transform: translateY(6px); opacity: 1; }
+  }
+
+  /* ========== REVEAL ANIMATIONS ========== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal.d1 { transition-delay: 0.08s; }
+  .reveal.d2 { transition-delay: 0.16s; }
+  .reveal.d3 { transition-delay: 0.24s; }
+
+  /* ========== CATEGORÍAS STICKY ========== */
+  .categories-bar {
+    position: sticky;
+    top: 0;
+    background: rgba(10, 10, 10, 0.94);
+    backdrop-filter: blur(16px);
+    z-index: 50;
+    padding: 14px 20px;
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    border-bottom: 0.5px solid rgba(212,175,55,0.2);
+  }
+  .categories-bar::-webkit-scrollbar {
+    display: none;
+  }
+  .cat-btn {
+    background: transparent;
+    border: none;
+    color: #B0B0B0;
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 0.85rem;
+    padding: 8px 18px;
+    border-radius: 40px;
+    transition: var(--transition);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .cat-btn.active {
+    background: var(--dorado);
+    color: var(--negro);
+    font-weight: 600;
+    box-shadow: 0 2px 12px rgba(212,175,55,0.4);
+  }
+
+  /* ========== SECCIONES DEL MENÚ ========== */
+  .menu-section {
+    padding: 8px 20px 40px;
+  }
+  .cat-products {
+    margin-bottom: 48px;
+    scroll-margin-top: 80px;
+  }
+  .cat-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    font-family: var(--serif);
+    margin: 20px 0 20px 0;
+    display: inline-block;
+    border-bottom: 2px solid var(--dorado);
+    padding-bottom: 4px;
+    letter-spacing: -0.2px;
+  }
+
+  /* Tarjetas de productos (premium) */
+  .product-card {
+    background: var(--negro-suave);
+    border-radius: 24px;
+    margin-bottom: 14px;
+    display: flex;
+    gap: 16px;
+    padding: 14px;
+    transition: var(--transition);
+    border: 1px solid rgba(255,255,255,0.06);
+    cursor: pointer;
+  }
+  .product-card:hover {
+    background: #1A1A1A;
+    transform: translateX(4px);
+    border-color: rgba(212,175,55,0.3);
+  }
+  .product-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    object-fit: cover;
+  }
+  .product-info {
+    flex: 1;
+  }
+  .product-info h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+  }
+  .product-desc {
+    font-size: 0.72rem;
+    color: #AAAAAA;
+    margin: 5px 0;
+    line-height: 1.35;
+  }
+  .product-price {
+    font-weight: 700;
+    color: var(--dorado);
+    font-size: 0.9rem;
+  }
+
+  /* ========== POPULARES (destacados) ========== */
+  .popular-section {
+    padding: 28px 20px 12px;
+  }
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 18px;
+  }
+  .section-header h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, #FFF 0%, var(--dorado) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+  .popular-grid {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 8px;
+  }
+  .popular-grid::-webkit-scrollbar {
+    display: none;
+  }
+  .popular-card {
+    flex: 0 0 200px;
+    background: linear-gradient(145deg, #121212, #0A0A0A);
+    border-radius: 28px;
+    padding: 16px;
+    scroll-snap-align: start;
+    border: 1px solid rgba(212,175,55,0.25);
+    transition: var(--transition);
+  }
+  .popular-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--dorado);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.4);
+  }
+  .popular-img {
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+  .popular-card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  .popular-card .price {
+    color: var(--dorado);
+    font-weight: 700;
+    margin-top: 6px;
+  }
+
+  /* ========== PROMO BANNER ========== */
+  .promo-banner {
+    margin: 12px 20px 28px;
+    background: linear-gradient(125deg, #1E1A10 0%, #2C2618 100%);
+    border-radius: 28px;
+    padding: 20px;
+    border-left: 5px solid var(--dorado);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  }
+  .promo-text h4 {
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    color: var(--dorado);
+  }
+  .promo-text h3 {
+    font-size: 1.2rem;
+    margin: 6px 0;
+  }
+  .promo-price {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--dorado);
+  }
+  .promo-badge {
+    background: var(--dorado);
+    padding: 4px 10px;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #0A0A0A;
+  }
+
+  /* ========== INFO LOCAL ========== */
+  .local-info {
+    margin: 20px 20px 40px;
+    background: #0E0E0E;
+    border-radius: 28px;
+    padding: 24px;
+    border-top: 1px solid rgba(212,175,55,0.3);
+  }
+  .local-info h3 {
+    font-size: 1.2rem;
+    font-family: var(--serif);
+    margin-bottom: 16px;
+  }
+  .hours {
+    margin-top: 14px;
+    border-left: 2px solid var(--dorado);
+    padding-left: 14px;
+    font-size: 0.8rem;
+    line-height: 1.6;
+  }
+
+  /* ========== BOTÓN WHATSAPP FLOTANTE ========== */
+  .whatsapp-float {
+    position: fixed;
+    bottom: 24px;
+    right: 20px;
+    background: #25D366;
+    padding: 12px 24px;
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+    z-index: 99;
+    box-shadow: 0 6px 20px rgba(37,211,102,0.3);
+    transition: var(--transition);
+  }
+  .whatsapp-float i {
+    font-size: 1.3rem;
+  }
+  .whatsapp-float:hover {
+    transform: scale(1.02);
+    background: #20b859;
+  }
+
+  /* ========== FOOTER ========== */
+  .footer {
+    text-align: center;
+    padding: 30px 20px 40px;
+    border-top: 0.5px solid rgba(212,175,55,0.2);
+    margin-top: 20px;
+  }
+  .footer p {
+    color: #888;
+    font-size: 0.75rem;
+  }
+  .footer .sign {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    color: var(--dorado);
+    margin: 12px 0;
+  }
+
+  /* ========== MICROINTERACCIONES ========== */
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .product-card {
+    animation: fadeSlide 0.4s ease forwards;
+    opacity: 0;
+  }
+  .product-card:nth-child(1) { animation-delay: 0.02s; }
+  .product-card:nth-child(2) { animation-delay: 0.06s; }
+  .product-card:nth-child(3) { animation-delay: 0.1s; }
+  .product-card:nth-child(4) { animation-delay: 0.14s; }
+</style>
+</head>
+<body>
+<div class="ambient"></div>
+
+<!-- Botón de música ambiente (opcional elegante) -->
+<button class="music-btn" id="musicBtn" aria-label="Ambient music">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+    <path d="M9 18V5l10-1v12"/>
+    <circle cx="7" cy="18" r="2"/>
+    <circle cx="17" cy="16" r="2"/>
+  </svg>
+</button>
+
+<div class="app-container">
+  <!-- Hero / Portada premium -->
+  <section class="hero">
+    <div class="hero__bg">
+      <div class="photo" style="background-image: url('https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=1200');" id="heroImg"></div>
+    </div>
+    <div class="hero__veil"></div>
+    <div class="hero__inner">
+      <div class="hero__badge reveal in">✦ SPECIALTY COFFEE LAB</div>
+      <h1 class="reveal in d1">Nebula Coffee Lab</h1>
+      <p class="hero__desc reveal in d2">Café de especialidad y repostería artesanal.</p>
+    </div>
+    <div class="scroll-hint">
+      <span>Explorar menú</span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m6 9 6 6 6-6"/></svg>
+    </div>
+  </section>
+
+  <!-- Categorías fijas -->
+  <div class="categories-bar" id="categoriesBar">
+    <button class="cat-btn active" data-cat="cafes">☕ Cafés</button>
+    <button class="cat-btn" data-cat="postres">🍰 Postres</button>
+    <button class="cat-btn" data-cat="snacks">🥪 Snacks</button>
+    <button class="cat-btn" data-cat="bebidas">🧊 Bebidas Frías</button>
+  </div>
+
+  <!-- Sección Más Populares (destacados) -->
+  <div class="popular-section">
+    <div class="section-header">
+      <h2><span>✦ Más Populares</span></h2>
+      <span style="font-size:0.7rem; color:var(--dorado);">Lo más pedido</span>
+    </div>
+    <div class="popular-grid">
+      <div class="popular-card">
+        <img class="popular-img" src="https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Cappuccino Nebula">
+        <h3>Cappuccino Nebula</h3>
+        <div class="price">$4.25</div>
+      </div>
+      <div class="popular-card">
+        <img class="popular-img" src="https://images.pexels.com/photos/2253589/pexels-photo-2253589.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Mocha Galaxy">
+        <h3>Mocha Galaxy</h3>
+        <div class="price">$5.25</div>
+      </div>
+      <div class="popular-card">
+        <img class="popular-img" src="https://images.pexels.com/photos/291528/pexels-photo-291528.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Cheesecake">
+        <h3>Cheesecake Maracuyá</h3>
+        <div class="price">$4.75</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Promo destacada -->
+  <div class="promo-banner reveal">
+    <div class="promo-text">
+      <h4>🔥 PROMOCIÓN DEL DÍA</h4>
+      <h3>Combo Cappuccino + Croissant</h3>
+      <span class="promo-badge">Ahorra 20%</span>
+    </div>
+    <div class="promo-price">$5.99</div>
+  </div>
+
+  <!-- MENÚ COMPLETO (productos) -->
+  <div class="menu-section" id="menuContainer">
+    <!-- CAFÉS -->
+    <div id="cafes" class="cat-products" data-category="cafes">
+      <div class="cat-title">Cafés Especiales</div>
+      <div class="product-card"><img class="product-img" src="https://images.pexels.com/photos/851555/pexels-photo-851555.jpeg?auto=compress&cs=tinysrgb&w=200"><div class="product-info"><h3>Espresso Supremo</h3><div class="product-desc">Café arábica de altura con notas de chocolate negro.</div><div class="product-price">$2.50</div></div></div>
+      <div class="product-card"><img class="product-img" src="https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=200"><div class="product-info"><h3>Cappuccino Nebula</h3><div class="product-desc">Espresso doble con espuma cremosa y canela.</div><div class="product-price">$4.25</div></div></div>
+      <div class="product-card"><img class="product-img" src="https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=200"><div class="product-info"><h3>Latte Vainilla</h3><div class="product-desc">Latte artesanal con esencia natural de vainilla.</div><div class="product-price">$4.50</div></div></div>
+      <div class="product-card"><img class="product-img" src="https://images.pexels.com/photos/2253589/pexels-photo-2253589.jpeg?auto=compress&cs=tinysrgb&w=200"><div class="product-info"><h3>Mocha Galaxy</h3><div class="product-desc">Café, chocolate belga y crema batida.</div><div class="product-price">$5.25</div></div></div>
+    </div>
+
+    <!-- POSTRES -->
+    <div id="postres" class="cat-products" data-category="postres">
+      <div class="cat-title">Postres</div>
+      <div class="product-card"><img class="product-img" src="https://images.pexels.com/photos/291528/pexels-photo-291528.jpeg?auto=compress&cs=tinysrgb&w=200"><div class="product-info"><h3>Cheesecake de Maracuyá</h3><div class="product-desc">Suave textura con toque cítrico.</div><div class="product-price">$4.75</div></div></div>
+      <div class="product-card"><img class="product-img" src="https://images.pexels.com/photos/45202/brownie-dessert-cake-sweet-45202.jpeg?auto=compress&cs=tinysrgb&w=200"><div class="product-info"><h3>Brownie Triple Chocolate</h3><div class="product-desc">Intenso chocolate belga y nueces.</div><div class="product-price">$3.90</div></div></div>
+      <div class="product-card"><img class="product-img" src="https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&w=200"><div class="product-info"><h3>Tarta de Frutos Rojos</h3><div class="product-desc">Frutas silvestres y crema de almendras.</div><div class="product-price">$4.50</div></div></div>
+      <div class="product-card"><img class="product-img" src="https://images.pexels.com/photos/585750/pexels-photo-585750.jpeg?auto=compress&cs=tinysrgb&w=200"><div class="product-info"><h3>Croissant Artesanal</h3><div class="product-desc">Hojaldre crujiente, mantequilla francesa.</div><div class="product-price">$2.80</div></div></div>
+    </div>
+
+    <!-- SNACKS -->
+    <div id="snacks" class="cat-products" data-category="snacks">
+      <div class="cat-title">Snacks</div>
+      <div class="product-card"><img class="product-img" src="https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&w=200"><div class="product-info"><h3>Sandwich Mediterráneo</h3><div class="product-desc">Pan rústico, queso feta, aceitunas y pesto.</div><div class="product-price">$6.50</div></div></div>
+      <div class="product-card"><img class="product-img" src="https://images.pexels.com/photos/1400314/pexels-photo-1400314.jpeg?auto=compress&cs=tinysrgb&w=200"><div class="product-info"><h3>Panini de Pollo</h3><div class="product-desc">Pollo desmenuzado y queso derretido.</div><div class="product-price">$7.20</div></div></div>
+      <div class="product-card"><img class="product-img" src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=200"><div class="product-info"><h3>Wrap César</h3><div class="product-desc">Pollo, lechuga, parmesano y aderezo césar.</div><div class="product-price">$6.90</div></div></div>
+    </div>
+
+    <!-- BEBIDAS FRÍAS -->
+    <div id="bebidas" class="cat-products" data-category="bebidas">
+      <div class="cat-title">Bebidas Frías</div>
+      <div class="product-card"><img class="product-img" src="https://images.pexels.com/photos/1604651/pexels-photo-1604651.jpeg?auto=compress&cs=tinysrgb&w=200"><div class="product-info"><h3>Frappé Oreo</h3><div class="product-desc">Cremoso frappé con trozos de galleta Oreo.</div><div class="product-price">$5.90</div></div></div>
+      <div class="product-card"><img class="product-img" src="https://images.pexels.com/photos/2280545/pexels-photo-2280545.jpeg?auto=compress&cs=tinysrgb&w=200"><div class="product-info"><h3>Cold Brew</h3><div class="product-desc">Extracción en frío por 12 horas, sabor suave.</div><div class="product-price">$4.75</div></div></div>
+      <div class="product-card"><img class="product-img" src="https://images.pexels.com/photos/994523/pexels-photo-994523.jpeg?auto=compress&cs=tinysrgb&w=200"><div class="product-info"><h3>Smoothie Tropical</h3><div class="product-desc">Mango, piña y leche de coco.</div><div class="product-price">$5.50</div></div></div>
+    </div>
+  </div>
+
+  <!-- Información del local -->
+  <div class="local-info reveal">
+    <h3><span style="color:var(--dorado);">✦</span> Nebula Coffee Lab</h3>
+    <p>📍 Av. Los Cafetales 123, Ambato</p>
+    <div class="hours">
+      🕒 Lunes a Viernes: 07:00 - 21:00<br>
+      🕒 Sábado: 08:00 - 22:00<br>
+      🕒 Domingo: 08:00 - 18:00
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>☕ Café de especialidad · Hecho con dedicación</p>
+    <div class="sign">Nebula Coffee Lab ✦</div>
+    <p>Escanea el QR desde tu mesa para una experiencia premium</p>
+  </footer>
+</div>
+
+<!-- Botón flotante WhatsApp -->
+<a href="https://wa.me/593987654321?text=Hola%20Nebula%20Lab!%20Quisiera%20hacer%20un%20pedido%20desde%20el%20men%C3%BA%20digital" target="_blank" class="whatsapp-float">
+  <i>📱</i> <span>Hacer Pedido</span>
+</a>
+
+<script>
+  // Smooth scroll y categorías interactivas
+  const catBtns = document.querySelectorAll('.cat-btn');
+  const sections = {
+    cafes: document.getElementById('cafes'),
+    postres: document.getElementById('postres'),
+    snacks: document.getElementById('snacks'),
+    bebidas: document.getElementById('bebidas')
+  };
+
+  function updateActive(categoryId) {
+    catBtns.forEach(btn => {
+      if(btn.getAttribute('data-cat') === categoryId) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+  }
+
+  function scrollToCategory(categoryId) {
+    const target = sections[categoryId];
+    if(target) {
+      const offset = target.offsetTop - 80;
+      window.scrollTo({ top: offset, behavior: 'smooth' });
+      updateActive(categoryId);
+    }
+  }
+
+  catBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cat = btn.getAttribute('data-cat');
+      scrollToCategory(cat);
+    });
+  });
+
+  // Intersection Observer para cambiar el botón activo al hacer scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting) {
+        const category = entry.target.getAttribute('data-category');
+        if(category) updateActive(category);
+      }
+    });
+  }, { threshold: 0.45, rootMargin: "-70px 0px -30% 0px" });
+
+  Object.values(sections).forEach(sec => {
+    if(sec) observer.observe(sec);
+  });
+
+  // Efecto parallax suave en hero
+  const heroPhoto = document.querySelector('.hero__bg .photo');
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    if(heroPhoto && scrolled < 400) {
+      heroPhoto.style.transform = `translateY(${scrolled * 0.2}px) scale(1.02)`;
+    } else if(heroPhoto && scrolled >= 400) {
+      heroPhoto.style.transform = `translateY(0px) scale(1)`;
+    }
+  });
+
+  // Reveal on scroll (adicional a animaciones iniciales)
+  const revealElements = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting) {
+        entry.target.classList.add('in');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  revealElements.forEach(el => revealObserver.observe(el));
+
+  // Microinteracciones en cards y botones
+  document.querySelectorAll('.product-card, .popular-card').forEach(card => {
+    card.addEventListener('click', () => {
+      // efecto sutil elegante (podría abrir modal o simplemente retroalimentación)
+      card.style.transform = 'scale(0.98)';
+      setTimeout(() => { card.style.transform = ''; }, 120);
+    });
+  });
+
+  // música ambiente (opcional - se carga solo si el usuario interactúa)
+  let audio = null;
+  const musicBtn = document.getElementById('musicBtn');
+  let isPlaying = false;
+  musicBtn.addEventListener('click', () => {
+    if(!audio) {
+      audio = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
+      audio.loop = true;
+      audio.volume = 0.2;
+    }
+    if(isPlaying) {
+      audio.pause();
+      musicBtn.style.opacity = '0.6';
+    } else {
+      audio.play().catch(e => console.log('Audio necesita interacción'));
+      musicBtn.style.opacity = '1';
+    }
+    isPlaying = !isPlaying;
+  });
+
+  // Efecto hover elegante en escritorio (confirmado)
+  console.log('Menú digital Nebula Coffee Lab — experiencia premium QR lista');
+</script>
+</body>
+</html>

@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jeff &amp; Esthelita · Nuestra Boda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+<body class="locked">
+
+<div class="ambient"></div>
+
+<!-- Capa de efectos (pétalos / partículas) -->
+<div class="fx-layer" id="fx"></div>
+
+<!-- Audio de fondo (pega aquí el enlace de tu canción especial) -->
+<audio id="bgm" loop preload="none">
+  <source src="musica/cancion.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Botón flotante de música -->
+<button class="music-btn" id="musicBtn" aria-label="Activar o silenciar música" hidden>
+  <svg id="icSound" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+  <svg id="icMute" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5 6 9H2v6h4l5 4z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg>
+</button>
+
+<main class="shell">
+
+  <!-- ============================ PORTADA ============================ -->
+  <section class="hero" data-screen-label="Portada">
+    <div class="hero__bg">
+      <div class="photo" style="background-image:url('imagenes/portada.png')"></div>
+    </div>
+    <div class="hero__veil"></div>
+    <div class="hero__inner">
+      <p class="hero__bless reveal in">Con la bendición de Dios<br>y de nuestros padres</p>
+      <div class="hero__names reveal in d1">
+        <span class="nm">Jeff</span>
+        <span class="y">&amp;</span>
+        <span class="nm" style="text-align: center; font-weight: 400; width: 398px">Esthelita</span>
+      </div>
+      <p class="hero__sub reveal in d2" style="width: 420px">Nos Casamos</p>
+      <p class="hero__date reveal in d2">22 · 08 · 2026</p>
+
+      <div class="count reveal in d3" id="count">
+        <div class="cell"><div class="n" id="cd-d">00</div><div class="l">Días</div></div>
+        <div class="cell"><div class="n" id="cd-h">00</div><div class="l">Horas</div></div>
+        <div class="cell"><div class="n" id="cd-m">00</div><div class="l">Min</div></div>
+        <div class="cell"><div class="n" id="cd-s">00</div><div class="l">Seg</div></div>
+      </div>
+
+      <button class="hero__cta" id="openBtn">✦ &nbsp;Abrir Invitación&nbsp; ✦</button>
+    </div>
+    <div class="scroll-hint">
+      <span>Desliza</span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 9 6 6 6-6"/></svg>
+    </div>
+  </section>
+
+  <!-- App: todo lo que aparece tras "Abrir Invitación" -->
+  <div class="app hidden-pre" id="app">
+
+  <!-- ======================= PRESENTACIÓN ======================= -->
+  <section class="sec intro" data-screen-label="Presentacion">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Nuestra Boda</span>
+      <div class="divider"><span class="ln"></span><span class="dot"></span><span class="ln"></span></div>
+    </div>
+    <p class="body reveal" style="text-align:center; max-width:380px; margin:0 auto;">
+      Tenemos el honor de invitarte a nuestro enlace matrimonial, con la bendición de Dios y acompañados de nuestras familias. Será un día para celebrar el amor, la fe y el comienzo de nuestra vida juntos.
+    </p>
+
+    <div class="parents reveal">
+      <div>
+        <h4>Padres del novio</h4>
+        <p>Alexandra<br>Iván</p>
+      </div>
+      <div>
+        <h4>Padres de la novia</h4>
+        <p>María<br>Iván</p>
+      </div>
+    </div>
+
+    <div class="divider" style="margin-top:34px;"><span class="ln"></span><span class="dot"></span><span class="ln"></span></div>
+    <p class="eyebrow reveal" style="text-align:center; display:block;">Música para acompañar este momento</p>
+    <div class="play reveal" id="introPlay" title="Reproducir música">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M8 5v14l11-7z"/></svg>
+    </div>
+    <p class="reveal" style="text-align:center; font-family:var(--script); font-size:30px; color:var(--dorado); margin-top:14px;">Nuestra canción especial</p>
+  </section>
+
+  <!-- ======================= NUESTRA HISTORIA ======================= -->
+  <section class="sec" data-screen-label="Historia">
+    <div class="sec-head reveal">
+      <span class="eyebrow">El comienzo de todo</span>
+      <h2 class="h-serif">Nuestra Historia</h2>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-item reveal">
+        <div class="tl-node"></div>
+        <div class="date">El campo que nos vio crecer</div>
+        <h3>Nuestro comienzo</h3>
+        <div class="tl-photo arch"><div class="photo" style="background-image:url('imagenes/his-1.png')"></div></div>
+        <p>Entre montañas verdes y aire fresco, empezamos a construir algo simple y verdadero: nosotros dos.</p>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-node"></div>
+        <div class="date">Miradas que lo dicen todo</div>
+        <h3>Cada día más cerca</h3>
+        <div class="tl-photo arch"><div class="photo" style="background-image:url('imagenes/his-2.png')"></div></div>
+        <p>Con el tiempo aprendimos que no hace falta hablar para entendernos; una mirada basta.</p>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-node"></div>
+        <div class="date">Un mismo camino</div>
+        <h3>Caminando juntos</h3>
+        <div class="tl-photo arch"><div class="photo" style="background-image:url('imagenes/his-3.png')"></div></div>
+        <p>Tomados de la mano, aprendimos a caminar al mismo paso, sin importar el rumbo.</p>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-node"></div>
+        <div class="date">Un abrazo, mil promesas</div>
+        <h3>Nuestro refugio</h3>
+        <div class="tl-photo arch"><div class="photo" style="background-image:url('imagenes/his-4.png')"></div></div>
+        <p>Entendimos que el hogar no es un lugar, sino la persona que eliges abrazar cada día.</p>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-node"></div>
+        <div class="date">Con la bendición de Dios</div>
+        <h3>Nuestra fe</h3>
+        <div class="tl-photo arch"><div class="photo" style="background-image:url('imagenes/his-5.png')"></div></div>
+        <p>Ponemos este camino en manos de Dios, para que guíe cada paso de nuestra vida juntos.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= MENSAJE ESPIRITUAL ======================= -->
+  <section class="spirit" data-screen-label="Espiritual">
+    <div class="spirit__bg"><div class="photo empty"></div></div>
+    <div class="spirit__veil"></div>
+    <div class="glow"></div>
+    <div class="spirit__inner reveal">
+      <svg class="cross" viewBox="0 0 24 36" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2v32M5 11h14"/></svg>
+      <blockquote>«Lo que Dios ha unido, que no lo separe el hombre.»</blockquote>
+      <cite>Mateo 19:6</cite>
+    </div>
+  </section>
+
+  <!-- ======================= GALERÍA ======================= -->
+  <section class="sec" data-screen-label="Galeria">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Momentos</span>
+      <h2 class="h-serif">Nuestra Galería</h2>
+    </div>
+    <div class="gallery" id="gallery">
+      <div class="g-item reveal"><div class="photo" style="background-image:url('imagenes/g1.png')"></div></div>
+      <div class="g-item reveal"><div class="photo" style="background-image:url('imagenes/g2.png')"></div></div>
+      <div class="g-item reveal"><div class="photo" style="background-image:url('imagenes/g3.png')"></div></div>
+      <div class="g-item reveal"><div class="photo" style="background-image:url('imagenes/g4.png')"></div></div>
+      <div class="g-item reveal"><div class="photo" style="background-image:url('imagenes/g5.png')"></div></div>
+      <div class="g-item reveal"><div class="photo" style="background-image:url('imagenes/g6.png')"></div></div>
+    </div>
+  </section>
+
+  <!-- ======================= ITINERARIO ======================= -->
+  <section class="sec itin" data-screen-label="Itinerario">
+    <div class="sec-head reveal">
+      <span class="eyebrow">El gran día</span>
+      <h2 class="h-serif">Itinerario</h2>
+    </div>
+    <div class="itin-line">
+      <div class="itin-row reveal">
+        <div class="col-l"><span class="time">11:00 AM</span><span class="ev">Santa Misa</span></div>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2v6M9 5h6M5 22V11l7-4 7 4v11M5 22h14M10 22v-4h4v4"/></svg></div>
+        <div></div>
+      </div>
+      <div class="itin-row reveal">
+        <div></div>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 21h8M12 15v6M6 3h12l-1 7a5 5 0 0 1-10 0z"/></svg></div>
+        <div class="col-l"><span class="time">1:00 PM</span><span class="ev">Recepción · Cóctel</span></div>
+      </div>
+      <div class="itin-row reveal">
+        <div class="col-l"><span class="time">2:30 PM</span><span class="ev">Brindis</span></div>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 3l1 7a3 3 0 0 0 6 0M15 3l-1 7M8 21h8M12 13v8M5 3h14"/></svg></div>
+        <div></div>
+      </div>
+      <div class="itin-row reveal">
+        <div></div>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 18V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10M4 18h16M8 6V4M16 6V4M9 10h6"/></svg></div>
+        <div class="col-l"><span class="time">3:30 PM</span><span class="ev">Almuerzo</span></div>
+      </div>
+      <div class="itin-row reveal">
+        <div class="col-l"><span class="time">5:00 PM</span><span class="ev">Primer Baile</span></div>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 18a3 3 0 1 0 0-.1M9 15V4l10-1v11M19 13a3 3 0 1 0 0 .1"/></svg></div>
+        <div></div>
+      </div>
+      <div class="itin-row reveal">
+        <div></div>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M19 14a7 7 0 1 1-7-9 5.5 5.5 0 0 0 7 9z"/></svg></div>
+        <div class="col-l"><span class="time">6:30 PM</span><span class="ev">Fiesta</span></div>
+      </div>
+      <div class="itin-row reveal">
+        <div class="col-l"><span class="time">9:00 PM</span><span class="ev">Hora Loca</span></div>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 3v2M12 19v2M5 12H3M21 12h-2M6 6l1.5 1.5M16.5 16.5 18 18M6 18l1.5-1.5M16.5 7.5 18 6M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/></svg></div>
+        <div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= UBICACIONES ======================= -->
+  <section class="sec" data-screen-label="Ubicaciones">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Dónde celebramos</span>
+      <h2 class="h-serif">Ubicaciones</h2>
+    </div>
+    <div class="places">
+      <div class="place reveal">
+        <div class="ph"><div class="photo" style="background-image:url('https://diocesisambato.org/wp-content/uploads/2018/09/Esp%C3%ADritu-Santo-1024x683.jpg')"></div></div>
+        <div class="bd">
+          <p class="role">Ceremonia</p>
+          <h3>Iglesia del Espíritu Santo</h3>
+          <p>Ingahurco, Ambato · 11:00 AM</p>
+          <a class="btn-out" href="https://www.google.com/maps/search/Iglesia+del+Esp%C3%ADritu+Santo+Ingahurco+Ambato" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6-7-11a7 7 0 0 1 14 0c0 5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+            Ver Iglesia
+          </a>
+        </div>
+      </div>
+      <div class="place reveal">
+        <div class="ph"><div class="photo empty"></div></div>
+        <div class="bd">
+          <p class="role">Recepción</p>
+          <h3>Salón Viña Rosa</h3>
+          <p>La Península, Ambato · 1:00 PM</p>
+          <a class="btn-out" href="https://www.google.com/maps/search/Sal%C3%B3n+Vi%C3%B1a+Rosa+La+Pen%C3%ADnsula+Ambato" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6-7-11a7 7 0 0 1 14 0c0 5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+            Ver Recepción
+          </a>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:22px;" class="reveal">
+      <a class="btn-out" href="https://www.google.com/maps/dir/?api=1&destination=Sal%C3%B3n+Vi%C3%B1a+Rosa+La+Pen%C3%ADnsula+Ambato" target="_blank" rel="noopener" style="background:var(--dorado); color:#2a241d;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11l18-8-8 18-2-8-8-2z"/></svg>
+        Cómo llegar
+      </a>
+    </div>
+  </section>
+
+  <!-- ======================= FRASE 1 ======================= -->
+  <section class="quote-band warm" data-screen-label="Frase 1">
+    <div class="reveal">
+      <span class="mk">“</span>
+      <q>Cada historia de amor es hermosa, pero la nuestra es nuestra favorita.</q>
+    </div>
+  </section>
+
+  <!-- ======================= DRESS CODE ======================= -->
+  <section class="sec dress" data-screen-label="Vestimenta">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Para la ocasión</span>
+      <h2 class="h-serif">Código de Vestimenta</h2>
+      <div class="divider"><span class="ln"></span><span class="dot"></span><span class="ln"></span></div>
+      <p class="body" style="max-width:320px; margin:0 auto;">Formal campestre · vístete elegante y cómodo para celebrar al aire libre.</p>
+    </div>
+    <div class="dress-grid">
+      <div class="dress-card reveal">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M8 4l4 3 4-3 3 4-3 2v9H8v-9L5 8z"/><path d="M12 7v13"/></svg>
+        <h4>Caballeros</h4>
+        <p>Traje formal · lino o tonos tierra</p>
+      </div>
+      <div class="dress-card reveal d1">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 3a2 2 0 0 0-2 2c0 1 .5 1.5.5 2.5L6 20h12l-4.5-12.5C13.5 6.5 14 6 14 5a2 2 0 0 0-2-2z"/></svg>
+        <h4>Damas</h4>
+        <p>Vestido largo · elegante</p>
+      </div>
+    </div>
+    <div class="avoid reveal">
+      <div class="sw"><span class="chip" style="background:#ffffff;"></span>Blanco</div>
+      <div class="sw"><span class="chip" style="background:#3f7d4f;"></span>Verde</div>
+      <div class="sw"><span class="chip" style="background:#d9c7a3;"></span>Beige</div>
+      <p class="note">Por respeto a la ceremonia, evita estos colores.</p>
+    </div>
+  </section>
+
+  <!-- ======================= RSVP ======================= -->
+  <section class="sec rsvp" data-screen-label="RSVP">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Confírmanos</span>
+      <h2 class="h-serif">Asistencia</h2>
+      <div class="divider"><span class="ln"></span><span class="dot"></span><span class="ln"></span></div>
+      <p class="body" style="max-width:330px; margin:0 auto;">Tu compañía es nuestro mejor regalo. Confirma antes del 1 de agosto de 2026.</p>
+    </div>
+    <form class="form reveal" id="rsvpForm">
+      <div class="field">
+        <label for="r-name">Nombre completo</label>
+        <input id="r-name" name="name" type="text" placeholder="Tu nombre" required>
+      </div>
+      <div class="field">
+        <label for="r-guests">Número de invitados</label>
+        <select id="r-guests" name="guests">
+          <option value="1">1 persona</option>
+          <option value="2">2 personas</option>
+          <option value="3">3 personas</option>
+          <option value="4">4 personas</option>
+          <option value="5">5+ personas</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>¿Nos acompañas?</label>
+        <div class="radio-row" id="r-attend">
+          <label class="on" data-val="Sí, allí estaré">Sí, allí estaré</label>
+          <label data-val="No podré asistir">No podré asistir</label>
+        </div>
+      </div>
+      <div class="field">
+        <label for="r-msg">Mensaje (opcional)</label>
+        <textarea id="r-msg" name="msg" placeholder="Déjanos unas palabras..."></textarea>
+      </div>
+      <button type="submit" class="btn-main">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.51 5.26l-.999 3.648 3.477-.207z"/></svg>
+        Confirmar por WhatsApp
+      </button>
+      <div class="form-ok" id="rsvpOk">¡Gracias! Se abrió WhatsApp con tu confirmación lista para enviar. 💛</div>
+    </form>
+  </section>
+
+  <!-- ======================= PASES DIGITALES ======================= -->
+  <section class="sec" data-screen-label="Pases" style="background:var(--marfil-2);">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Tu acceso</span>
+      <h2 class="h-serif">Pases Digitales</h2>
+      <div class="divider"><span class="ln"></span><span class="dot"></span><span class="ln"></span></div>
+      <p class="body" style="max-width:320px; margin:0 auto;">Presenta tu código QR al ingreso. Personalizamos uno para ti en la confirmación.</p>
+    </div>
+    <div class="passes">
+      <div class="pass gen reveal">
+        <div class="pass-top">
+          <div>
+            <div class="kind">Pase General</div>
+            <div class="who">Invitado</div>
+            <div class="meta">Salón Viña Rosa · 22 Ago 2026 · 1:00 PM</div>
+          </div>
+          <div class="qr" data-qr="JEFF-ESTHELITA-GENERAL-2026"></div>
+        </div>
+      </div>
+      <div class="pass fam reveal d1">
+        <div class="pass-top">
+          <div>
+            <div class="kind">Pase Familiar</div>
+            <div class="who">Familia</div>
+            <div class="meta">Admite hasta 4 personas · Mesa asignada</div>
+          </div>
+          <div class="qr" data-qr="JEFF-ESTHELITA-FAMILIAR-2026"></div>
+        </div>
+      </div>
+      <div class="pass vip reveal d2">
+        <div class="pass-top">
+          <div>
+            <div class="kind">Pase VIP</div>
+            <div class="who">Padrinos</div>
+            <div class="meta">Acceso preferencial · Brindis de honor</div>
+          </div>
+          <div class="qr" data-qr="JEFF-ESTHELITA-VIP-2026"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= MESA DE REGALOS ======================= -->
+  <section class="sec gifts" data-screen-label="Regalos">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Con cariño</span>
+      <h2 class="h-serif">Mesa de Regalos</h2>
+      <div class="divider"><span class="ln"></span><span class="dot"></span><span class="ln"></span></div>
+      <p class="body" style="max-width:330px; margin:0 auto;">Tu presencia lo es todo. Si deseas obsequiarnos algo, aquí algunas opciones.</p>
+    </div>
+    <div class="gift-grid">
+      <div class="gift reveal">
+        <div class="gi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/></svg></div>
+        <div>
+          <h4>Transferencia bancaria</h4>
+          <p>A nombre de Jeff Garcés</p>
+          <p class="bank">Banco: pendiente · Cuenta: pendiente · N.º: pendiente</p>
+        </div>
+      </div>
+      <div class="gift reveal d1">
+        <div class="gi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 7h-4V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2H4a1 1 0 0 0-1 1v11a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8a1 1 0 0 0-1-1zM10 5h4v2h-4z"/></svg></div>
+        <div>
+          <h4>Lista de regalos</h4>
+          <p>Elige un detalle de nuestra lista</p>
+          <p class="bank"><a href="#" style="color:var(--dorado); text-decoration:underline;">Ver lista en línea →</a></p>
+        </div>
+      </div>
+      <div class="gift reveal d2">
+        <div class="gi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></div>
+        <div>
+          <h4>Sobre tradicional</h4>
+          <p>Habrá un buzón especial en la recepción</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= BANDA SONORA ======================= -->
+  <section class="sec sound" data-screen-label="Banda sonora">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Nuestra banda sonora</span>
+      <h2 class="h-serif">Las canciones de nuestra historia</h2>
+    </div>
+    <div class="tracks">
+      <div class="track fav reveal">
+        <div class="cover"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.5-9.5-8.5C.5 9 2.5 5 6 5c2 0 3 1.5 3.5 2.5C10 6.5 11 5 13 5c3.5 0 5.5 4 3.5 7.5C21 16.5 12 21 12 21z" opacity=".25"/><path d="M9 18V6l9-1.5v11" stroke="#2a241d" stroke-width="1.2" fill="none"/><circle cx="7" cy="18" r="2" fill="#2a241d"/><circle cx="16" cy="15.5" r="2" fill="#2a241d"/></svg></div>
+        <div class="ti"><div class="name">Nuestra canción especial</div><div class="artist">Primer baile</div></div>
+        <span class="badge">Nuestra</span>
+      </div>
+      <div class="track reveal">
+        <div class="cover"><svg viewBox="0 0 24 24" fill="none" stroke="#2a241d" stroke-width="1.3"><path d="M9 18V5l10-1v12"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="16" r="2"/></svg></div>
+        <div class="ti"><div class="name">Por editar</div><div class="artist">Por editar</div></div>
+        <span class="dur">—</span>
+      </div>
+      <div class="track reveal">
+        <div class="cover"><svg viewBox="0 0 24 24" fill="none" stroke="#2a241d" stroke-width="1.3"><path d="M9 18V5l10-1v12"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="16" r="2"/></svg></div>
+        <div class="ti"><div class="name">Por editar</div><div class="artist">Por editar</div></div>
+        <span class="dur">—</span>
+      </div>
+      <div class="track reveal">
+        <div class="cover"><svg viewBox="0 0 24 24" fill="none" stroke="#2a241d" stroke-width="1.3"><path d="M9 18V5l10-1v12"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="16" r="2"/></svg></div>
+        <div class="ti"><div class="name">Por editar</div><div class="artist">Por editar</div></div>
+        <span class="dur">—</span>
+      </div>
+      <div class="track reveal">
+        <div class="cover"><svg viewBox="0 0 24 24" fill="none" stroke="#2a241d" stroke-width="1.3"><path d="M9 18V5l10-1v12"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="16" r="2"/></svg></div>
+        <div class="ti"><div class="name">Por editar</div><div class="artist">Por editar</div></div>
+        <span class="dur">—</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= CANCIÓN IMPERDIBLE ======================= -->
+  <section class="sec suggest" data-screen-label="Cancion imperdible">
+    <div class="sec-head reveal">
+      <span class="eyebrow" style="color:var(--champan);">Arma la fiesta con nosotros</span>
+      <h2 class="h-serif" style="color:#fff;">🎵 ¿Qué canción no puede faltar?</h2>
+    </div>
+    <form class="sug-form reveal" id="sugForm">
+      <input type="text" id="sugInput" placeholder="Escribe una canción..." aria-label="Sugerir canción">
+      <button type="submit">Sugerir</button>
+    </form>
+    <div class="sug-list" id="sugList">
+      <span class="sug-chip">La Camisa Negra — Juanes</span>
+      <span class="sug-chip">Vivir Mi Vida — Marc Anthony</span>
+      <span class="sug-chip">La Bicicleta — Shakira &amp; Carlos Vives</span>
+    </div>
+  </section>
+
+  <!-- ======================= TRIVIA ======================= -->
+  <section class="sec trivia" data-screen-label="Trivia">
+    <div class="sec-head reveal">
+      <span class="eyebrow">¿Nos conoces bien?</span>
+      <h2 class="h-serif">Trivia de los Novios</h2>
+    </div>
+    <div class="trivia-card reveal" id="triviaCard">
+      <div class="q-num" id="qNum">Pregunta 1 de 4</div>
+      <div class="q-text" id="qText">¿Dónde nos conocimos?</div>
+      <div class="opts" id="qOpts"></div>
+      <div class="score" id="qScore" style="display:none;"></div>
+      <button class="btn-out next" id="qNext" style="display:none; margin:14px auto 0;">Siguiente →</button>
+    </div>
+  </section>
+
+  <!-- ======================= FRASE 2 ======================= -->
+  <section class="quote-band light" data-screen-label="Frase 2">
+    <div class="reveal">
+      <span class="mk">“</span>
+      <q>Dos almas, una misión y un mismo Dios.</q>
+    </div>
+  </section>
+
+  <!-- ======================= MENSAJES PARA LOS NOVIOS ======================= -->
+  <section class="sec wishes" data-screen-label="Mensajes">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Tus palabras</span>
+      <h2 class="h-serif">💌 Déjanos un mensaje</h2>
+    </div>
+    <form class="wish-form reveal" id="wishForm">
+      <div class="field"><input type="text" id="wishName" placeholder="Tu nombre" required></div>
+      <div class="field"><textarea id="wishMsg" placeholder="Un deseo, un consejo, una bendición..." required></textarea></div>
+      <button type="submit" class="btn-out" style="justify-self:center; background:var(--dorado); color:#2a241d;">Enviar mensaje</button>
+    </form>
+    <div class="wish-cards" id="wishCards"></div>
+  </section>
+
+  <!-- ======================= ÁLBUM COLABORATIVO ======================= -->
+  <section class="sec album" data-screen-label="Album">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Comparte lo que viviste</span>
+      <h2 class="h-serif">📸 Nuestra boda a través de tus ojos</h2>
+    </div>
+    <div class="drop reveal">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg>
+      <p>Tras la boda podrás subir aquí tus fotos y videos para crear un álbum entre todos.</p>
+      <div class="mini">
+        <div class="photo empty"></div>
+        <div class="photo empty"></div>
+        <div class="photo empty"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= CÁPSULA DEL TIEMPO ======================= -->
+  <section class="capsule" data-screen-label="Capsula">
+    <div class="reveal">
+      <svg class="lock-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/><circle cx="12" cy="16" r="1.3"/></svg>
+      <h2>Cápsula del Tiempo</h2>
+      <p class="lead">Escribe algo para que lo leamos juntos en nuestro primer aniversario. Tu mensaje quedará sellado hasta entonces.</p>
+      <form class="cap-form" id="capForm">
+        <textarea id="capMsg" placeholder="Querida pareja, dentro de un año..." required></textarea>
+        <button type="submit" class="cap-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+          Sellar mensaje
+        </button>
+        <p class="cap-note">Se abrirá el 22 de agosto de 2027 ✦</p>
+      </form>
+      <div class="sealed" id="sealed">
+        <svg class="s-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 13l4 4L19 7"/></svg>
+        <p style="font-family:var(--serif); font-style:italic; font-size:18px;">Tu mensaje quedó sellado.</p>
+        <p style="font-size:12px; color:#bdb198; margin-top:6px;">Nos lo entregará el tiempo. Gracias por ser parte de esta historia. 💛</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= FRASE 3 ======================= -->
+  <section class="quote-band warm" data-screen-label="Frase 3">
+    <div class="reveal">
+      <span class="mk">“</span>
+      <q>El mejor proyecto que construiremos será nuestra familia.</q>
+    </div>
+  </section>
+
+  <!-- ======================= FOOTER ======================= -->
+  <footer class="footer" data-screen-label="Footer">
+    <div class="reveal">
+      <p class="thanks">Gracias por acompañarnos en el día más importante de nuestras vidas.</p>
+      <p class="sign">Jeff <span class="amp">&amp;</span> Esthelita</p>
+      <p class="meta">22 · Agosto · 2026 <span class="heart">❤</span> Ambato</p>
+    </div>
+  </footer>
+
+  </div><!-- /.app -->
+</main>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <span class="lb-close" id="lbClose">&times;</span>
+  <span class="lb-nav lb-prev" id="lbPrev">&#8249;</span>
+  <img id="lbImg" alt="">
+  <span class="lb-nav lb-next" id="lbNext">&#8250;</span>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

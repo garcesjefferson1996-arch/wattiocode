@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+<title>🎈 Fiesta del Payaso Plim Plim · Mateo cumple 4 🎈</title>
+<!-- Fuentes y CDNs para animaciones premium -->
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Fredoka+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background: linear-gradient(145deg, #ffecd2 0%, #fcb69f 100%);
+    font-family: 'Quicksand', sans-serif;
+    overflow-x: hidden;
+    color: #2d1b0e;
+  }
+
+  /* Contenedor principal estilo mágico */
+  .magic-container {
+    max-width: 550px;
+    margin: 0 auto;
+    background: rgba(255, 248, 225, 0.92);
+    backdrop-filter: blur(2px);
+    box-shadow: 0 0 40px rgba(0,0,0,0.2);
+    border-radius: 48px 48px 32px 32px;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Fondo de globos y estrellas */
+  .bg-fiesta {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+    opacity: 0.25;
+  }
+  .overlay-color {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255,215,150,0.4), rgba(255,165,0,0.2));
+    z-index: -1;
+  }
+
+  /* botón música flotante (versión payaso) */
+  .music-float {
+    position: fixed;
+    bottom: 24px;
+    right: 20px;
+    width: 58px;
+    height: 58px;
+    background: #ff4d6d;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    z-index: 100;
+    cursor: pointer;
+    border: 3px solid #ffdd77;
+    transition: 0.2s;
+    color: white;
+    font-size: 28px;
+  }
+  .music-float.playing {
+    animation: bounceMusic 0.8s infinite;
+    background: #3bc14a;
+    border-color: #ffec80;
+  }
+  @keyframes bounceMusic {
+    0%,100%{ transform: scale(1);}
+    50%{ transform: scale(1.1); box-shadow: 0 0 0 8px rgba(255,77,109,0.3);}
+  }
+
+  /* Header payaso */
+  .plim-header {
+    background: #ffc85a;
+    padding: 30px 16px 20px;
+    border-radius: 0 0 60px 60px;
+    text-align: center;
+    color: #a1320e;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+  .plim-header h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.8rem;
+    letter-spacing: 2px;
+    text-shadow: 3px 3px 0 #fff3b0;
+  }
+  .emoji-big {
+    font-size: 70px;
+  }
+
+  /* Tarjetas redondeadas y coloridas */
+  .card-fiesta {
+    background: rgba(255, 255, 245, 0.9);
+    border-radius: 48px;
+    margin: 20px 16px;
+    padding: 20px;
+    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+    backdrop-filter: blur(6px);
+    border: 2px solid #ffb347;
+  }
+  .titulo-sec {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.8rem;
+    color: #e25822;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .titulo-sec i {
+    margin-right: 8px;
+    color: #ffb347;
+  }
+
+  /* cuenta regresiva globos */
+  .countdown-payaso {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .cd-item {
+    background: #fcd34d;
+    border-radius: 50px;
+    padding: 12px 0;
+    min-width: 75px;
+    text-align: center;
+    box-shadow: inset 0 -3px 0 #e67e22, 0 8px 12px rgba(0,0,0,0.1);
+  }
+  .cd-num {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #d43f00;
+  }
+  .cd-label {
+    font-weight: bold;
+  }
+
+  /* Swiper Galería */
+  .swiper {
+    border-radius: 44px;
+    padding: 8px;
+  }
+  .swiper-slide img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 40px;
+    border: 4px solid #ffb347;
+  }
+
+  /* Botones estilo payaso */
+  .btn-payaso {
+    background: linear-gradient(95deg, #ff9966, #ff5e62);
+    border: none;
+    padding: 14px 25px;
+    border-radius: 60px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: white;
+    box-shadow: 0 6px 0 #b13b2d;
+    transition: 0.1s linear;
+  }
+  .btn-payaso:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 #b13b2d;
+  }
+
+  /* Formulario RSVP */
+  .input-risa {
+    background: #fff2df;
+    border: 2px solid #ffaa66;
+    border-radius: 60px;
+    padding: 12px 20px;
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  /* Juegos y mensajes */
+  .game-box {
+    background: #ffe3b7;
+    border-radius: 40px;
+    padding: 15px;
+  }
+  .adivinanza-opcion {
+    background: #fbbf24;
+    margin: 8px;
+    padding: 10px;
+    border-radius: 40px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .adivinanza-opcion:active {
+    background: #f59e0b;
+    transform: scale(0.97);
+  }
+
+  .footer-nino {
+    background: #ffaa55;
+    text-align: center;
+    padding: 24px;
+    border-radius: 40px 40px 0 0;
+    font-weight: bold;
+  }
+
+  /* microinteracciones */
+  .confetti-btn {
+    cursor: pointer;
+  }
+  @media (max-width: 550px) {
+    .magic-container { border-radius: 0; }
+    .cd-num { font-size: 1.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- imagen fondo local -->
+<img src="/img/fondo.jpg" class="bg-fiesta" onerror="this.style.opacity='0.1';" alt="fondo">
+<div class="overlay-color"></div>
+
+<!-- Botón música flotante (archivo music.mp3) -->
+<div id="musicBtn" class="music-float">
+  <i id="musicIcon" class="fas fa-music"></i>
+</div>
+
+<div class="magic-container">
+  <!-- Hero Payaso Plim Plim -->
+  <div class="plim-header" data-aos="zoom-in">
+    <div class="emoji-big">🤡🎈</div>
+    <h1>¡Fiesta de <span style="color:#bc3900;">Plim Plim</span>!</h1>
+    <p style="font-size:1.2rem; font-weight:bold;">Mateo cumple 4 años ✨</p>
+    <p>⭐ Un día mágico lleno de risas, juegos y sorpresas ⭐</p>
+  </div>
+
+  <!-- Cuenta regresiva -->
+  <div class="card-fiesta" data-aos="fade-up">
+    <div class="titulo-sec"><i class="fas fa-hourglass-half"></i> ¡Faltan poquito!</div>
+    <div class="countdown-payaso">
+      <div class="cd-item"><div class="cd-num" id="cdDias">00</div><div class="cd-label">Días</div></div>
+      <div class="cd-item"><div class="cd-num" id="cdHoras">00</div><div class="cd-label">Horas</div></div>
+      <div class="cd-item"><div class="cd-num" id="cdMins">00</div><div class="cd-label">Min</div></div>
+      <div class="cd-item"><div class="cd-num" id="cdSegs">00</div><div class="cd-label">Seg</div></div>
+    </div>
+    <p class="text-center mt-3">📍 Sábado 12 de Diciembre · 4:00 PM</p>
+  </div>
+
+  <!-- Mensaje de bienvenida payaso -->
+  <div class="card-fiesta" data-aos="fade-right">
+    <div class="titulo-sec"><i class="fas fa-face-grin-tongue-squint"></i> ¡Hola Amiguitos!</div>
+    <p style="text-align:center;">El Payaso Plim Plim y el cumpleañero Mateo los invitan a una tarde llena de magia, juegos, pastel y muchas sorpresas. ¡No falten!</p>
+    <div class="text-center mt-2"><i class="fas fa-balloon fa-2x" style="color:#ff6b6b;"></i> <i class="fas fa-cake-candles fa-2x"></i> <i class="fas fa-music fa-2x"></i></div>
+  </div>
+
+  <!-- GALERÍA (IMÁGENES LOCALES en /img/) -->
+  <div class="card-fiesta" data-aos="zoom-in">
+    <div class="titulo-sec"><i class="fas fa-images"></i> Momentos Divertidos</div>
+    <div class="swiper mySwiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide"><img src="/img/foto1.jpg" alt="Plim Plim 1" onerror="this.src='https://placehold.co/400x300/f39c12/ffffff?text=foto1.jpg'"></div>
+        <div class="swiper-slide"><img src="/img/foto2.jpg" alt="Plim Plim 2" onerror="this.src='https://placehold.co/400x300/f39c12/ffffff?text=foto2.jpg'"></div>
+        <div class="swiper-slide"><img src="/img/foto3.jpg" alt="Plim Plim 3" onerror="this.src='https://placehold.co/400x300/f39c12/ffffff?text=foto3.jpg'"></div>
+        <div class="swiper-slide"><img src="/img/plimplim.png" alt="Payaso Plim Plim" onerror="this.src='https://placehold.co/400x300/ffaa66/ffffff?text=plimplim.png'"></div>
+      </div>
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
+    <p class="small text-center mt-2">🌟 Recuerda reemplazar las imágenes en /img/</p>
+  </div>
+
+  <!-- Ubicación (Payaso) -->
+  <div class="card-fiesta" data-aos="fade-up">
+    <div class="titulo-sec"><i class="fas fa-map-pin"></i> ¿Dónde será la fiesta?</div>
+    <div class="text-center">
+      <i class="fas fa-tree fa-2x"></i> <strong>Salón de Eventos "El Jardín Mágico"</strong>
+      <p>Calle de las Flores 123, Col. Infantil, Ciudad</p>
+      <iframe width="100%" height="180" style="border-radius: 30px; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Mexico%20City%20Zoo&t=&z=13&output=embed"></iframe>
+      <button class="btn-payaso mt-2" id="openMapBtn"><i class="fab fa-google"></i> Abrir en Google Maps</button>
+    </div>
+  </div>
+
+  <!-- RSVP con confirmación especial -->
+  <div class="card-fiesta" data-aos="flip-up">
+    <div class="titulo-sec"><i class="fas fa-smile-wink"></i> Confirma tu asistencia</div>
+    <form id="rsvpFormNino">
+      <div class="mb-3">
+        <input type="text" id="nombreNino" class="input-risa" placeholder="Nombre del pequeño o adulto" required>
+      </div>
+      <div class="mb-3">
+        <input type="email" id="emailNino" class="input-risa" placeholder="Correo electrónico (opcional)">
+      </div>
+      <div class="mb-3">
+        <select id="invitadosNino" class="input-risa">
+          <option value="1">1 niño / adulto</option>
+          <option value="2">2 personas</option>
+          <option value="3">3 personas</option>
+          <option value="4">4 personas (familia)</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <textarea class="input-risa" rows="2" id="mensajeNino" placeholder="¿Alguna alergia o mensaje para Mateo? 🎈"></textarea>
+      </div>
+      <button type="submit" class="btn-payaso w-100"><i class="fas fa-check-circle"></i> ¡Voy a la fiesta!</button>
+      <div id="respuestaRSVP" class="text-center mt-2 fw-bold" style="color: #c2410c;"></div>
+    </form>
+  </div>
+
+  <!-- JUEGO: Adivinanzas del Payaso Plim Plim -->
+  <div class="card-fiesta" data-aos="fade-right">
+    <div class="titulo-sec"><i class="fas fa-question-circle"></i> ¡Adivina con Plim Plim!</div>
+    <div class="game-box" id="triviaGame">
+      <p id="preguntaTrivia" style="font-weight:bold; font-size:1.2rem;">¿Cuál es el color favorito del Payaso Plim Plim?</p>
+      <div id="opcionesTrivia" class="d-flex flex-wrap justify-content-center"></div>
+      <div id="feedbackTrivia" class="text-center mt-2 fst-italic"></div>
+    </div>
+  </div>
+
+  <!-- Mensajes para Mateo (tablero de amor) -->
+  <div class="card-fiesta" data-aos="fade-left">
+    <div class="titulo-sec"><i class="fas fa-heart"></i> Mensajes para el cumpleañero</div>
+    <div id="mensajesContainer" style="max-height:250px; overflow-y:auto;">
+      <div class="alert alert-warning" style="background:#fff0cc;">🎉 ¡Felicidades Mateo! Eres muy querido - Los primos</div>
+      <div class="alert alert-warning" style="background:#fff0cc;">🤡 Que pases un día increíble junto a Plim Plim - Tía Lau</div>
+    </div>
+    <form id="formMensaje">
+      <input type="text" id="nombreMsg" class="input-risa my-2" placeholder="Tu nombre">
+      <textarea id="msgTexto" class="input-risa" rows="2" placeholder="Escribe tu mensaje de felicitación..."></textarea>
+      <button type="submit" class="btn-payaso mt-2 w-100"><i class="fas fa-comment-dots"></i> Dejar mensaje</button>
+    </form>
+  </div>
+
+  <!-- Piñata virtual interactiva + confeti -->
+  <div class="card-fiesta text-center" data-aos="zoom-in">
+    <div class="titulo-sec"><i class="fas fa-candy-cane"></i> ¡Rompe la piñata virtual!</div>
+    <div style="font-size: 80px; cursor:pointer;" id="pinataBtn">🪅🎉</div>
+    <p>Toca la piñata para que llueva dulces y confeti</p>
+  </div>
+
+  <!-- Lista de regalos sugeridos (temática) -->
+  <div class="card-fiesta" data-aos="fade-up">
+    <div class="titulo-sec"><i class="fas fa-gift"></i> Regalos para Mateo</div>
+    <p>Tu presencia es el mejor regalo, pero si deseas obsequiar algo:</p>
+    <ul style="list-style-type: none;">
+      <li>🧸 <strong>Juguetes educativos</strong> (bloques, rompecabezas)</li>
+      <li>📚 <strong>Cuentos infantiles</strong> del Payaso Plim Plim</li>
+      <li>🎨 <strong>Material para pintar</strong> (crayones, plastilina)</li>
+    </ul>
+    <div class="text-center small">Habrá una caja de regalos en la entrada</div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer-nino">
+    <i class="fas fa-music"></i> No olvides activar la música con el botón flotante <br>
+    🤡 ¡Te esperamos con mucha alegría! 🎈 <br>
+    <span style="font-size:12px;">© Fiesta Plim Plim · Mateo 4 años</span>
+  </div>
+</div>
+
+<!-- Librerías y scripts -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+  // Inicialización AOS, GSAP, Swiper
+  AOS.init({ duration: 800, once: true, offset: 10 });
+  const swiper = new Swiper('.mySwiper', {
+    loop: true, slidesPerView: 1, spaceBetween: 15,
+    pagination: { el: '.swiper-pagination', clickable: true },
+    navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+    breakpoints: { 640: { slidesPerView: 2 } }
+  });
+
+  // ---------- MÚSICA (music.mp3) ----------
+  const audio = new Audio('music.mp3');
+  audio.loop = true;
+  audio.volume = 0.5;
+  let isMusicPlaying = false;
+  let musicStarted = false;
+
+  const musicBtn = document.getElementById('musicBtn');
+  const musicIcon = document.getElementById('musicIcon');
+
+  function playMusic() {
+    if (!musicStarted) {
+      audio.play().then(() => {
+        isMusicPlaying = true;
+        musicStarted = true;
+        musicBtn.classList.add('playing');
+        musicIcon.classList.remove('fa-music');
+        musicIcon.classList.add('fa-pause');
+        canvasConfetti({ particleCount: 70, spread: 45, origin: { y: 0.8 }, colors: ['#FFB347', '#FF6B6B'] });
+      }).catch(e => console.log("interacción requerida"));
+    }
+  }
+
+  musicBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (!isMusicPlaying) {
+      audio.play().then(() => {
+        isMusicPlaying = true;
+        musicStarted = true;
+        musicBtn.classList.add('playing');
+        musicIcon.classList.remove('fa-music');
+        musicIcon.classList.add('fa-pause');
+        gsap.fromTo(musicBtn, { scale: 0.8 }, { scale: 1, duration: 0.2 });
+      }).catch(e => console.warn);
+    } else {
+      audio.pause();
+      isMusicPlaying = false;
+      musicBtn.classList.remove('playing');
+      musicIcon.classList.remove('fa-pause');
+      musicIcon.classList.add('fa-music');
+    }
+  });
+
+  // Interacción global: al tocar cualquier lugar (primera vez) arranca música
+  function initMusicOnFirstTouch() {
+    if (!musicStarted && audio.paused) {
+      audio.play().then(() => {
+        isMusicPlaying = true;
+        musicStarted = true;
+        musicBtn.classList.add('playing');
+        musicIcon.classList.remove('fa-music');
+        musicIcon.classList.add('fa-pause');
+      }).catch(()=>{});
+    }
+    document.removeEventListener('click', initMusicOnFirstTouch);
+    document.removeEventListener('touchstart', initMusicOnFirstTouch);
+  }
+  document.addEventListener('click', initMusicOnFirstTouch);
+  document.addEventListener('touchstart', initMusicOnFirstTouch);
+
+  // Cuenta regresiva (12 diciembre 2026, 16:00)
+  function actualizarCuenta() {
+    const target = new Date(2026, 11, 12, 16, 0, 0).getTime();
+    const now = new Date().getTime();
+    const diff = target - now;
+    if(diff <= 0) {
+      document.getElementById('cdDias').innerText = "00";
+      document.getElementById('cdHoras').innerText = "00";
+      document.getElementById('cdMins').innerText = "00";
+      document.getElementById('cdSegs').innerText = "00";
+      return;
+    }
+    const d = Math.floor(diff / (1000*60*60*24));
+    const h = Math.floor((diff % (86400000)) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('cdDias').innerText = d<10?'0'+d:d;
+    document.getElementById('cdHoras').innerText = h<10?'0'+h:h;
+    document.getElementById('cdMins').innerText = m<10?'0'+m:m;
+    document.getElementById('cdSegs').innerText = s<10?'0'+s:s;
+  }
+  setInterval(actualizarCuenta, 1000);
+  actualizarCuenta();
+
+  // RSVP infantil (guardado local simulado)
+  const rsvpForm = document.getElementById('rsvpFormNino');
+  const respuestaDiv = document.getElementById('respuestaRSVP');
+  rsvpForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const nombre = document.getElementById('nombreNino').value.trim();
+    if(!nombre) { respuestaDiv.innerHTML = '❌ Escribe tu nombre, amiguito'; return; }
+    respuestaDiv.innerHTML = `🎈 ¡Gracias ${nombre}! Te esperamos para jugar y comer pastel. 🎂`;
+    canvasConfetti({ particleCount: 120, spread: 70, origin: { y: 0.6 }, colors: ['#FFD966', '#FF8C42'] });
+    rsvpForm.reset();
+    setTimeout(() => respuestaDiv.innerHTML = '', 5000);
+  });
+
+  // JUEGO TRIVIA (Payaso)
+  const preguntas = [
+    { q: "¿Cómo se llama el payaso amigo de los niños?", opts: ["Plim Plim", "Blim Blim", "Clown Feliz", "Payasín"], correct: 0 },
+    { q: "¿Qué color tiene la nariz de Plim Plim?", opts: ["Azul", "Verde", "Roja", "Amarilla"], correct: 2 },
+    { q: "¿Qué animal es el mejor amigo de Plim Plim?", opts: ["Un elefante", "Un osito", "Un mono", "Un perro"], correct: 1 },
+    { q: "En sus canciones, Plim Plim invita a...", opts: ["Dormir", "Saltar y reír", "Estudiar", "Comer solo"], correct: 1 }
+  ];
+  let indicePregunta = 0;
+  function cargarPregunta() {
+    const p = preguntas[indicePregunta];
+    document.getElementById('preguntaTrivia').innerText = p.q;
+    const contenedor = document.getElementById('opcionesTrivia');
+    contenedor.innerHTML = '';
+    p.opts.forEach((opt, idx) => {
+      const btn = document.createElement('div');
+      btn.className = 'adivinanza-opcion';
+      btn.innerText = opt;
+      btn.onclick = () => {
+        if(idx === p.correct) {
+          document.getElementById('feedbackTrivia').innerHTML = '✅ ¡Correcto! Eres muy inteligente. 🎈';
+          canvasConfetti({ particleCount: 40, spread: 50, origin: { y: 0.7 } });
+          // siguiente pregunta o ciclo
+          indicePregunta = (indicePregunta + 1) % preguntas.length;
+          setTimeout(() => {
+            document.getElementById('feedbackTrivia').innerHTML = '';
+            cargarPregunta();
+          }, 1200);
+        } else {
+          document.getElementById('feedbackTrivia').innerHTML = '❌ Ups, intenta de nuevo. ¡Plim Plim te ayuda!';
+          setTimeout(() => document.getElementById('feedbackTrivia').innerHTML = '', 800);
+        }
+      };
+      contenedor.appendChild(btn);
+    });
+  }
+  cargarPregunta();
+
+  // Mensajes dinámicos para Mateo
+  const formMsg = document.getElementById('formMensaje');
+  const contenedorMensajes = document.getElementById('mensajesContainer');
+  formMsg.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const autor = document.getElementById('nombreMsg').value.trim() || "Un amigo";
+    const msg = document.getElementById('msgTexto').value.trim();
+    if(!msg) return;
+    const div = document.createElement('div');
+    div.className = 'alert alert-warning';
+    div.style.background = '#ffe0b5';
+    div.innerHTML = `🎈 <strong>${autor}:</strong> ${msg}`;
+    contenedorMensajes.prepend(div);
+    canvasConfetti({ particleCount: 30, spread: 30, startVelocity: 10 });
+    formMsg.reset();
+  });
+
+  // Piñata virtual
+  const pinata = document.getElementById('pinataBtn');
+  pinata.addEventListener('click', () => {
+    canvasConfetti({ particleCount: 300, spread: 120, origin: { y: 0.5 }, colors: ['#FFD700', '#FF69B4', '#32CD32', '#FF4500'], startVelocity: 20 });
+    gsap.fromTo(pinata, { scale: 1 }, { scale: 1.3, duration: 0.2, yoyo: true, repeat: 1 });
+    // Mostrar mensaje de dulces
+    const toast = document.createElement('div');
+    toast.innerText = '🍬🍭 ¡Dulces mágicos! 🍬🍭';
+    toast.style.position = 'fixed'; toast.style.bottom = '40%'; toast.style.left = '20%'; toast.style.background = '#ffb347'; toast.style.padding = '8px 20px'; toast.style.borderRadius = '40px'; toast.style.fontWeight = 'bold'; toast.style.zIndex = '999'; toast.style.color = 'white';
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 1500);
+  });
+
+  // Mapa link
+  document.getElementById('openMapBtn')?.addEventListener('click', () => {
+    window.open('https://maps.google.com/?q=Mexico+City+Parque+Infantil', '_blank');
+  });
+
+  // Animaciones GSAP para entrada
+  gsap.from(".plim-header", { opacity: 0, y: -60, duration: 0.8, ease: "back.out" });
+  gsap.from(".music-float", { scale: 0, delay: 1, duration: 0.6, ease: "elastic" });
+  
+  // Prevenir errores de carga de imágenes locales (mensaje amigable en consola)
+  console.log("🎈 Invitación Payaso Plim Plim · Recuerda agregar las imágenes en /img/ (foto1.jpg, foto2.jpg, foto3.jpg, plimplim.png) y el archivo music.mp3 en la raíz.");
+</script>
+</body>
+</html>
