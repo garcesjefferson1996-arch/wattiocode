@@ -119,6 +119,26 @@
     font-size:1.3rem;color:var(--tinta-suave);
   }
   .cierre .eyebrow{margin-top:22px;display:block;color:var(--oliva-claro)}
+  .cierre .brillo{
+    display:inline-block;
+    background:linear-gradient(100deg,
+      var(--tinta-suave) 30%,
+      var(--oliva) 42%,
+      #fffef6 50%,
+      var(--oliva) 58%,
+      var(--tinta-suave) 70%);
+    background-size:260% 100%;
+    background-position:100% 0;
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
+    animation:brillar 4.5s ease-in-out infinite;
+    text-shadow:0 0 16px rgba(201,203,180,.45);
+  }
+  @keyframes brillar{
+    0%{background-position:140% 0}
+    55%{background-position:-40% 0}
+    100%{background-position:-40% 0}
+  }
 
   /* ---------- pantalla de apertura ---------- */
   .apertura{
@@ -172,18 +192,23 @@
   .petalos.activo{opacity:1}
   .petalo{
     position:absolute;top:-8vh;
-    border-radius:52% 48% 46% 54% / 62% 58% 42% 38%;
-    animation:caer linear infinite,mecer ease-in-out infinite alternate;
-    filter:blur(.4px);
+    animation:caer linear infinite;
     will-change:transform;
+    filter:drop-shadow(0 2px 4px rgba(46,50,38,.18));
+  }
+  .petalo i{
+    display:block;width:100%;height:100%;
+    background-repeat:no-repeat;background-size:contain;
+    animation:mecer ease-in-out infinite alternate;
+    transform-origin:center;
   }
   @keyframes caer{
     from{transform:translateY(-10vh) rotate(0deg)}
-    to{transform:translateY(112vh) rotate(320deg)}
+    to{transform:translateY(112vh) rotate(var(--giro,320deg))}
   }
   @keyframes mecer{
-    from{margin-left:-18px}
-    to{margin-left:18px}
+    from{transform:rotate(-14deg) translateX(-10px)}
+    to{transform:rotate(14deg) translateX(10px)}
   }
 
   /* ---------- entrada ---------- */
@@ -196,6 +221,7 @@
     .petalos{display:none}
     .reveal{opacity:1;transform:none;transition:none}
     .portada-txt{animation:none}
+    .cierre .brillo{animation:none}
     html{scroll-behavior:auto}
   }
 </style>
@@ -228,7 +254,7 @@
   </header>
 
   <section class="intro reveal">
-    <p>Después de tanto camino juntos, queremos firmar lo que ya sabíamos.</p>
+    <p>Toda gran historia merece un momento para decir sí, hoy queremos compartir con ustedes el inicio de la nuestra&hellip;</p>
   </section>
 
   <section class="datos reveal">
@@ -260,13 +286,13 @@
   <section class="confirmar reveal">
     <span class="eyebrow">Un favor</span>
     <h2>Confírmanos si vienes</h2>
-    <p>Somos pocos y queremos tenerlos a todos. Escríbenos por WhatsApp.</p>
+    <p>Su presencia hará de este día un recuerdo aún más especial. Como tendremos un encuentro íntimo, les agradecemos confirmar su asistencia por WhatsApp.</p>
     <a class="boton" href="https://wa.me/593993559699?text=Hola%20Jeff%2C%20confirmo%20mi%20asistencia%20al%20civil%20del%201%20de%20agosto." target="_blank" rel="noopener">Confirmar asistencia</a>
     <p class="numero">099 355 9699</p>
   </section>
 
   <footer class="cierre reveal">
-    <p>Todo empezó con un pequeño robot.</p>
+    <p class="brillo">Todo empezó con un pequeño robot.</p>
     <span class="eyebrow">Ambato · 2026</span>
   </footer>
 
@@ -306,17 +332,30 @@
   function soltarPetalos(){
     const capa = document.getElementById('petalos');
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const tonos = ['154,162,124', '201,203,180', '255,255,255'];
+    const svgs = [
+      // oliva suave
+      "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23FBFAF6'/%3E%3Cstop offset='.55' stop-color='%23C9CBB4'/%3E%3Cstop offset='1' stop-color='%236B7250'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M20 3C10 3 4 15 4 24c0 9 7 13 16 13s16-4 16-13C36 15 30 3 20 3z' fill='url(%23a)'/%3E%3Cpath d='M20 6C16 14 16 28 20 35' stroke='%235A5F4F' stroke-width='.9' fill='none' opacity='.45'/%3E%3C/svg%3E",
+      // oliva claro
+      "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cdefs%3E%3ClinearGradient id='b' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23FFFFFF'/%3E%3Cstop offset='.6' stop-color='%23E7E9DC'/%3E%3Cstop offset='1' stop-color='%23C9CBB4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M20 3C10 3 4 15 4 24c0 9 7 13 16 13s16-4 16-13C36 15 30 3 20 3z' fill='url(%23b)'/%3E%3Cpath d='M20 6C16 14 16 28 20 35' stroke='%23A9AC93' stroke-width='.9' fill='none' opacity='.4'/%3E%3C/svg%3E",
+      // hueso
+      "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cdefs%3E%3ClinearGradient id='c' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23FBFAF6'/%3E%3Cstop offset='.55' stop-color='%23D8DAC7'/%3E%3Cstop offset='1' stop-color='%23848C6B'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M20 3C10 3 4 15 4 24c0 9 7 13 16 13s16-4 16-13C36 15 30 3 20 3z' fill='url(%23c)'/%3E%3Cpath d='M20 6C16 14 16 28 20 35' stroke='%235A5F4F' stroke-width='.9' fill='none' opacity='.4'/%3E%3C/svg%3E"
+    ];
     for (let i = 0; i < 22; i++){
       const p = document.createElement('span');
-      const ancho = 12 + Math.random() * 14;
+      const ancho = 16 + Math.random() * 14;
       p.className = 'petalo';
       p.style.left = (Math.random() * 100) + 'vw';
       p.style.width = ancho + 'px';
-      p.style.height = (ancho * 1.5) + 'px';
-      p.style.background = 'rgba(' + tonos[i % 3] + ',' + (0.30 + Math.random() * 0.28) + ')';
-      p.style.animationDuration = (11 + Math.random() * 10) + 's, ' + (2.6 + Math.random() * 2) + 's';
-      p.style.animationDelay = (-Math.random() * 14) + 's, ' + (-Math.random() * 3) + 's';
+      p.style.height = (ancho * 1.15) + 'px';
+      p.style.setProperty('--giro', (280 + Math.random() * 260) + 'deg');
+      p.style.animationDuration = (11 + Math.random() * 10) + 's';
+      p.style.animationDelay = (-Math.random() * 14) + 's';
+      const inner = document.createElement('i');
+      inner.style.backgroundImage = "url(\"" + svgs[i % svgs.length] + "\")";
+      const swayDur = 2.4 + Math.random() * 1.8;
+      inner.style.animationDuration = swayDur + 's';
+      inner.style.animationDelay = (-Math.random() * swayDur) + 's';
+      p.appendChild(inner);
       capa.appendChild(p);
     }
     requestAnimationFrame(() => capa.classList.add('activo'));
