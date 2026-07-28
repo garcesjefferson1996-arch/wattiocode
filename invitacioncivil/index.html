@@ -80,17 +80,54 @@
     color:var(--oliva);font-weight:400;
   }
   .regla{width:34px;height:1px;background:var(--oliva-claro);margin:30px auto}
-  .dato{margin:22px 0}
+  dl{max-width:360px;margin:0 auto}
+  .dato{
+    margin:16px 0;padding:18px 20px;
+    background:var(--hueso);border:1px solid #ECEBE2;border-radius:10px;
+    display:flex;align-items:center;gap:16px;text-align:left;
+    box-shadow:0 6px 18px rgba(46,50,38,.04);
+    transition:transform .3s ease,box-shadow .3s ease;
+  }
+  .dato:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(46,50,38,.08)}
+  .dato-ic{
+    flex:0 0 auto;width:34px;height:34px;border-radius:50%;
+    background:var(--oliva-claro);display:flex;align-items:center;justify-content:center;
+  }
+  .dato-ic svg{width:16px;height:16px;stroke:var(--oliva);fill:none;stroke-width:1.5}
   .dato dt{
     font-family:'Jost',sans-serif;
-    font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;
-    color:var(--oliva);font-weight:400;margin-bottom:6px;
+    font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--oliva);font-weight:400;margin-bottom:4px;
   }
-  .dato dd{font-size:1.28rem;color:var(--tinta)}
-  .dato dd small{display:block;font-size:.98rem;font-style:italic;color:var(--tinta-suave);margin-top:2px}
+  .dato dd{font-size:1.18rem;color:var(--tinta)}
+  .dato dd small{display:block;font-size:.92rem;font-style:italic;color:var(--tinta-suave);margin-top:2px}
 
   /* ---------- foto banda ---------- */
   .banda img{width:100%;display:block}
+
+  /* ---------- momento lego ---------- */
+  .lego{background:var(--blanco);border-top:1px solid #ECEBE2;border-bottom:1px solid #ECEBE2}
+  .lego-titulo{
+    font-family:'Parisienne',cursive;font-weight:400;
+    font-size:clamp(2rem,8vw,2.6rem);line-height:1.22;
+    color:var(--tinta);margin:16px 0 26px;
+  }
+  .lego-marco{
+    position:relative;max-width:360px;margin:0 auto;
+    border-radius:14px;overflow:hidden;
+    box-shadow:0 18px 46px rgba(46,50,38,.16);
+    transition:transform .4s ease,box-shadow .4s ease;
+  }
+  .lego-marco:hover{transform:translateY(-4px) scale(1.01);box-shadow:0 24px 56px rgba(46,50,38,.22)}
+  .lego-marco img{width:100%;display:block}
+  .lego-marco::after{
+    content:'';position:absolute;inset:0;border-radius:14px;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.35);pointer-events:none;
+  }
+  .lego-nota{
+    font-style:italic;font-weight:300;color:var(--tinta-suave);
+    font-size:1.06rem;max-width:26ch;margin:22px auto 0;
+  }
 
   /* ---------- confirmar ---------- */
   .confirmar{background:var(--oliva);color:#fff}
@@ -101,14 +138,16 @@
   }
   .confirmar p{color:rgba(255,255,255,.85);font-style:italic;font-size:1.1rem;max-width:28ch;margin:0 auto 30px}
   .boton{
-    display:inline-block;background:#fff;color:var(--oliva);
+    display:inline-flex;align-items:center;gap:10px;background:#fff;color:var(--oliva);
     font-family:'Jost',sans-serif;
     text-decoration:none;font-weight:400;font-size:.74rem;
     letter-spacing:.2em;text-transform:uppercase;
-    padding:17px 38px;border-radius:2px;
+    padding:17px 34px;border-radius:30px;
+    box-shadow:0 8px 22px rgba(0,0,0,.12);
     transition:transform .25s ease,box-shadow .25s ease;
   }
-  .boton:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(0,0,0,.18)}
+  .boton svg{width:15px;height:15px;flex:0 0 auto}
+  .boton:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(0,0,0,.2)}
   .boton:focus-visible{outline:2px solid #fff;outline-offset:4px}
   .numero{font-family:'Jost',sans-serif;margin-top:20px;font-size:.78rem;letter-spacing:.14em;font-weight:300;color:rgba(255,255,255,.72)}
 
@@ -212,8 +251,13 @@
   }
 
   /* ---------- entrada ---------- */
-  .reveal{opacity:0;transform:translateY(18px);transition:opacity 1s ease,transform 1s ease}
+  .reveal{opacity:0;transform:translateY(26px) scale(.98);transition:opacity 1.1s cubic-bezier(.22,.8,.3,1),transform 1.1s cubic-bezier(.22,.8,.3,1)}
   .reveal.visible{opacity:1;transform:none}
+
+  /* ---------- divisor decorativo ---------- */
+  .divisor{display:flex;align-items:center;justify-content:center;gap:10px;margin:26px auto}
+  .divisor span{width:26px;height:1px;background:var(--oliva-claro)}
+  .divisor i{width:5px;height:5px;border-radius:50%;background:var(--oliva);display:block}
   .portada-txt{animation:subir 1.5s cubic-bezier(.22,.8,.3,1) both .25s}
   @keyframes subir{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
   @media (prefers-reduced-motion:reduce){
@@ -264,16 +308,16 @@
     <div class="regla"></div>
     <dl>
       <div class="dato">
-        <dt>Día</dt>
-        <dd>Sábado</dd>
+        <span class="dato-ic"><svg viewBox="0 0 24 24"><path d="M8 2v3M16 2v3M3.5 9h17M4.5 5h15a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg></span>
+        <div><dt>Día</dt><dd>Sábado</dd></div>
       </div>
       <div class="dato">
-        <dt>Hora</dt>
-        <dd>12:00 del mediodía</dd>
+        <span class="dato-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span>
+        <div><dt>Hora</dt><dd>12:00 del mediodía</dd></div>
       </div>
       <div class="dato">
-        <dt>Lugar</dt>
-        <dd>Registro Civil de Ambato<small>Te pedimos llegar 15 minutos antes</small></dd>
+        <span class="dato-ic"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6-7-11a7 7 0 0 1 14 0c0 5-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg></span>
+        <div><dt>Lugar</dt><dd>Registro Civil de Ambato<small>Te pedimos llegar 15 minutos antes</small></dd></div>
       </div>
     </dl>
   </section>
@@ -283,11 +327,25 @@
   </div>
 
 
+  <section class="lego reveal">
+    <span class="eyebrow">Y sí, hasta en Lego</span>
+    <h2 class="lego-titulo">La misma historia,<br>en versión miniatura</h2>
+    <div class="divisor" aria-hidden="true"><span></span><i></i><span></span></div>
+    <div class="lego-marco">
+      <img src="imagenes/lego.jpg" alt="Jeff y Esthelita en versión Lego, tomados de la mano en un campo verde" loading="lazy">
+    </div>
+    <p class="lego-nota">Porque el amor también se construye pieza a pieza.</p>
+  </section>
+
   <section class="confirmar reveal">
     <span class="eyebrow">Un favor</span>
     <h2>Confírmanos si vienes</h2>
+    <div class="divisor" aria-hidden="true"><span style="background:var(--oliva-claro)"></span><i style="background:#fff"></i><span style="background:var(--oliva-claro)"></span></div>
     <p>Su presencia hará de este día un recuerdo aún más especial. Como tendremos un encuentro íntimo, les agradecemos confirmar su asistencia por WhatsApp.</p>
-    <a class="boton" href="https://wa.me/593993559699?text=Hola%20Jeff%2C%20confirmo%20mi%20asistencia%20al%20civil%20del%201%20de%20agosto." target="_blank" rel="noopener">Confirmar asistencia</a>
+    <a class="boton" href="https://wa.me/593993559699?text=Hola%20Jeff%2C%20confirmo%20mi%20asistencia%20al%20civil%20del%201%20de%20agosto." target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.51 5.26l-.999 3.648 3.477-.207z"/></svg>
+      Confirmar asistencia
+    </a>
     <p class="numero">099 355 9699</p>
   </section>
 
