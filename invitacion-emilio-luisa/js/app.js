@@ -73,15 +73,31 @@
      ============================================================ */
   const fx = $('#fx');
   let petalsStarted = false;
+  const PETAL_VARIANTS = ['v1','v2','v3'];
   function spawn(kind){
     const el = document.createElement('div');
-    el.className = kind;
     const left = Math.random()*100;
     el.style.left = left + '%';
     const dur = kind==='petal' ? (8+Math.random()*7) : (7+Math.random()*8);
     el.style.animationDuration = dur+'s';
     el.style.animationDelay = (Math.random()*-dur)+'s';
-    if (kind==='petal'){ const sc=.6+Math.random()*.8; el.style.transform=`scale(${sc})`; }
+    if (kind==='petal'){
+      const variant = PETAL_VARIANTS[Math.floor(Math.random()*PETAL_VARIANTS.length)];
+      el.className = `petal ${variant}`;
+      const sc = .55+Math.random()*.9;
+      el.style.setProperty('--sc', sc);
+      el.style.transform = `scale(${sc})`;
+      el.style.setProperty('--drift', (Math.random()*80-20)+'px');
+      el.style.setProperty('--spin', (280+Math.random()*260)+'deg');
+      const inner = document.createElement('div');
+      inner.className = 'p-inner';
+      const swayDur = 2.2 + Math.random()*1.6;
+      inner.style.animationDuration = swayDur+'s';
+      inner.style.animationDelay = (Math.random()*-swayDur)+'s';
+      el.appendChild(inner);
+    } else {
+      el.className = kind;
+    }
     fx.appendChild(el);
     setTimeout(()=> el.remove(), dur*1000 + 400);
   }
@@ -89,9 +105,9 @@
     if (petalsStarted) return; petalsStarted = true;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     for (let i=0;i<10;i++) spawn('spark');
-    for (let i=0;i<6;i++) spawn('petal');
+    for (let i=0;i<8;i++) spawn('petal');
     setInterval(()=> spawn('spark'), 900);
-    setInterval(()=> spawn('petal'), 1600);
+    setInterval(()=> spawn('petal'), 1300);
   }
 
   /* ============================================================
