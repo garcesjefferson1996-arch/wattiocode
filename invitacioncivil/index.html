@@ -18,6 +18,8 @@
     --tinta:#2E3226;
     --tinta-suave:#5A5F4F;
     --blanco:#FFFFFF;
+    --dorado:#C9A96B;
+    --dorado-suave:rgba(201,169,107,.55);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
@@ -80,24 +82,18 @@
     color:var(--oliva);font-weight:400;
   }
   .regla{width:34px;height:1px;background:var(--oliva-claro);margin:30px auto}
-  dl{max-width:360px;margin:0 auto}
+  dl{max-width:320px;margin:0 auto}
   .dato{
-    margin:16px 0;padding:18px 20px;
-    background:var(--hueso);border:1px solid #ECEBE2;border-radius:10px;
-    display:flex;align-items:center;gap:16px;text-align:left;
-    box-shadow:0 6px 18px rgba(46,50,38,.04);
-    transition:transform .3s ease,box-shadow .3s ease;
+    display:flex;align-items:baseline;gap:14px;text-align:left;
+    padding:18px 4px;
+    border-bottom:1px solid #ECEBE2;
   }
-  .dato:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(46,50,38,.08)}
-  .dato-ic{
-    flex:0 0 auto;width:34px;height:34px;border-radius:50%;
-    background:var(--oliva-claro);display:flex;align-items:center;justify-content:center;
-  }
-  .dato-ic svg{width:16px;height:16px;stroke:var(--oliva);fill:none;stroke-width:1.5}
+  .dato:last-child{border-bottom:none}
   .dato dt{
+    flex:0 0 auto;width:74px;
     font-family:'Jost',sans-serif;
     font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;
-    color:var(--oliva);font-weight:400;margin-bottom:4px;
+    color:var(--oliva);font-weight:400;
   }
   .dato dd{font-size:1.18rem;color:var(--tinta)}
   .dato dd small{display:block;font-size:.92rem;font-style:italic;color:var(--tinta-suave);margin-top:2px}
@@ -183,32 +179,73 @@
     100%{background-position:-40% 0}
   }
 
-  /* ---------- pantalla de apertura ---------- */
+  /* ---------- pantalla de apertura (100% código, sin imagen) ---------- */
   .apertura{
     position:fixed;inset:0;z-index:50;
-    overflow:hidden;background:var(--oliva);
+    overflow:hidden;
+    background:
+      radial-gradient(130% 90% at 50% 26%, #545a35 0%, transparent 62%),
+      linear-gradient(165deg,#4c4f2f 0%,#383b22 55%,#2a2c19 100%);
     max-width:640px;margin:0 auto;
     transition:opacity .9s ease,visibility .9s ease;
   }
   .apertura.fuera{opacity:0;visibility:hidden}
-  /* la imagen cubre TODA la pantalla (proporción ~9:20, pensada para móvil) */
-  .apertura-marco{
-    position:relative;width:100%;height:100%;
+  .ap-textura{
+    position:absolute;inset:0;pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+    mix-blend-mode:overlay;opacity:.5;
   }
-  .apertura-img{
-    position:absolute;inset:0;width:100%;height:100%;
-    object-fit:cover;object-position:center;
-    -webkit-user-drag:none;user-select:none;
+  .ap-marco{
+    position:absolute;inset:22px;
+    border:1px solid var(--dorado-suave);
+    pointer-events:none;
+  }
+  .ap-rama{position:absolute;width:38%;height:auto;opacity:.85;pointer-events:none}
+  .ap-rama--tl{top:6px;left:6px}
+  .ap-rama--br{bottom:6px;right:6px;transform:rotate(180deg)}
+  .ap-contenido{
+    position:relative;z-index:2;height:100%;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:40px 30px;color:#fff;
+    overflow-y:auto;
+  }
+  @media (max-height:680px){
+    .ap-nombres .n{font-size:clamp(2.4rem,13vw,3.6rem)}
+    .abrir{margin-top:18px;padding:14px 32px}
+    .ap-divisor{margin:8px 0}
+  }
+  .ap-contenido .eyebrow{color:rgba(255,255,255,.82)}
+  .ap-divisor{display:flex;align-items:center;justify-content:center;gap:10px;margin:14px 0}
+  .ap-divisor span{width:38px;height:1px;background:var(--dorado-suave)}
+  .ap-divisor svg{width:11px;height:11px;stroke:var(--dorado);fill:none;stroke-width:1.4}
+  .ap-nombres{display:flex;flex-direction:column;align-items:center;margin:2px 0}
+  .ap-nombres .n{
+    font-family:'Parisienne',cursive;font-weight:400;
+    font-size:clamp(3.1rem,15.5vw,5rem);line-height:1.05;color:#fdfbf2;
+  }
+  .ap-nombres .ap-y{
+    font-family:'Parisienne',cursive;font-weight:400;
+    font-size:clamp(1.5rem,7vw,2.2rem);color:var(--dorado);margin:0 0 2px;
+  }
+  .ap-cita{
+    font-style:italic;font-weight:300;font-size:1.08rem;line-height:1.5;
+    color:rgba(255,255,255,.92);margin-top:4px;max-width:22ch;
+  }
+  .ap-autor{
+    font-family:'Jost',sans-serif;font-size:.66rem;letter-spacing:.32em;
+    text-transform:uppercase;color:var(--dorado);margin-top:10px;
   }
   .abrir{
-    position:absolute;
-    left:19%;right:19.6%;top:78%;bottom:13.6%;
-    background:none;border:none;padding:0;margin:0;
-    cursor:pointer;-webkit-tap-highlight-color:transparent;
-    border-radius:4px;
+    margin-top:30px;display:inline-flex;flex-direction:column;align-items:center;gap:7px;
+    background:rgba(0,0,0,.08);border:1px solid var(--dorado-suave);
+    color:#fff;font-family:'Jost',sans-serif;font-weight:400;
+    font-size:.7rem;letter-spacing:.26em;text-transform:uppercase;
+    padding:18px 40px;border-radius:2px;cursor:pointer;
+    transition:background .3s ease,border-color .3s ease,transform .3s ease;
   }
-  .abrir:hover{background:rgba(255,255,255,.08)}
-  .abrir:focus-visible{outline:2px solid #fff;outline-offset:4px}
+  .abrir svg{width:13px;height:13px;stroke:var(--dorado);fill:none;stroke-width:1.4}
+  .abrir:hover{background:rgba(255,255,255,.08);border-color:var(--dorado);transform:translateY(-2px)}
+  .abrir:focus-visible{outline:2px solid var(--dorado);outline-offset:4px}
   body.bloqueado{overflow:hidden}
 
   /* ---------- control de sonido ---------- */
@@ -289,9 +326,67 @@
 </head>
 <body>
 <div class="apertura" id="apertura">
-  <div class="apertura-marco">
-    <img class="apertura-img" src="imagenes/apertura.jpg" alt="Jeff &amp; Esthelita, nos casamos. «El amor me lo ha explicado todo» — San Juan Pablo II">
-    <button class="abrir" id="abrir" type="button" aria-label="Abrir invitación"></button>
+  <div class="ap-textura" aria-hidden="true"></div>
+  <div class="ap-marco" aria-hidden="true"></div>
+
+  <svg class="ap-rama ap-rama--tl" viewBox="0 0 220 300" aria-hidden="true">
+    <g fill="none" stroke="var(--dorado)" stroke-width="1.1" stroke-linecap="round" opacity=".9">
+      <path d="M6 6 C 34 42, 52 78, 84 122 C 108 155, 128 190, 150 236"/>
+      <ellipse cx="30" cy="30" rx="15" ry="6" transform="rotate(38 30 30)" fill="var(--dorado)" fill-opacity=".14"/>
+      <ellipse cx="50" cy="58" rx="19" ry="7" transform="rotate(42 50 58)" fill="var(--dorado)" fill-opacity=".14"/>
+      <ellipse cx="72" cy="92" rx="21" ry="7.5" transform="rotate(46 72 92)" fill="var(--dorado)" fill-opacity=".14"/>
+      <ellipse cx="94" cy="126" rx="18" ry="7" transform="rotate(30 94 126)" fill="var(--dorado)" fill-opacity=".14"/>
+      <ellipse cx="116" cy="160" rx="20" ry="7" transform="rotate(52 116 160)" fill="var(--dorado)" fill-opacity=".14"/>
+      <ellipse cx="136" cy="196" rx="16" ry="6" transform="rotate(35 136 196)" fill="var(--dorado)" fill-opacity=".14"/>
+      <circle cx="58" cy="40" r="2" fill="var(--dorado)" stroke="none"/>
+      <circle cx="86" cy="82" r="2" fill="var(--dorado)" stroke="none"/>
+      <circle cx="108" cy="142" r="2" fill="var(--dorado)" stroke="none"/>
+    </g>
+  </svg>
+
+  <svg class="ap-rama ap-rama--br" viewBox="0 0 220 300" aria-hidden="true">
+    <g fill="none" stroke="var(--dorado)" stroke-width="1.1" stroke-linecap="round" opacity=".9">
+      <path d="M6 6 C 34 42, 52 78, 84 122 C 108 155, 128 190, 150 236"/>
+      <ellipse cx="30" cy="30" rx="15" ry="6" transform="rotate(38 30 30)" fill="var(--dorado)" fill-opacity=".14"/>
+      <ellipse cx="50" cy="58" rx="19" ry="7" transform="rotate(42 50 58)" fill="var(--dorado)" fill-opacity=".14"/>
+      <ellipse cx="72" cy="92" rx="21" ry="7.5" transform="rotate(46 72 92)" fill="var(--dorado)" fill-opacity=".14"/>
+      <ellipse cx="94" cy="126" rx="18" ry="7" transform="rotate(30 94 126)" fill="var(--dorado)" fill-opacity=".14"/>
+      <ellipse cx="116" cy="160" rx="20" ry="7" transform="rotate(52 116 160)" fill="var(--dorado)" fill-opacity=".14"/>
+      <ellipse cx="136" cy="196" rx="16" ry="6" transform="rotate(35 136 196)" fill="var(--dorado)" fill-opacity=".14"/>
+      <circle cx="58" cy="40" r="2" fill="var(--dorado)" stroke="none"/>
+      <circle cx="86" cy="82" r="2" fill="var(--dorado)" stroke="none"/>
+      <circle cx="108" cy="142" r="2" fill="var(--dorado)" stroke="none"/>
+    </g>
+  </svg>
+
+  <div class="ap-contenido">
+    <span class="eyebrow">Nos casamos</span>
+
+    <div class="ap-divisor" aria-hidden="true">
+      <span></span>
+      <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.2C.8 9.7 2.3 6 6 6c2.1 0 3.4 1.3 6 4.5C14.6 7.3 15.9 6 18 6c3.7 0 5.2 3.7 3.5 6.8C19 16.7 12 21 12 21z"/></svg>
+      <span></span>
+    </div>
+
+    <h1 class="ap-nombres">
+      <span class="n">Jeff</span>
+      <span class="ap-y">&amp;</span>
+      <span class="n">Esthelita</span>
+    </h1>
+
+    <div class="ap-divisor" aria-hidden="true">
+      <span></span>
+      <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.2C.8 9.7 2.3 6 6 6c2.1 0 3.4 1.3 6 4.5C14.6 7.3 15.9 6 18 6c3.7 0 5.2 3.7 3.5 6.8C19 16.7 12 21 12 21z"/></svg>
+      <span></span>
+    </div>
+
+    <p class="ap-cita">El amor me lo<br>ha explicado todo</p>
+    <p class="ap-autor">San Juan Pablo II</p>
+
+    <button class="abrir" id="abrir" type="button">
+      <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.3-9.5-8.2C.8 9.7 2.3 6 6 6c2.1 0 3.4 1.3 6 4.5C14.6 7.3 15.9 6 18 6c3.7 0 5.2 3.7 3.5 6.8C19 16.7 12 21 12 21z"/></svg>
+      <span>Abrir invitación</span>
+    </button>
   </div>
 </div>
 
@@ -326,16 +421,13 @@
     <div class="regla"></div>
     <dl>
       <div class="dato">
-        <span class="dato-ic"><svg viewBox="0 0 24 24"><path d="M8 2v3M16 2v3M3.5 9h17M4.5 5h15a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg></span>
-        <div><dt>Día</dt><dd>Sábado</dd></div>
+        <dt>Día</dt><dd>Sábado</dd>
       </div>
       <div class="dato">
-        <span class="dato-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span>
-        <div><dt>Hora</dt><dd>12:00 del mediodía</dd></div>
+        <dt>Hora</dt><dd>12:00 del mediodía</dd>
       </div>
       <div class="dato">
-        <span class="dato-ic"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6-7-11a7 7 0 0 1 14 0c0 5-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg></span>
-        <div><dt>Lugar</dt><dd>Registro Civil de Ambato<small>Te pedimos llegar 15 minutos antes</small></dd></div>
+        <dt>Lugar</dt><dd>Registro Civil de Ambato<small>Te pedimos llegar 15 minutos antes</small></dd>
       </div>
     </dl>
   </section>
