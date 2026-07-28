@@ -186,17 +186,14 @@
   /* ---------- pantalla de apertura ---------- */
   .apertura{
     position:fixed;inset:0;z-index:50;
-    display:flex;align-items:center;justify-content:center;
     overflow:hidden;background:var(--oliva);
+    max-width:640px;margin:0 auto;
     transition:opacity .9s ease,visibility .9s ease;
   }
   .apertura.fuera{opacity:0;visibility:hidden}
-  /* caja que conserva siempre la proporción exacta de la imagen (1023x1537),
-     sin recortes, sea cual sea el tamaño de pantalla */
+  /* la imagen cubre TODA la pantalla (proporción ~9:20, pensada para móvil) */
   .apertura-marco{
-    position:relative;
-    width:min(100vw, calc(100dvh * 1023 / 1537));
-    height:min(100dvh, calc(100vw * 1537 / 1023));
+    position:relative;width:100%;height:100%;
   }
   .apertura-img{
     position:absolute;inset:0;width:100%;height:100%;
@@ -205,7 +202,7 @@
   }
   .abrir{
     position:absolute;
-    left:29%;right:29.5%;top:76.4%;bottom:14.4%;
+    left:19%;right:19.6%;top:78%;bottom:13.6%;
     background:none;border:none;padding:0;margin:0;
     cursor:pointer;-webkit-tap-highlight-color:transparent;
     border-radius:4px;
@@ -243,23 +240,31 @@
   .petalos.activo{opacity:1}
   .petalo{
     position:absolute;top:-8vh;
+    opacity:0;
     animation:caer linear infinite;
-    will-change:transform;
-    filter:drop-shadow(0 2px 4px rgba(46,50,38,.18));
+    will-change:transform,opacity;
+    filter:drop-shadow(0 2px 3px rgba(46,50,38,.10));
   }
   .petalo i{
     display:block;width:100%;height:100%;
     background-repeat:no-repeat;background-size:contain;
-    animation:mecer ease-in-out infinite alternate;
+    animation:aletear ease-in-out infinite;
     transform-origin:center;
   }
+  /* caída con deriva zigzag (no una línea recta) para simular viento real */
   @keyframes caer{
-    from{transform:translateY(-10vh) rotate(0deg)}
-    to{transform:translateY(112vh) rotate(var(--giro,320deg))}
+    0%{   transform:translate(0,-10vh) rotate(0deg); opacity:0; }
+    6%{   opacity:var(--op,.55); }
+    22%{  transform:translate(var(--d1,-22px),14vh) rotate(calc(var(--giro,320deg) * .18)); }
+    45%{  transform:translate(var(--d2,18px),46vh) rotate(calc(var(--giro,320deg) * .48)); }
+    68%{  transform:translate(var(--d3,-16px),76vh) rotate(calc(var(--giro,320deg) * .76)); }
+    88%{  transform:translate(var(--d4,10px),100vh) rotate(calc(var(--giro,320deg) * .94)); opacity:var(--op,.55); }
+    100%{ transform:translate(var(--d5,4px),114vh) rotate(var(--giro,320deg)); opacity:0; }
   }
-  @keyframes mecer{
-    from{transform:rotate(-14deg) translateX(-10px)}
-    to{transform:rotate(14deg) translateX(10px)}
+  /* aleteo: el pétalo se "adelgaza" al girar sobre su eje, como una hoja real */
+  @keyframes aletear{
+    0%,100%{ transform:scaleX(1) rotate(-10deg); }
+    50%{ transform:scaleX(.4) rotate(10deg); }
   }
 
   /* ---------- entrada ---------- */
@@ -414,17 +419,27 @@
     ];
     for (let i = 0; i < 22; i++){
       const p = document.createElement('span');
-      const ancho = 16 + Math.random() * 14;
+      const ancho = 14 + Math.random() * 13;
       p.className = 'petalo';
       p.style.left = (Math.random() * 100) + 'vw';
       p.style.width = ancho + 'px';
       p.style.height = (ancho * 1.15) + 'px';
-      p.style.setProperty('--giro', (280 + Math.random() * 260) + 'deg');
-      p.style.animationDuration = (11 + Math.random() * 10) + 's';
-      p.style.animationDelay = (-Math.random() * 14) + 's';
+      // deriva zigzag: cada pétalo cae con un vaivén distinto, como el viento real
+      const amp = 16 + Math.random() * 26;
+      p.style.setProperty('--d1', (-amp + Math.random()*10) + 'px');
+      p.style.setProperty('--d2', (amp - Math.random()*10) + 'px');
+      p.style.setProperty('--d3', (-amp*0.7 + Math.random()*8) + 'px');
+      p.style.setProperty('--d4', (amp*0.5 - Math.random()*8) + 'px');
+      p.style.setProperty('--d5', (Math.random()*14 - 7) + 'px');
+      p.style.setProperty('--giro', (220 + Math.random() * 300) + 'deg');
+      // más transparentes: opacidad máxima entre .32 y .58
+      p.style.setProperty('--op', (0.32 + Math.random() * 0.26).toFixed(2));
+      p.style.animationDuration = (12 + Math.random() * 11) + 's';
+      p.style.animationDelay = (-Math.random() * 16) + 's';
+      p.style.animationTimingFunction = 'cubic-bezier(.42,0,.58,1)';
       const inner = document.createElement('i');
       inner.style.backgroundImage = "url(\"" + svgs[i % svgs.length] + "\")";
-      const swayDur = 2.4 + Math.random() * 1.8;
+      const swayDur = 1.8 + Math.random() * 1.6;
       inner.style.animationDuration = swayDur + 's';
       inner.style.animationDelay = (-Math.random() * swayDur) + 's';
       p.appendChild(inner);
