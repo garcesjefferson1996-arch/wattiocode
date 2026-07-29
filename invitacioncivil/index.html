@@ -196,13 +196,23 @@
     mix-blend-mode:overlay;opacity:.5;
   }
   .ap-marco{
-    position:absolute;inset:22px;
+    position:absolute;inset:20px;
     border:1px solid var(--dorado-suave);
     pointer-events:none;
   }
-  .ap-rama{position:absolute;width:38%;height:auto;opacity:.85;pointer-events:none}
-  .ap-rama--tl{top:6px;left:6px}
-  .ap-rama--br{bottom:6px;right:6px;transform:rotate(180deg)}
+  .ap-marco::before{
+    content:'';position:absolute;inset:6px;
+    border:1px solid rgba(201,169,107,.28);
+  }
+  .ap-esquina{
+    position:absolute;width:15px;height:15px;
+    border:1px solid var(--dorado);
+    pointer-events:none;
+  }
+  .ap-esquina--tl{top:12px;left:12px;border-right:none;border-bottom:none}
+  .ap-esquina--tr{top:12px;right:12px;border-left:none;border-bottom:none}
+  .ap-esquina--bl{bottom:12px;left:12px;border-right:none;border-top:none}
+  .ap-esquina--br{bottom:12px;right:12px;border-left:none;border-top:none}
   .ap-contenido{
     position:relative;z-index:2;height:100%;
     display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -328,36 +338,10 @@
 <div class="apertura" id="apertura">
   <div class="ap-textura" aria-hidden="true"></div>
   <div class="ap-marco" aria-hidden="true"></div>
-
-  <svg class="ap-rama ap-rama--tl" viewBox="0 0 220 300" aria-hidden="true">
-    <g fill="none" stroke="var(--dorado)" stroke-width="1.1" stroke-linecap="round" opacity=".9">
-      <path d="M6 6 C 34 42, 52 78, 84 122 C 108 155, 128 190, 150 236"/>
-      <ellipse cx="30" cy="30" rx="15" ry="6" transform="rotate(38 30 30)" fill="var(--dorado)" fill-opacity=".14"/>
-      <ellipse cx="50" cy="58" rx="19" ry="7" transform="rotate(42 50 58)" fill="var(--dorado)" fill-opacity=".14"/>
-      <ellipse cx="72" cy="92" rx="21" ry="7.5" transform="rotate(46 72 92)" fill="var(--dorado)" fill-opacity=".14"/>
-      <ellipse cx="94" cy="126" rx="18" ry="7" transform="rotate(30 94 126)" fill="var(--dorado)" fill-opacity=".14"/>
-      <ellipse cx="116" cy="160" rx="20" ry="7" transform="rotate(52 116 160)" fill="var(--dorado)" fill-opacity=".14"/>
-      <ellipse cx="136" cy="196" rx="16" ry="6" transform="rotate(35 136 196)" fill="var(--dorado)" fill-opacity=".14"/>
-      <circle cx="58" cy="40" r="2" fill="var(--dorado)" stroke="none"/>
-      <circle cx="86" cy="82" r="2" fill="var(--dorado)" stroke="none"/>
-      <circle cx="108" cy="142" r="2" fill="var(--dorado)" stroke="none"/>
-    </g>
-  </svg>
-
-  <svg class="ap-rama ap-rama--br" viewBox="0 0 220 300" aria-hidden="true">
-    <g fill="none" stroke="var(--dorado)" stroke-width="1.1" stroke-linecap="round" opacity=".9">
-      <path d="M6 6 C 34 42, 52 78, 84 122 C 108 155, 128 190, 150 236"/>
-      <ellipse cx="30" cy="30" rx="15" ry="6" transform="rotate(38 30 30)" fill="var(--dorado)" fill-opacity=".14"/>
-      <ellipse cx="50" cy="58" rx="19" ry="7" transform="rotate(42 50 58)" fill="var(--dorado)" fill-opacity=".14"/>
-      <ellipse cx="72" cy="92" rx="21" ry="7.5" transform="rotate(46 72 92)" fill="var(--dorado)" fill-opacity=".14"/>
-      <ellipse cx="94" cy="126" rx="18" ry="7" transform="rotate(30 94 126)" fill="var(--dorado)" fill-opacity=".14"/>
-      <ellipse cx="116" cy="160" rx="20" ry="7" transform="rotate(52 116 160)" fill="var(--dorado)" fill-opacity=".14"/>
-      <ellipse cx="136" cy="196" rx="16" ry="6" transform="rotate(35 136 196)" fill="var(--dorado)" fill-opacity=".14"/>
-      <circle cx="58" cy="40" r="2" fill="var(--dorado)" stroke="none"/>
-      <circle cx="86" cy="82" r="2" fill="var(--dorado)" stroke="none"/>
-      <circle cx="108" cy="142" r="2" fill="var(--dorado)" stroke="none"/>
-    </g>
-  </svg>
+  <span class="ap-esquina ap-esquina--tl" aria-hidden="true"></span>
+  <span class="ap-esquina ap-esquina--tr" aria-hidden="true"></span>
+  <span class="ap-esquina ap-esquina--bl" aria-hidden="true"></span>
+  <span class="ap-esquina ap-esquina--br" aria-hidden="true"></span>
 
   <div class="ap-contenido">
     <span class="eyebrow">Nos casamos</span>
