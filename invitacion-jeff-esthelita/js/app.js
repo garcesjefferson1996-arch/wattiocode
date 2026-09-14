@@ -5,7 +5,7 @@
   'use strict';
 
   /* ---- Config editable ---- */
-  const WEDDING_DATE = new Date('2026-08-22T11:00:00-05:00');
+  const WEDDING_DATE = new Date('2026-10-24T11:30:00-05:00');
   const WHATSAPP_NUMBER = '593000000000'; // <-- PENDIENTE: reemplaza por el número real (código país 593, sin +)
 
   const $  = (s, c=document) => c.querySelector(s);
@@ -197,7 +197,7 @@
     text += `Respuesta: ${att}%0A`;
     text += `Invitados: ${guests}%0A`;
     if (msg) text += `Mensaje: ${msg}%0A`;
-    text += `%0A¡Nos vemos el 22 de agosto! ✦`;
+    text += `%0A¡Nos vemos el 24 de octubre! ✦`;
     // guarda localmente (demo)
     try{ localStorage.setItem('rsvp', JSON.stringify({name,guests,att,msg,ts:Date.now()})); }catch(_){}
     $('#rsvpOk').classList.add('on');
@@ -269,29 +269,7 @@
   renderTrivia();
 
   /* ============================================================
-     10 · MENSAJES PARA LOS NOVIOS
-     ============================================================ */
-  const wishForm=$('#wishForm'), wishCards=$('#wishCards');
-  function addWish(name,msg,prepend=true){
-    const card=document.createElement('div');
-    card.className='wish';
-    card.style.setProperty('--rot', (Math.random()*3-1.5).toFixed(1)+'deg');
-    card.innerHTML=`<div class="msg">«${escapeHTML(msg)}»</div><div class="from">— ${escapeHTML(name)}</div>`;
-    if(prepend) wishCards.prepend(card); else wishCards.appendChild(card);
-  }
-  function escapeHTML(s){ return s.replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
-  wishForm.addEventListener('submit', e=>{
-    e.preventDefault();
-    const n=$('#wishName').value.trim(), m=$('#wishMsg').value.trim();
-    if(!n||!m) return;
-    addWish(n,m);
-    try{ const arr=JSON.parse(localStorage.getItem('wishes')||'[]'); arr.push({n,m}); localStorage.setItem('wishes',JSON.stringify(arr)); }catch(_){}
-    $('#wishName').value=''; $('#wishMsg').value='';
-  });
-  try{ JSON.parse(localStorage.getItem('wishes')||'[]').forEach(w=> addWish(w.n,w.m)); }catch(_){}
-
-  /* ============================================================
-     11 · CÁPSULA DEL TIEMPO
+     10 · CÁPSULA DEL TIEMPO
      ============================================================ */
   const capForm=$('#capForm'), sealed=$('#sealed');
   function checkSealed(){
