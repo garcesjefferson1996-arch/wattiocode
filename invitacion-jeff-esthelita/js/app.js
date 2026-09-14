@@ -177,39 +177,6 @@
   makeQRs();
 
   /* ============================================================
-     7 · RSVP → WhatsApp
-     ============================================================ */
-  const rsvpForm = $('#rsvpForm');
-  const attend = $('#r-attend');
-  attend.addEventListener('click', e=>{
-    const lab = e.target.closest('label'); if(!lab) return;
-    $$('label', attend).forEach(l=> l.classList.remove('on'));
-    lab.classList.add('on');
-  });
-  rsvpForm.addEventListener('submit', e=>{
-    e.preventDefault();
-    const name = $('#r-name').value.trim() || 'Invitado';
-    const guests = $('#r-guests').value;
-    const att = ($('label.on', attend)||{}).dataset?.val || 'Sí, allí estaré';
-    const msg = $('#r-msg').value.trim();
-    let text = `¡Hola Jeff y Esthelita! 💛%0A%0A*Confirmación de asistencia*%0A`;
-    text += `Nombre: ${name}%0A`;
-    text += `Respuesta: ${att}%0A`;
-    text += `Invitados: ${guests}%0A`;
-    if (msg) text += `Mensaje: ${msg}%0A`;
-    text += `%0A¡Nos vemos el 24 de octubre! ✦`;
-    // guarda localmente (demo)
-    try{ localStorage.setItem('rsvp', JSON.stringify({name,guests,att,msg,ts:Date.now()})); }catch(_){}
-    $('#rsvpOk').classList.add('on');
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, '_blank');
-  });
-  // restaurar
-  try{
-    const saved = JSON.parse(localStorage.getItem('rsvp')||'null');
-    if (saved){ $('#r-name').value=saved.name||''; $('#r-guests').value=saved.guests||'1'; if(saved.msg)$('#r-msg').value=saved.msg; }
-  }catch(_){}
-
-  /* ============================================================
      8 · CANCIÓN IMPERDIBLE (sugerencias)
      ============================================================ */
   const sugForm = $('#sugForm'), sugInput = $('#sugInput'), sugList = $('#sugList');
@@ -229,47 +196,7 @@
   loadSug();
 
   /* ============================================================
-     9 · TRIVIA
-     ============================================================ */
-  /* PENDIENTE: ajusta preguntas, opciones y respuesta correcta (a: índice 0-based) a su historia real */
-  const TRIVIA = [
-    { q:'¿Dónde nos conocimos?', opts:['En la universidad','En el trabajo','Por amigos en común','En una fiesta'], a:2 },
-    { q:'¿Quién dijo «Te amo» primero?', opts:['Jeff','Esthelita','Los dos a la vez','Nadie lo recuerda'], a:0 },
-    { q:'¿Cuántos años llevamos juntos?', opts:['2 años','4 años','6 años','8 años'], a:1 },
-    { q:'¿Cuál es nuestro viaje soñado?', opts:['Europa','Japón','Galápagos','Estados Unidos'], a:2 }
-  ];
-  let tIdx=0, tScore=0, tLocked=false;
-  const qNum=$('#qNum'), qText=$('#qText'), qOpts=$('#qOpts'), qScore=$('#qScore'), qNext=$('#qNext');
-  function renderTrivia(){
-    tLocked=false;
-    const item=TRIVIA[tIdx];
-    qNum.textContent=`Pregunta ${tIdx+1} de ${TRIVIA.length}`;
-    qText.textContent=item.q;
-    qScore.style.display='none'; qNext.style.display='none';
-    qOpts.innerHTML='';
-    item.opts.forEach((o,i)=>{
-      const b=document.createElement('button'); b.className='opt'; b.type='button'; b.textContent=o;
-      b.addEventListener('click', ()=>{
-        if(tLocked) return; tLocked=true;
-        if(i===item.a){ b.classList.add('correct'); tScore++; }
-        else { b.classList.add('wrong'); qOpts.children[item.a].classList.add('correct'); }
-        qScore.textContent=`Puntaje: ${tScore} / ${TRIVIA.length}`;
-        qScore.style.display='block';
-        qNext.textContent = tIdx < TRIVIA.length-1 ? 'Siguiente →' : 'Reiniciar ↺';
-        qNext.style.display='inline-flex';
-      });
-      qOpts.appendChild(b);
-    });
-  }
-  qNext.addEventListener('click', ()=>{
-    if (tIdx < TRIVIA.length-1){ tIdx++; }
-    else { tIdx=0; tScore=0; }
-    renderTrivia();
-  });
-  renderTrivia();
-
-  /* ============================================================
-     10 · CÁPSULA DEL TIEMPO
+     9 · CÁPSULA DEL TIEMPO
      ============================================================ */
   const capForm=$('#capForm'), sealed=$('#sealed');
   function checkSealed(){
