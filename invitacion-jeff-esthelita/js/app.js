@@ -5,7 +5,7 @@
   'use strict';
 
   /* ---- Config editable ---- */
-  const WEDDING_DATE = new Date('2026-10-24T11:30:00-05:00');
+  const WEDDING_DATE = new Date('2026-10-17T15:00:00-05:00');
   const WHATSAPP_NUMBER = '593000000000'; // <-- PENDIENTE: reemplaza por el número real (código país 593, sin +)
 
   const $  = (s, c=document) => c.querySelector(s);
