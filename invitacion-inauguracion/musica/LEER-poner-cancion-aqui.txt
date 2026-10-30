@@ -1,0 +1,2 @@
+Pon aqui la cancion con el nombre exacto: cancion.mp3
+Suena al tocar "Abrir invitacion" y se repite en bucle.

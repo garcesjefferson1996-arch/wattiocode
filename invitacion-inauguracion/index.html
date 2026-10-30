@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gran Inauguración — Un sueño nacido del amor</title>
+<meta name="description" content="Un sueño nacido del amor. Gran inauguración, sábado 31 de octubre de 2026, 18h00.">
+<meta property="og:title" content="Un sueño nacido del amor">
+<meta property="og:description" content="Gran inauguración · Sábado 31 de octubre de 2026 · 18h00">
+<meta property="og:image" content="imagenes/portada-logo.png">
+<meta name="theme-color" content="#EDE1CB">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Pinyon+Script&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --chocolate:#3B2416;
+    --nogal:#5A3A24;
+    --hilo:#6B4A33;
+    --crema:#EDE1CB;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{
+    background:var(--crema);
+    color:var(--chocolate);
+    font-family:'Cormorant Garamond', Georgia, serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  /* iOS no soporta background fixed: capa fija */
+  .fondo{position:fixed;inset:0;background:var(--crema) url('imagenes/lino.jpg') center / cover no-repeat;z-index:-1}
+
+  /* ---------- Portada (necesaria para que el navegador permita la música) ---------- */
+  .portada{
+    position:fixed;inset:0;z-index:20;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:34px;
+    padding:24px;
+    background:var(--crema) url('imagenes/lino.jpg') center / cover no-repeat;
+    transition:opacity 1.1s ease, visibility 1.1s ease;
+  }
+  .portada.oculta{opacity:0;visibility:hidden}
+  .portada img{width:min(78vw,420px);height:auto;filter:drop-shadow(0 18px 22px rgba(60,35,15,.22));animation:respira 5s ease-in-out infinite}
+  @keyframes respira{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  .btn-abrir{
+    font-family:inherit;font-size:19px;font-weight:600;letter-spacing:.22em;white-space:nowrap;
+    color:var(--nogal);background:rgba(255,250,240,.28);
+    border:2px dashed rgba(90,58,36,.6);border-radius:999px;
+    padding:16px 34px;cursor:pointer;min-height:56px;
+    transition:background .3s ease, transform .3s ease;
+  }
+  .btn-abrir:hover,.btn-abrir:focus-visible{background:rgba(255,250,240,.55);transform:translateY(-1px);outline:none}
+
+  /* ---------- Invitación ---------- */
+  main{
+    max-width:560px;margin:0 auto;
+    padding:28px 26px calc(110px + env(safe-area-inset-bottom));
+    display:flex;flex-direction:column;align-items:center;text-align:center;
+  }
+  .logo{width:min(80vw,400px);height:auto;filter:drop-shadow(0 16px 20px rgba(60,35,15,.22))}
+  .subtitulo{
+    margin:6px 0 0;font-family:'Pinyon Script','Cormorant Garamond',cursive;font-weight:400;
+    font-size:clamp(38px,11vw,54px);line-height:1.15;color:#4A2B19;mix-blend-mode:multiply;
+  }
+  .carta{
+    margin-top:22px;text-wrap:pretty;display:flex;flex-direction:column;gap:16px;
+    font-size:clamp(18px,4.9vw,21px);font-weight:500;line-height:1.55;mix-blend-mode:multiply;
+  }
+  .carta p{margin:0}
+  .carta .cierre{font-style:italic}
+  .costura{display:block;width:100%;height:10px;margin:0}
+  .evento{margin-top:38px;width:100%;display:flex;flex-direction:column;align-items:center;mix-blend-mode:multiply}
+  .etiqueta{margin-top:26px;font-size:clamp(15px,4.2vw,18px);font-weight:600;letter-spacing:.32em;margin-right:-.32em;color:var(--nogal)}
+  .fecha{margin-top:12px;text-wrap:balance;font-size:clamp(28px,7.8vw,36px);font-weight:600;line-height:1.15}
+  .hora{margin-top:6px;display:flex;align-items:center;gap:16px;font-size:clamp(30px,8.4vw,38px);font-weight:500;line-height:1.1}
+  .hora svg{width:44px;height:4px}
+  .nombre{margin-top:14px;font-size:clamp(14px,3.9vw,17px);font-weight:600;letter-spacing:.32em;margin-right:-.32em;color:var(--nogal)}
+  .evento .costura:last-of-type{margin-top:26px}
+  .gracias{margin:22px 0 0;font-size:clamp(20px,5.6vw,24px);font-style:italic;font-weight:500;color:#4A2B19}
+  .mapa{
+    margin-top:30px;display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    min-height:56px;padding:0 28px;border:2px dashed rgba(90,58,36,.6);border-radius:999px;
+    color:var(--nogal);text-decoration:none;font-size:17px;font-weight:600;letter-spacing:.2em;
+    background:rgba(255,250,240,.25);transition:background .3s ease;
+  }
+  .mapa:hover,.mapa:focus-visible{background:rgba(255,250,240,.55);outline:none}
+  .mapa svg{width:20px;height:26px;flex:none}
+
+  /* entrada suave */
+  .aparece{opacity:0;transform:translateY(14px);transition:opacity 1.2s ease, transform 1.2s ease}
+  body.abierta .aparece{opacity:1;transform:none}
+  body.abierta .d1{transition-delay:.3s} body.abierta .d2{transition-delay:.7s}
+  body.abierta .d3{transition-delay:1.1s} body.abierta .d4{transition-delay:1.5s}
+
+  /* botón de música */
+  .musica{
+    position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom));z-index:10;
+    width:52px;height:52px;border-radius:50%;
+    border:2px dashed rgba(90,58,36,.6);background:rgba(245,236,220,.85);
+    display:none;align-items:center;justify-content:center;cursor:pointer;color:var(--nogal);
+    box-shadow:0 6px 14px rgba(60,35,15,.15);
+  }
+  body.abierta .musica.disponible{display:flex}
+  .musica svg{width:22px;height:22px}
+  .musica .off{display:none}
+  .musica.pausada .on{display:none}
+  .musica.pausada .off{display:block}
+
+  @media (prefers-reduced-motion: reduce){
+    .aparece,.portada{transition:none}
+    .portada img{animation:none}
+  }
+</style>
+</head>
+<body>
+<div class="fondo" aria-hidden="true"></div>
+
+<section class="portada" id="portada" aria-label="Portada de la invitación">
+  <img src="imagenes/portada-logo.png" alt="Logotipo envuelto en tela de lino">
+  <button class="btn-abrir" id="abrir" type="button">ABRIR INVITACIÓN</button>
+</section>
+
+<main>
+  <img class="logo aparece d1" src="imagenes/portada-logo.png" alt="Logotipo envuelto en tela de lino">
+
+  <p class="subtitulo aparece d1">Un sueño nacido del amor</p>
+
+  <div class="carta aparece d2">
+    <p>Hay personas que dejan una huella tan profunda en nuestras vidas que su amor nos acompaña para siempre.</p>
+    <p>Hoy, con el corazón lleno de recuerdos y gratitud, quiero compartir con ustedes un sueño muy especial: una cafetería que lleva el nombre de mi amada esposa, un homenaje a su vida y al amor que seguirá acompañándome cada día.</p>
+    <p class="cierre">Con mucha ilusión, les invito a ser parte de este nuevo comienzo.</p>
+  </div>
+
+  <div class="evento aparece d3">
+    <svg class="costura" viewBox="0 0 500 10" preserveAspectRatio="none" aria-hidden="true"><line x1="3" y1="5" x2="497" y2="5" stroke="#6B4A33" stroke-width="2" stroke-linecap="round" stroke-dasharray="8 6" vector-effect="non-scaling-stroke"/></svg>
+    <div class="etiqueta">GRAN INAUGURACIÓN</div>
+    <div class="fecha">Sábado 31 de octubre de 2026</div>
+    <div class="hora">
+      <svg viewBox="0 0 44 4" aria-hidden="true"><line x1="2" y1="2" x2="42" y2="2" stroke="#6B4A33" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 5"/></svg>
+      <span>18h00</span>
+      <svg viewBox="0 0 44 4" aria-hidden="true"><line x1="2" y1="2" x2="42" y2="2" stroke="#6B4A33" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 5"/></svg>
+    </div>
+    <svg class="costura" viewBox="0 0 500 10" preserveAspectRatio="none" aria-hidden="true"><line x1="3" y1="5" x2="497" y2="5" stroke="#6B4A33" stroke-width="2" stroke-linecap="round" stroke-dasharray="8 6" vector-effect="non-scaling-stroke"/></svg>
+    <p class="gracias">Será una alegría compartir este momento con ustedes.</p>
+  </div>
+
+  <a class="mapa aparece d4" href="https://www.google.com/maps/search/?api=1&amp;query=Av.%20Carlos%20Rubira%20Infante%20y%20Enrique%20Iba%C3%B1ez%20Mora%2C%20Ecuador" target="_blank" rel="noopener">
+    <svg viewBox="0 0 30 38" aria-hidden="true"><path d="M15 36 C15 36 3 22.5 3 14 A12 12 0 0 1 27 14 C27 22.5 15 36 15 36 Z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><circle cx="15" cy="14" r="4.5" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>
+    VER UBICACIÓN
+  </a>
+</main>
+
+<button class="musica" id="musica" type="button" aria-label="Pausar música">
+  <svg class="on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>
+  <svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/><line x1="3" y1="3" x2="21" y2="21"/></svg>
+</button>
+
+<audio id="cancion" src="musica/cancion.mp3" loop preload="auto"></audio>
+
+<script>
+  const portada = document.getElementById('portada');
+  const abrir = document.getElementById('abrir');
+  const audio = document.getElementById('cancion');
+  const boton = document.getElementById('musica');
+  audio.volume = 0.6;
+
+  audio.addEventListener('canplay', () => boton.classList.add('disponible'), { once: true });
+
+  function estado(pausada){
+    boton.classList.toggle('pausada', pausada);
+    boton.setAttribute('aria-label', pausada ? 'Reproducir música' : 'Pausar música');
+  }
+
+  abrir.addEventListener('click', () => {
+    portada.classList.add('oculta');
+    document.body.classList.add('abierta');
+    audio.play().then(() => estado(false)).catch(() => estado(true));
+  });
+
+  boton.addEventListener('click', () => {
+    if (audio.paused) { audio.play().then(() => estado(false)).catch(() => {}); }
+    else { audio.pause(); estado(true); }
+  });
+
+  // pausa si el invitado cambia de app, retoma al volver
+  let porVisibilidad = false;
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && !audio.paused) { audio.pause(); porVisibilidad = true; }
+    else if (!document.hidden && porVisibilidad) { porVisibilidad = false; audio.play().catch(() => {}); }
+  });
+</script>
+</body>
+</html>
